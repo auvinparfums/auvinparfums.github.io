@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#070605">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Panel AUVIN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@300;400;500&family=Unbounded:wght@300;400&display=swap">
+<style>
+/* Layout: herramienta de una columna. Barra fija arriba, lista de perfumes, editor en hoja/modal y barra de publicar abajo */
+:root{
+  --ink:#070605;
+  --panel:#100e0b;
+  --raise:#18150f;
+  --cream:#efe8dc;
+  --muted:#9b9184;
+  --faint:#6b6358;
+  --gold:#c8a76b;
+  --gold-hi:#ecd7a8;
+  --gold-lo:#7d6640;
+  --line:rgba(200,167,107,.28);
+  --line-soft:rgba(239,232,220,.1);
+  --ok:#9cc795;
+  --err:#e8907f;
+  --scrim:rgba(7,6,5,.62);
+  --f-mark:"Unbounded","Montserrat","Helvetica Neue",Arial,sans-serif;
+  --f-disp:"Cormorant Garamond","Cormorant",Garamond,"Times New Roman",serif;
+  --f-body:"Jost","Futura","Century Gothic","Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--ink)}
+body{margin:0;min-height:100vh;background:var(--ink);color:var(--cream);font-family:var(--f-body);font-weight:300;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:1px solid var(--gold-hi);outline-offset:3px}
+a{color:var(--gold-hi)}
+.wrap{max-width:960px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Barra superior */
+.bar{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:rgba(7,6,5,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.bar-in{height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mark{font-family:var(--f-mark);font-weight:300;font-size:.9rem;letter-spacing:.3em;text-decoration:none;color:var(--cream);white-space:nowrap}
+.mark small{margin-left:8px;font-size:.5rem;letter-spacing:.28em;color:var(--gold)}
+.bar-acts{display:flex;align-items:center;gap:2px}
+.lnk{padding:10px 8px;border:0;background:none;cursor:pointer;text-decoration:none;font-family:var(--f-mark);font-weight:300;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.lnk:hover{color:var(--gold-hi)}
+
+/* Botones y campos */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;font-family:var(--f-mark);font-weight:300;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream);transition:background-color .25s,border-color .25s,color .25s}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--gold-hi);border-color:var(--gold-hi);color:var(--ink);font-weight:400}
+.btn.primary:hover{background:#f6e8c8}
+.btn.ghost{border-color:var(--line-soft);color:var(--muted)}
+.btn.danger{border-color:rgba(232,144,127,.45);color:var(--err)}
+.btn:disabled{opacity:.55;cursor:progress}
+.btn svg{width:14px;height:14px}
+.field{display:grid;gap:7px;min-width:0}
+.lbl{font-family:var(--f-mark);font-weight:300;font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.lbl i{font-style:normal;color:var(--faint);letter-spacing:.12em;text-transform:none;font-family:var(--f-body);font-size:.78rem}
+.input{width:100%;min-height:48px;padding:11px 14px;border-radius:10px;border:1px solid var(--line-soft);background:var(--panel);color:var(--cream);font-size:16px}
+.input:focus{outline:none;border-color:var(--gold)}
+.input::placeholder{color:var(--faint)}
+textarea.input{min-height:92px;resize:vertical;line-height:1.45}
+.hint{margin:0;font-size:.82rem;line-height:1.45;color:var(--faint)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:560px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.check{display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--muted)}
+.check input{width:18px;height:18px;margin:0;accent-color:var(--gold)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:inline-flex;align-items:center;min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--line-soft);font-family:var(--f-mark);font-weight:300;font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:all .2s}
+.seg input:checked + span{background:var(--gold-hi);border-color:var(--gold-hi);color:var(--ink)}
+.seg input:focus-visible + span{outline:1px solid var(--gold-hi);outline-offset:3px}
+.msg{margin:0;padding:12px 14px;border-radius:10px;font-size:.9rem;line-height:1.45}
+.msg.err{background:rgba(232,144,127,.09);border:1px solid rgba(232,144,127,.35);color:var(--err)}
+.msg.ok{background:rgba(156,199,149,.09);border:1px solid rgba(156,199,149,.35);color:var(--ok)}
+.msg.info{background:rgba(200,167,107,.07);border:1px solid var(--line);color:var(--gold-hi)}
+
+/* Ingreso */
+.login{max-width:540px;display:grid;gap:24px;padding-block:52px 80px}
+h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw,3.1rem);line-height:1}
+.lead{margin:0;max-width:54ch;color:var(--muted)}
+.help{border:1px solid var(--line-soft);border-radius:12px;padding:14px 16px;color:var(--muted)}
+.help summary{cursor:pointer;color:var(--gold-hi)}
+.help ol{margin:14px 0 4px;padding-left:20px;display:grid;gap:9px}
+.help b{color:var(--cream);font-weight:400}
+
+/* Lista */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;padding-block:34px 18px}
+.head p{margin:8px 0 0;color:var(--muted)}
+.notice{margin-bottom:14px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.tools .input{flex:1 1 240px}
+.items{list-style:none;margin:0;padding:0 0 150px;display:grid;gap:10px}
+.item{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:14px;padding:10px;border-radius:14px;border:1px solid var(--line-soft);background:var(--panel)}
+.thumb{position:relative;width:64px;aspect-ratio:4/5;overflow:hidden;border-radius:8px;background:var(--raise)}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.info{min-width:0;display:grid;gap:2px;padding:0;border:0;background:none;text-align:left;cursor:pointer}
+.info .b{font-family:var(--f-mark);font-weight:300;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.info .n{font-family:var(--f-disp);font-weight:500;font-size:1.28rem;line-height:1.15}
+.info .m{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:.8rem;color:var(--muted)}
+.tag{display:inline-block;margin-left:6px;padding:3px 7px 2px;border-radius:999px;border:1px solid var(--line);vertical-align:3px;font-family:var(--f-mark);font-weight:300;font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-hi)}
+.tag.off{border-color:rgba(232,144,127,.4);color:var(--err)}
+.acts{display:flex;align-items:center;gap:2px}
+.ic{width:40px;height:40px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid transparent;background:none;cursor:pointer;color:var(--muted)}
+.ic:hover{border-color:var(--line-soft);color:var(--cream)}
+.ic:disabled{opacity:.22;cursor:default;border-color:transparent}
+.ic svg{width:17px;height:17px}
+.ic.del:hover{color:var(--err)}
+.ask{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--err)}
+.ask .btn{min-height:36px;padding:0 14px}
+.empty{padding:36px 0;color:var(--muted);font-family:var(--f-disp);font-size:1.3rem}
+@media (max-width:560px){
+  .item{grid-template-columns:56px minmax(0,1fr)}
+  .thumb{width:56px}
+  .acts{grid-column:1/-1;justify-content:flex-end;padding-top:6px;border-top:1px solid var(--line-soft)}
+}
+
+/* Barra de publicar */
+.pub{position:fixed;left:0;right:0;bottom:0;z-index:30;padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(16,14,11,.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s var(--ease)}
+.pub.on{transform:none}
+.pub-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-block:12px}
+.pub-txt{flex:1 1 200px;min-width:0;color:var(--gold-hi);font-size:.9rem}
+.pub-txt small{display:block;color:var(--faint);font-size:.78rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.pub-btns{display:flex;gap:8px;margin-left:auto}
+
+/* Editor */
+.ed{width:min(760px,calc(100vw - 32px));max-width:none;max-height:min(92vh,980px);padding:0;margin:auto;border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--cream);overflow:hidden}
+.ed::backdrop{background:rgba(4,3,2,.78);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+.ed[open]{animation:edIn .4s var(--ease)}
+@keyframes edIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ed-form{display:flex;flex-direction:column;max-height:inherit}
+.ed-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line-soft)}
+.ed-head h2{margin:0;font-family:var(--f-disp);font-weight:500;font-size:1.6rem;line-height:1.1}
+.ed-body{flex:1;min-height:0;overflow:auto;display:grid;gap:20px;padding:20px}
+.ed-foot{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line-soft)}
+.ed-err{flex:1 1 100%}
+@media (max-width:640px){
+  .ed{width:100%;height:100%;max-height:100%;margin:0;border:0;border-radius:0}
+  .ed-head{padding-top:calc(14px + env(safe-area-inset-top,0px))}
+  .ed-body{padding:18px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+}
+
+/* Foto y recorte */
+.photo{display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:16px;align-items:start}
+@media (max-width:520px){.photo{grid-template-columns:minmax(0,1fr) 92px}}
+.stage{--ar:.8;position:relative;width:min(100%,calc(44vh * var(--ar)));aspect-ratio:var(--ar);max-width:100%;overflow:hidden;border-radius:10px;background:var(--raise);touch-action:none;cursor:crosshair;user-select:none;-webkit-user-select:none}
+.stage img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+.crop{position:absolute;border:1.5px solid var(--gold-hi);box-shadow:0 0 0 9999px var(--scrim);border-radius:3px;pointer-events:none;transition:left .12s,top .12s}
+.side{display:grid;gap:10px;align-content:start}
+.prev{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:var(--raise);box-shadow:inset 0 0 0 1px var(--line)}
+.prev img{width:100%;height:100%;object-fit:cover;display:block}
+.drop{display:grid;place-items:center;gap:12px;min-height:220px;padding:24px;border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--muted)}
+.busy{color:var(--gold-hi)}
+
+/* Aviso flotante */
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:40;max-width:calc(100vw - 32px);padding:12px 18px;border-radius:14px;background:var(--gold-hi);color:var(--ink);font-size:.88rem;box-shadow:0 10px 30px rgba(0,0,0,.4);transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:all .35s var(--ease)}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="mark" href="./" target="_blank" rel="noopener">AUVIN<small>Panel</small></a>
+    <div class="bar-acts">
+      <a class="lnk" href="./" target="_blank" rel="noopener">Ver catálogo</a>
+      <button class="lnk" type="button" id="logout" hidden>Salir</button>
+    </div>
+  </div>
+</header>
+
+<!-- Ingreso -->
+<main class="wrap login" id="v-login">
+  <div>
+    <h1>Panel del catálogo</h1>
+  </div>
+  <p class="lead">Desde acá cargás perfumes nuevos, cambiás los que ya están y publicás. Para guardar en GitHub, el panel necesita una clave de acceso al repositorio del catálogo.</p>
+  <p class="msg info" id="demo-note" hidden>Modo prueba: podés usar el panel, pero los cambios no se guardan en GitHub.</p>
+  <form id="login-form" class="login" style="padding:0;gap:16px" novalidate>
+    <div class="grid2">
+      <label class="field"><span class="lbl">Usuario de GitHub</span><input class="input" id="l-owner" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="tu-usuario" required></label>
+      <label class="field"><span class="lbl">Repositorio</span><input class="input" id="l-repo" autocapitalize="off" spellcheck="false" placeholder="auvin-catalogo" required></label>
+    </div>
+    <label class="field"><span class="lbl">Clave de acceso</span><input class="input" id="l-token" type="password" autocomplete="current-password" spellcheck="false" placeholder="github_pat_…" required></label>
+    <label class="check"><input type="checkbox" id="l-remember" checked> Recordar en este dispositivo</label>
+    <p class="msg err" id="l-err" role="alert" hidden></p>
+    <div><button class="btn primary" type="submit" id="l-go">Entrar</button></div>
+  </form>
+  <details class="help">
+    <summary>¿Cómo creo la clave?</summary>
+    <ol>
+      <li>En GitHub, entrá a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens → Generate new token</a>.</li>
+      <li>Ponele un nombre, por ejemplo <b>Panel AUVIN</b>, y elegí cuánto dura.</li>
+      <li>En <b>Repository access</b> elegí <b>Only select repositories</b> y marcá el repositorio del catálogo.</li>
+      <li>En <b>Permissions → Repository permissions</b>, buscá <b>Contents</b> y elegí <b>Read and write</b>.</li>
+      <li>Tocá <b>Generate token</b>, copiá la clave y pegala acá arriba. GitHub la muestra una sola vez.</li>
+    </ol>
+  </details>
+</main>
+
+<!-- Lista -->
+<main class="wrap" id="v-list" hidden>
+  <div class="head">
+    <div>
+      <h1>Perfumes</h1>
+      <p id="sum"></p>
+    </div>
+    <button class="btn primary" type="button" id="add"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>Agregar perfume</button>
+  </div>
+  <div class="notice" id="notice" hidden></div>
+  <div class="tools">
+    <input class="input" id="q" type="search" placeholder="Buscar por nombre o marca" aria-label="Buscar perfume">
+  </div>
+  <ul class="items" id="items"></ul>
+</main>
+
+<!-- Barra de publicar -->
+<div class="pub" id="pub" role="region" aria-label="Cambios sin publicar">
+  <div class="wrap pub-in">
+    <p class="pub-txt" id="pub-txt"></p>
+    <div class="pub-btns">
+      <button class="btn ghost" type="button" id="discard">Descartar</button>
+      <button class="btn primary" type="button" id="publish">Publicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Editor -->
+<dialog class="ed" id="ed" aria-labelledby="ed-title">
+  <form class="ed-form" id="ed-form" method="dialog" novalidate>
+    <div class="ed-head">
+      <h2 id="ed-title">Nuevo perfume</h2>
+      <button class="ic" type="button" id="ed-x" aria-label="Cerrar sin guardar"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+    </div>
+    <div class="ed-body">
+      <div class="field">
+        <span class="lbl">Foto</span>
+        <div class="drop" id="drop">
+          <p class="hint" id="drop-txt">Elegí una foto del perfume. Se achica y se optimiza sola.</p>
+          <button class="btn" type="button" id="pick">Elegir foto</button>
+        </div>
+        <div class="photo" id="photo" hidden>
+          <div class="stage" id="stage"><img id="stage-img" alt=""><span class="crop" id="crop"></span></div>
+          <div class="side">
+            <div class="prev"><img id="prev-img" alt="Así se ve en la tarjeta"></div>
+            <p class="hint" id="crop-hint">Tocá o arrastrá sobre la foto: lo que queda dentro del recuadro es lo que se ve en la tarjeta.</p>
+            <button class="btn ghost" type="button" id="repick">Cambiar foto</button>
+          </div>
+        </div>
+        <input type="file" id="file" accept="image/*" hidden>
+      </div>
+      <div class="grid2">
+        <label class="field"><span class="lbl">Marca</span><input class="input" id="e-brand" list="dl-brand" autocomplete="off" placeholder="Ej.: Lattafa"></label>
+        <label class="field"><span class="lbl">Nombre</span><input class="input" id="e-name" autocomplete="off" placeholder="Ej.: Khamrah"></label>
+      </div>
+      <div class="grid2">
+        <label class="field"><span class="lbl">Concentración</span><input class="input" id="e-conc" list="dl-conc" autocomplete="off" placeholder="Ej.: Eau de Parfum"></label>
+        <label class="field"><span class="lbl">Tamaño <i>(opcional)</i></span><input class="input" id="e-ml" autocomplete="off" placeholder="Ej.: 100 ml"></label>
+      </div>
+      <div class="field">
+        <span class="lbl" id="g-lbl">Género</span>
+        <div class="seg" role="radiogroup" aria-labelledby="g-lbl">
+          <label><input type="radio" name="g" value="Masculino"><span>Masculino</span></label>
+          <label><input type="radio" name="g" value="Femenino"><span>Femenino</span></label>
+          <label><input type="radio" name="g" value="Unisex"><span>Unisex</span></label>
+        </div>
+      </div>
+      <div class="grid2">
+        <label class="field"><span class="lbl">Familia olfativa</span><input class="input" id="e-fam" list="dl-fam" autocomplete="off" placeholder="Ej.: Oriental amaderado"></label>
+        <label class="field"><span class="lbl">Precio <i>(opcional)</i></span><input class="input" id="e-precio" autocomplete="off" inputmode="text" placeholder="Ej.: $ 85.000"></label>
+      </div>
+      <label class="check"><input type="checkbox" id="e-agotado"> Sin stock (se muestra igual, con la etiqueta “Sin stock”)</label>
+      <label class="field"><span class="lbl">Descripción <i>(una o dos frases)</i></span><textarea class="input" id="e-desc" rows="3" placeholder="Ej.: Dátil, pera y azafrán sobre maderas secas y vainilla."></textarea></label>
+      <div class="field">
+        <span class="lbl">Notas</span>
+        <p class="hint">Separá las notas con comas.</p>
+      </div>
+      <label class="field"><span class="lbl">Salida</span><input class="input" id="e-top" autocomplete="off" placeholder="Ej.: Bergamota, Azafrán"></label>
+      <label class="field"><span class="lbl">Corazón</span><input class="input" id="e-heart" autocomplete="off" placeholder="Ej.: Rosa, Jazmín"></label>
+      <label class="field"><span class="lbl">Fondo</span><input class="input" id="e-base" autocomplete="off" placeholder="Ej.: Vainilla, Ámbar, Almizcle"></label>
+    </div>
+    <div class="ed-foot">
+      <p class="msg err ed-err" id="ed-err" role="alert" hidden></p>
+      <button class="btn ghost" type="button" id="ed-cancel">Cancelar</button>
+      <button class="btn primary" type="submit" id="ed-save">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<datalist id="dl-brand"></datalist>
+<datalist id="dl-fam"></datalist>
+<datalist id="dl-conc">
+  <option value="Eau de Cologne"></option>
+  <option value="Eau de Toilette"></option>
+  <option value="Eau de Parfum"></option>
+  <option value="Eau de Parfum Intense"></option>
+  <option value="Extrait de Parfum"></option>
+  <option value="Parfum"></option>
+  <option value="Elixir"></option>
+</datalist>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const DEMO = new URLSearchParams(location.search).has('demo');
+  const DATA_FILE = 'productos.js';
+  const FIELDS = ['brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado'];
+  const HEADER = '/* Catálogo AUVIN. Este archivo lo escribe el panel (admin.html): conviene editarlo desde ahí. */\n';
+
+  /* ── Guardado local seguro ── */
+  const store = kind => ({
+    get: k => { try { return window[kind].getItem(k); } catch { return null; } },
+    set: (k, v) => { try { window[kind].setItem(k, v); return true; } catch { return false; } },
+    del: k => { try { window[kind].removeItem(k); } catch {} }
+  });
+  const LS = store('localStorage'), SS = store('sessionStorage');
+
+  /* ── Estado ── */
+  const S = {
+    owner: '', repo: '', branch: 'main', token: '',
+    baseSha: null,        // sha de productos.js en GitHub cuando lo cargamos
+    original: [],         // productos tal como están publicados
+    items: [],            // productos con los cambios
+    pending: {},          // fotos nuevas sin publicar: ruta -> { b64, type, url }
+    recent: {},           // fotos recién publicadas (GitHub Pages tarda en mostrarlas)
+    log: [],              // resumen de cambios para el mensaje de GitHub
+    confirmK: null,
+    edit: null
+  };
+
+  /* ── Utilidades ── */
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const uid = () => Math.random().toString(36).slice(2, 10);
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const slug = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 48) || 'perfume';
+  const splitNotes = s => String(s || '').split(/[,;\n]/).map(t => t.trim()).filter(Boolean);
+  const concOf = p => [p.conc, p.ml].filter(Boolean).join(' · ');
+  const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+  const textFromB64 = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\s/g, '')), c => c.charCodeAt(0)));
+  const blobFromB64 = (b64, type) => new Blob([Uint8Array.from(atob(b64), c => c.charCodeAt(0))], { type });
+  const b64FromBlob = blob => new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(blob);
+  });
+  const clean = p => Object.fromEntries(FIELDS.map(f => {
+    const v = p[f];
+    if (f === 'top' || f === 'heart' || f === 'base') return [f, Array.isArray(v) ? v : []];
+    if (f === 'agotado') return [f, !!v];
+    if (f === 'w' || f === 'h') return [f, +v || 0];
+    return [f, v == null ? '' : String(v)];
+  }));
+  const serialize = items => HEADER + 'window.AUVIN_PRODUCTOS = ' + JSON.stringify(items.map(clean), null, 2) + ';\n';
+  const parse = text => {
+    const a = text.indexOf('['), b = text.lastIndexOf(']');
+    if (a < 0 || b < a) throw new Error('productos.js no tiene una lista de productos');
+    return JSON.parse(text.slice(a, b + 1));
+  };
+  const rawUrl = path => `https://raw.githubusercontent.com/${S.owner}/${S.repo}/${S.branch}/${path}`;
+  const srcOf = path => S.pending[path]?.url || S.recent[path] || path;
+
+  let toastT = 0;
+  const toast = txt => {
+    const t = $('toast');
+    t.textContent = txt;
+    t.classList.add('on');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => t.classList.remove('on'), 3200);
+  };
+  const notice = (txt, kind = 'info', html = false) => {
+    const n = $('notice');
+    n.innerHTML = `<p class="msg ${kind}">${html ? txt : esc(txt)}</p>`;
+    n.hidden = false;
+  };
+
+  /* ── GitHub ── */
+  const gh = async (path, opts = {}) => {
+    const res = await fetch(`https://api.github.com/repos/${S.owner}/${S.repo}${path}`, {
+      method: opts.method || 'GET',
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${S.token}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+        ...(opts.body ? { 'Content-Type': 'application/json' } : {})
+      },
+      body: opts.body ? JSON.stringify(opts.body) : undefined
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw Object.assign(new Error(body.message || res.statusText), { status: res.status });
+    }
+    return res.status === 204 ? null : res.json();
+  };
+  const explain = e => {
+    if (e.status === 401) return 'La clave no es válida o se venció. Creá una nueva y volvé a entrar.';
+    if (e.status === 403) return 'La clave no tiene permiso para guardar en este repositorio. Revisá que tenga “Contents: Read and write”.';
+    if (e.status === 404) return `No encuentro el repositorio ${S.owner}/${S.repo}. Revisá el usuario y el nombre, y que la clave tenga acceso a ese repositorio.`;
+    if (e.status === 409) return 'El catálogo cambió en GitHub mientras editabas (quizás desde otro dispositivo). Recargá la página para traer la versión nueva.';
+    if (e.status === 422) return 'GitHub rechazó el cambio. Recargá la página e intentá de nuevo.';
+    if (e.name === 'TypeError') return 'No hay conexión con GitHub. Revisá internet e intentá de nuevo.';
+    return `GitHub respondió con un error${e.status ? ` (${e.status})` : ''}: ${e.message}`;
+  };
+
+  /* ── Datos ── */
+  const setData = list => {
+    S.original = list.map(clean);
+    S.items = S.original.map(p => ({ ...p, _k: uid() }));
+    S.pending = {};
+    S.log = [];
+  };
+  const load = async () => {
+    if (DEMO) {
+      const t = await (await fetch(DATA_FILE, { cache: 'no-store' })).text();
+      S.baseSha = 'demo';
+      setData(parse(t));
+      return;
+    }
+    try {
+      const f = await gh(`/contents/${DATA_FILE}?ref=${S.branch}`);
+      S.baseSha = f.sha;
+      setData(parse(textFromB64(f.content)));
+    } catch (e) {
+      if (e.status !== 404) throw e;
+      S.baseSha = null;
+      setData([]);
+      notice('No encontré productos.js en el repositorio. Empezás con el catálogo vacío.');
+    }
+  };
+
+  /* ── Borrador (para no perder cambios si se cierra la pestaña) ── */
+  const draftKey = () => `auvin.borrador.${S.owner}/${S.repo}`;
+  const saveDraft = () => {
+    if (!S.log.length) { LS.del(draftKey()); return; }
+    const pending = {};
+    for (const [p, v] of Object.entries(S.pending)) pending[p] = { b64: v.b64, type: v.type };
+    LS.set(draftKey(), JSON.stringify({ base: S.baseSha, items: S.items, pending, log: S.log }));
+  };
+  const restoreDraft = () => {
+    const raw = LS.get(draftKey());
+    if (!raw) return;
+    let d;
+    try { d = JSON.parse(raw); } catch { LS.del(draftKey()); return; }
+    if (d.base !== S.baseSha) {
+      LS.del(draftKey());
+      notice('Había cambios sin publicar de antes, pero el catálogo cambió desde entonces y no se pudieron recuperar.');
+      return;
+    }
+    S.items = d.items || S.items;
+    S.log = d.log || [];
+    for (const [p, v] of Object.entries(d.pending || {})) {
+      S.pending[p] = { ...v, url: URL.createObjectURL(blobFromB64(v.b64, v.type)) };
+    }
+    if (S.log.length) notice('Recuperé tus cambios sin publicar.');
+  };
+  const addLog = s => { if (!S.log.includes(s)) S.log.push(s); };
+  const dropUnusedPending = () => {
+    const used = new Set(S.items.map(p => p.img));
+    for (const [p, v] of Object.entries(S.pending)) {
+      if (!used.has(p)) { URL.revokeObjectURL(v.url); delete S.pending[p]; }
+    }
+  };
+  const changed = () => { dropUnusedPending(); saveDraft(); render(); };
+
+  /* ── Lista ── */
+  const ICON = {
+    up: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>',
+    down: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg>',
+    edit: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10.5 2.5l3 3L6 13H3v-3z"/></svg>',
+    del: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 9h5.6l.7-9"/></svg>'
+  };
+  const render = () => {
+    const q = norm($('q').value.trim());
+    const all = S.items;
+    const shown = q ? all.filter(p => norm(`${p.brand} ${p.name}`).includes(q)) : all;
+    $('sum').textContent = plural(all.length, 'perfume', 'perfumes') + (q ? ` · ${shown.length} con “${$('q').value.trim()}”` : '');
+    $('items').innerHTML = shown.length ? shown.map(p => {
+      const i = all.indexOf(p);
+      const isNew = !S.original.some(o => o.img === p.img && o.name === p.name) && p._new;
+      const asking = S.confirmK === p._k;
+      return `<li class="item" data-k="${p._k}">
+        <span class="thumb"><img src="${esc(srcOf(p.img))}" data-path="${esc(p.img)}" alt="" loading="lazy" style="object-position:${esc(p.pos || '50% 50%')}"></span>
+        <button class="info" type="button" data-act="edit">
+          <span class="b">${esc(p.brand)}</span>
+          <span class="n">${esc(p.name)}${isNew ? '<span class="tag">Nuevo</span>' : p._dirty ? '<span class="tag">Editado</span>' : ''}${p.agotado ? '<span class="tag off">Sin stock</span>' : ''}</span>
+          <span class="m">${esc([concOf(p), p.g, p.precio].filter(Boolean).join(' · '))}</span>
+        </button>
+        <span class="acts">${asking
+          ? `<span class="ask">¿Eliminar? <button class="btn danger" type="button" data-act="del-yes">Sí</button><button class="btn ghost" type="button" data-act="del-no">No</button></span>`
+          : `<button class="ic" type="button" data-act="up" aria-label="Subir ${esc(p.name)}" ${q || i === 0 ? 'disabled' : ''}>${ICON.up}</button>
+             <button class="ic" type="button" data-act="down" aria-label="Bajar ${esc(p.name)}" ${q || i === all.length - 1 ? 'disabled' : ''}>${ICON.down}</button>
+             <button class="ic" type="button" data-act="edit" aria-label="Editar ${esc(p.name)}">${ICON.edit}</button>
+             <button class="ic del" type="button" data-act="del" aria-label="Eliminar ${esc(p.name)}">${ICON.del}</button>`}
+        </span>
+      </li>`;
+    }).join('') : `<li class="empty">${q ? 'No hay perfumes con esa búsqueda.' : 'Todavía no hay perfumes. Tocá “Agregar perfume” para cargar el primero.'}</li>`;
+    const n = S.log.length;
+    $('pub').classList.toggle('on', n > 0);
+    $('pub-txt').innerHTML = n ? `${plural(n, 'cambio sin publicar', 'cambios sin publicar')}<small>${esc(S.log.join(' · '))}</small>` : '';
+    const fill = (id, vals) => { $(id).innerHTML = [...new Set(vals.filter(Boolean))].sort().map(v => `<option value="${esc(v)}"></option>`).join(''); };
+    fill('dl-brand', all.map(p => p.brand));
+    fill('dl-fam', all.map(p => p.fam));
+  };
+  // Si una foto recién publicada todavía no está en GitHub Pages, la traemos directo del repositorio.
+  $('items').addEventListener('error', e => {
+    const img = e.target;
+    if (img.tagName !== 'IMG' || img.dataset.retry || DEMO) return;
+    img.dataset.retry = '1';
+    img.src = rawUrl(img.dataset.path);
+  }, true);
+  $('items').addEventListener('click', e => {
+    const btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    const k = btn.closest('.item').dataset.k;
+    const i = S.items.findIndex(p => p._k === k);
+    const p = S.items[i];
+    switch (btn.dataset.act) {
+      case 'edit': openEditor(p); return;
+      case 'up':
+      case 'down': {
+        const j = btn.dataset.act === 'up' ? i - 1 : i + 1;
+        if (j < 0 || j >= S.items.length) return;
+        [S.items[i], S.items[j]] = [S.items[j], S.items[i]];
+        addLog('Cambia el orden');
+        changed();
+        const again = document.querySelector(`.item[data-k="${k}"] [data-act="${btn.dataset.act}"]`);
+        if (again && !again.disabled) again.focus(); else document.querySelector(`.item[data-k="${k}"] .info`)?.focus();
+        return;
+      }
+      case 'del': S.confirmK = k; render(); document.querySelector(`.item[data-k="${k}"] [data-act="del-no"]`)?.focus(); return;
+      case 'del-no': S.confirmK = null; render(); return;
+      case 'del-yes':
+        S.items.splice(i, 1);
+        S.confirmK = null;
+        addLog(`Elimina ${p.name}`);
+        changed();
+        toast(`Eliminaste ${p.name}. Falta publicar.`);
+        return;
+    }
+  });
+  $('q').addEventListener('input', render);
+
+  /* ── Editor ── */
+  const ed = $('ed');
+  const readG = () => document.querySelector('input[name="g"]:checked')?.value || '';
+  const openEditor = p => {
+    S.edit = { k: p?._k || null, draft: p ? { ...p } : { pos: '50% 50%', top: [], heart: [], base: [], agotado: false }, photo: null };
+    const d = S.edit.draft;
+    $('ed-title').textContent = p ? `Editar ${p.name}` : 'Nuevo perfume';
+    $('e-brand').value = d.brand || '';
+    $('e-name').value = d.name || '';
+    $('e-conc').value = d.conc || '';
+    $('e-ml').value = d.ml || '';
+    $('e-fam').value = d.fam || '';
+    $('e-precio').value = d.precio || '';
+    $('e-agotado').checked = !!d.agotado;
+    $('e-desc').value = d.desc || '';
+    $('e-top').value = (d.top || []).join(', ');
+    $('e-heart').value = (d.heart || []).join(', ');
+    $('e-base').value = (d.base || []).join(', ');
+    document.querySelectorAll('input[name="g"]').forEach(r => { r.checked = r.value === d.g; });
+    $('ed-err').hidden = true;
+    renderPhoto();
+    ed.showModal();
+    ed.querySelector('.ed-body').scrollTop = 0;
+  };
+  const closeEditor = () => { if (S.edit?.photo) URL.revokeObjectURL(S.edit.photo.url); S.edit = null; ed.close(); };
+  $('ed-x').addEventListener('click', closeEditor);
+  $('ed-cancel').addEventListener('click', closeEditor);
+  ed.addEventListener('cancel', e => { e.preventDefault(); closeEditor(); });
+
+  // Recorte: el recuadro 4:5 muestra qué parte de la foto se ve en la tarjeta.
+  const FRAME = 4 / 5;
+  const ratio = () => { const d = S.edit.draft; return d.w && d.h ? d.w / d.h : FRAME; };
+  const parsePos = pos => { const m = String(pos || '').match(/(-?[\d.]+)%\s+(-?[\d.]+)%/); return m ? [+m[1], +m[2]] : [50, 50]; };
+  const geom = () => {
+    const ar = ratio();
+    const cw = ar > FRAME ? FRAME / ar : 1, ch = ar < FRAME ? ar / FRAME : 1;
+    const [px, py] = parsePos(S.edit.draft.pos);
+    return { cw, ch, left: (1 - cw) * px / 100, top: (1 - ch) * py / 100 };
+  };
+  const drawCrop = () => {
+    const g = geom(), c = $('crop');
+    c.style.left = `${g.left * 100}%`; c.style.top = `${g.top * 100}%`;
+    c.style.width = `${g.cw * 100}%`; c.style.height = `${g.ch * 100}%`;
+    $('prev-img').style.objectPosition = S.edit.draft.pos;
+    const fits = g.cw > .985 && g.ch > .985;
+    $('crop-hint').textContent = fits
+      ? 'La foto entra entera en la tarjeta.'
+      : 'Tocá o arrastrá sobre la foto: lo que queda dentro del recuadro es lo que se ve en la tarjeta.';
+  };
+  const renderPhoto = () => {
+    const d = S.edit.draft, ph = S.edit.photo;
+    const src = ph ? ph.url : d.img ? srcOf(d.img) : '';
+    $('drop').hidden = !!src;
+    $('photo').hidden = !src;
+    $('drop-txt').textContent = 'Elegí una foto del perfume. Se achica y se optimiza sola.';
+    $('drop-txt').classList.remove('busy');
+    if (!src) return;
+    $('stage').style.setProperty('--ar', ratio());
+    $('stage-img').src = src;
+    $('prev-img').src = src;
+    drawCrop();
+  };
+  let dragging = false;
+  const aim = e => {
+    const r = $('stage').getBoundingClientRect();
+    const g = geom();
+    const cx = (e.clientX - r.left) / r.width, cy = (e.clientY - r.top) / r.height;
+    const left = clamp(cx - g.cw / 2, 0, 1 - g.cw), top = clamp(cy - g.ch / 2, 0, 1 - g.ch);
+    const px = g.cw < 1 ? left / (1 - g.cw) * 100 : 50, py = g.ch < 1 ? top / (1 - g.ch) * 100 : 50;
+    S.edit.draft.pos = `${Math.round(px)}% ${Math.round(py)}%`;
+    drawCrop();
+  };
+  $('stage').addEventListener('pointerdown', e => { dragging = true; $('stage').setPointerCapture(e.pointerId); aim(e); });
+  $('stage').addEventListener('pointermove', e => { if (dragging) aim(e); });
+  ['pointerup', 'pointercancel'].forEach(t => $('stage').addEventListener(t, () => { dragging = false; }));
+
+  // Foto: se achica a 1000 px de ancho como máximo y se guarda en WebP (o JPG si el navegador no puede).
+  const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const toBlob = (c, type, q) => new Promise(res => c.toBlob(res, type, q));
+  const processImage = async file => {
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await loadImg(url);
+      const s = Math.min(1, 1000 / img.naturalWidth, 1250 / img.naturalHeight);
+      const w = Math.round(img.naturalWidth * s), h = Math.round(img.naturalHeight * s);
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, w, h);
+      let blob = await toBlob(c, 'image/webp', .84), ext = 'webp';
+      if (!blob || blob.type !== 'image/webp') { blob = await toBlob(c, 'image/jpeg', .86); ext = 'jpg'; }
+      return { b64: await b64FromBlob(blob), type: blob.type, ext, w, h, url: URL.createObjectURL(blob) };
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  };
+  const pick = () => $('file').click();
+  $('pick').addEventListener('click', pick);
+  $('repick').addEventListener('click', pick);
+  $('file').addEventListener('change', async () => {
+    const f = $('file').files[0];
+    $('file').value = '';
+    if (!f || !S.edit) return;
+    $('drop').hidden = false; $('photo').hidden = true;
+    $('drop-txt').textContent = 'Preparando la foto…';
+    $('drop-txt').classList.add('busy');
+    try {
+      const ph = await processImage(f);
+      if (S.edit.photo) URL.revokeObjectURL(S.edit.photo.url);
+      S.edit.photo = ph;
+      Object.assign(S.edit.draft, { w: ph.w, h: ph.h, pos: '50% 50%' });
+    } catch {
+      $('ed-err').textContent = 'No pude abrir esa imagen. Probá con una foto JPG o PNG.';
+      $('ed-err').hidden = false;
+    }
+    renderPhoto();
+  });
+
+  $('ed-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const d = S.edit.draft;
+    Object.assign(d, {
+      brand: $('e-brand').value.trim(),
+      name: $('e-name').value.trim(),
+      conc: $('e-conc').value.trim(),
+      ml: $('e-ml').value.trim(),
+      g: readG(),
+      fam: $('e-fam').value.trim(),
+      precio: $('e-precio').value.trim(),
+      agotado: $('e-agotado').checked,
+      desc: $('e-desc').value.trim(),
+      top: splitNotes($('e-top').value),
+      heart: splitNotes($('e-heart').value),
+      base: splitNotes($('e-base').value)
+    });
+    const missing = [!S.edit.photo && !d.img && 'la foto', !d.brand && 'la marca', !d.name && 'el nombre', !d.g && 'el género'].filter(Boolean);
+    if (missing.length) {
+      $('ed-err').textContent = `Falta completar ${missing.join(', ').replace(/, ([^,]*)$/, ' y $1')}.`;
+      $('ed-err').hidden = false;
+      return;
+    }
+    if (S.edit.photo) {
+      const ph = S.edit.photo;
+      const path = `img/${slug(`${d.brand}-${d.name}`)}-${Date.now().toString(36)}.${ph.ext}`;
+      S.pending[path] = { b64: ph.b64, type: ph.type, url: ph.url };
+      d.img = path;
+      S.edit.photo = null;
+    }
+    if (S.edit.k) {
+      const i = S.items.findIndex(p => p._k === S.edit.k);
+      S.items[i] = { ...d, _dirty: !d._new };
+      addLog(`${d._new ? 'Agrega' : 'Edita'} ${d.name}`);
+    } else {
+      S.items.unshift({ ...d, _k: uid(), _new: true });
+      addLog(`Agrega ${d.name}`);
+    }
+    const name = d.name;
+    closeEditor();
+    changed();
+    toast(`${name} guardado. Tocá “Publicar” para que aparezca en la página.`);
+  });
+  $('add').addEventListener('click', () => openEditor(null));
+
+  /* ── Publicar ── */
+  const commitMessage = () => {
+    const l = S.log;
+    return 'Catálogo: ' + (l.length <= 3 ? l.join(', ') : `${l.slice(0, 3).join(', ')} y ${l.length - 3} cambios más`);
+  };
+  const pushToGitHub = async () => {
+    const ref = await gh(`/git/ref/heads/${S.branch}`);
+    const head = ref.object.sha;
+    const headCommit = await gh(`/git/commits/${head}`);
+    const base = await gh(`/git/trees/${headCommit.tree.sha}?recursive=1`);
+    const remoteData = base.tree.find(t => t.path === DATA_FILE);
+    if ((remoteData?.sha || null) !== S.baseSha) throw Object.assign(new Error('conflicto'), { status: 409 });
+    const existing = new Set(base.tree.map(t => t.path));
+    const final = S.items.map(clean);
+    const used = new Set(final.map(p => p.img));
+    const entries = [];
+    for (const [path, v] of Object.entries(S.pending)) {
+      if (!used.has(path)) continue;
+      const blob = await gh('/git/blobs', { method: 'POST', body: { content: v.b64, encoding: 'base64' } });
+      entries.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+    }
+    entries.push({ path: DATA_FILE, mode: '100644', type: 'blob', content: serialize(final) });
+    for (const p of S.original) {
+      if (p.img && p.img.startsWith('img/') && !used.has(p.img) && existing.has(p.img)) {
+        entries.push({ path: p.img, mode: '100644', type: 'blob', sha: null });
+        used.add(p.img);
+      }
+    }
+    const tree = await gh('/git/trees', { method: 'POST', body: { base_tree: headCommit.tree.sha, tree: entries } });
+    const commit = await gh('/git/commits', { method: 'POST', body: { message: commitMessage(), tree: tree.sha, parents: [head] } });
+    await gh(`/git/refs/heads/${S.branch}`, { method: 'PATCH', body: { sha: commit.sha } });
+    const fresh = tree.tree.find(t => t.path === DATA_FILE) || (await gh(`/contents/${DATA_FILE}?ref=${S.branch}`));
+    S.baseSha = fresh.sha;
+  };
+  $('publish').addEventListener('click', async () => {
+    const btn = $('publish');
+    btn.disabled = true; $('discard').disabled = true;
+    btn.textContent = 'Publicando…';
+    try {
+      dropUnusedPending();
+      if (DEMO) await new Promise(r => setTimeout(r, 800));
+      else await pushToGitHub();
+      for (const [p, v] of Object.entries(S.pending)) S.recent[p] = v.url;
+      S.pending = {};
+      S.log = [];
+      S.original = S.items.map(clean);
+      S.items = S.items.map(p => { const { _new, _dirty, ...rest } = p; return rest; });
+      LS.del(draftKey());
+      render();
+      notice(DEMO
+        ? 'Modo prueba: así se vería la publicación. En GitHub no cambió nada.'
+        : 'Publicado. La página se actualiza sola en uno o dos minutos. <a href="./" target="_blank" rel="noopener">Ver catálogo</a>', 'ok', true);
+      scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      notice(explain(e), 'err');
+      scrollTo({ top: 0, behavior: 'smooth' });
+    } finally {
+      btn.disabled = false; $('discard').disabled = false;
+      btn.textContent = 'Publicar';
+    }
+  });
+  let discardArmed = false;
+  $('discard').addEventListener('click', () => {
+    if (!discardArmed) {
+      discardArmed = true;
+      $('discard').textContent = '¿Seguro?';
+      setTimeout(() => { discardArmed = false; $('discard').textContent = 'Descartar'; }, 3000);
+      return;
+    }
+    discardArmed = false;
+    $('discard').textContent = 'Descartar';
+    for (const v of Object.values(S.pending)) URL.revokeObjectURL(v.url);
+    S.items = S.original.map(p => ({ ...p, _k: uid() }));
+    S.pending = {};
+    S.log = [];
+    LS.del(draftKey());
+    render();
+    toast('Descartaste los cambios.');
+  });
+  addEventListener('beforeunload', e => { if (S.log.length) { e.preventDefault(); e.returnValue = ''; } });
+
+  /* ── Ingreso ── */
+  const detectRepo = () => {
+    const h = location.hostname;
+    if (!h.endsWith('.github.io')) return null;
+    const owner = h.split('.')[0];
+    const seg = location.pathname.split('/').filter(Boolean);
+    return { owner, repo: seg.length && !/\.html?$/.test(seg[0]) ? seg[0] : h };
+  };
+  const showList = async () => {
+    $('v-login').hidden = true;
+    $('v-list').hidden = false;
+    $('logout').hidden = DEMO;
+    render();
+  };
+  const connect = async () => {
+    if (!DEMO) {
+      const info = await gh('');
+      if (info.permissions && !info.permissions.push) throw Object.assign(new Error('sin permiso'), { status: 403 });
+      S.branch = info.default_branch || 'main';
+    }
+    await load();
+    restoreDraft();
+    await showList();
+  };
+  $('login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    S.owner = $('l-owner').value.trim();
+    S.repo = $('l-repo').value.trim();
+    S.token = $('l-token').value.trim();
+    const err = $('l-err');
+    if (!DEMO && (!S.owner || !S.repo || !S.token)) {
+      err.textContent = 'Completá el usuario, el repositorio y la clave.';
+      err.hidden = false;
+      return;
+    }
+    $('l-go').disabled = true; $('l-go').textContent = 'Entrando…';
+    err.hidden = true;
+    try {
+      await connect();
+      LS.set('auvin.repo', JSON.stringify({ owner: S.owner, repo: S.repo }));
+      if (!DEMO) {
+        if ($('l-remember').checked) { LS.set('auvin.clave', S.token); SS.del('auvin.clave'); }
+        else { SS.set('auvin.clave', S.token); LS.del('auvin.clave'); }
+      }
+    } catch (ex) {
+      err.textContent = explain(ex);
+      err.hidden = false;
+    } finally {
+      $('l-go').disabled = false; $('l-go').textContent = 'Entrar';
+    }
+  });
+  $('logout').addEventListener('click', () => {
+    if (S.log.length) saveDraft();
+    LS.del('auvin.clave'); SS.del('auvin.clave');
+    location.reload();
+  });
+
+  // Arranque
+  const savedRepo = (() => { try { return JSON.parse(LS.get('auvin.repo') || 'null'); } catch { return null; } })();
+  const repo = detectRepo() || savedRepo || { owner: '', repo: '' };
+  $('l-owner').value = repo.owner;
+  $('l-repo').value = repo.repo;
+  if (DEMO) {
+    $('demo-note').hidden = false;
+    $('l-token').placeholder = 'En modo prueba no hace falta';
+  }
+  const savedToken = LS.get('auvin.clave') || SS.get('auvin.clave');
+  if (savedToken && repo.owner && repo.repo && !DEMO) {
+    Object.assign(S, { owner: repo.owner, repo: repo.repo, token: savedToken });
+    connect().catch(ex => {
+      $('l-token').value = savedToken;
+      $('l-err').textContent = explain(ex);
+      $('l-err').hidden = false;
+    });
+  }
+})();
+</script>
+</body>
+</html>
