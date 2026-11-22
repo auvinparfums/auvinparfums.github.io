@@ -35,9 +35,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#b5651d",
+      "liquido": "#c4640f",
       "tapa": "cubo",
       "tapaMat": "cristal",
       "etiqueta": "negro"
@@ -75,9 +76,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
-      "vidrio": "#ffffff",
+      "acabado": "transparente",
+      "vidrio": "#fff1ec",
       "opaco": false,
-      "liquido": "#8a1010",
+      "liquido": "#a10d16",
       "tapa": "cubo",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -118,9 +120,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#d9b45c",
+      "liquido": "#e3b250",
       "tapa": "cubo",
       "tapaMat": "negro",
       "etiqueta": "texto-oscuro"
@@ -157,8 +160,9 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#0d1f4a",
-      "opaco": true,
+      "acabado": "tintado",
+      "vidrio": "#1b2f78",
+      "opaco": false,
       "liquido": "",
       "tapa": "cilindro",
       "tapaMat": "negro",
@@ -199,9 +203,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "anfora",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#e0b84a",
+      "liquido": "#ecbf45",
       "tapa": "cilindro",
       "tapaMat": "oro",
       "etiqueta": "texto-oscuro"
@@ -239,7 +244,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "domo",
-      "vidrio": "#0f5c50",
+      "acabado": "lacado",
+      "vidrio": "#11695b",
       "opaco": true,
       "liquido": "",
       "tapa": "cono",
@@ -284,9 +290,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#e8cf8a",
+      "liquido": "#f1d48c",
       "tapa": "cubo",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -327,7 +334,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#15161a",
+      "acabado": "lacado",
+      "vidrio": "#1a1b22",
       "opaco": true,
       "liquido": "",
       "tapa": "esfera",
@@ -366,9 +374,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "redondo",
-      "vidrio": "#ffd9dc",
+      "acabado": "tintado",
+      "vidrio": "#c0122a",
       "opaco": false,
-      "liquido": "#9c0f1f",
+      "liquido": "",
       "tapa": "disco",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -410,9 +419,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#1d7f7a",
+      "liquido": "#0f8f8a",
       "tapa": "cubo",
       "tapaMat": "cristal",
       "etiqueta": "negro"
@@ -450,9 +460,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#ffffff",
+      "acabado": "tintado",
+      "vidrio": "#c3101c",
       "opaco": false,
-      "liquido": "#a3121b",
+      "liquido": "",
       "tapa": "cilindro",
       "tapaMat": "oro",
       "etiqueta": "texto"
@@ -493,8 +504,9 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "conico",
-      "vidrio": "#2c3a2e",
-      "opaco": true,
+      "acabado": "esmerilado",
+      "vidrio": "#3f5e48",
+      "opaco": false,
       "liquido": "",
       "tapa": "facetas",
       "tapaMat": "negro",
@@ -523,7 +535,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cilindro",
-      "vidrio": "#1d2f6b",
+      "acabado": "lacado",
+      "vidrio": "#1f3c8f",
       "opaco": true,
       "liquido": "",
       "tapa": "cilindro",
@@ -564,9 +577,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cilindro",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#f0d6cf",
+      "liquido": "#f6c9c0",
       "tapa": "domo",
       "tapaMat": "rosa",
       "etiqueta": "texto-oscuro"
@@ -605,7 +619,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#e6d2ad",
+      "acabado": "lacado",
+      "vidrio": "#ead7b4",
       "opaco": true,
       "liquido": "",
       "tapa": "corona",
@@ -635,7 +650,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#0d0d0d",
+      "acabado": "lacado",
+      "vidrio": "#101012",
       "opaco": true,
       "liquido": "",
       "tapa": "cubo",
@@ -665,9 +681,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#7a3d14",
+      "liquido": "#93460f",
       "tapa": "cubo",
       "tapaMat": "cobre",
       "etiqueta": "oro"
@@ -695,9 +712,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "columna",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#a3123a",
+      "liquido": "#c4124f",
       "tapa": "corona",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -740,9 +758,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#6b3a14",
+      "liquido": "#86400f",
       "tapa": "cubo",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -770,9 +789,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#c98a3a",
+      "liquido": "#d7a050",
       "tapa": "cubo",
       "tapaMat": "rojo",
       "etiqueta": "oro"
@@ -811,9 +831,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#ffffff",
+      "acabado": "tintado",
+      "vidrio": "#e3407a",
       "opaco": false,
-      "liquido": "#d0305f",
+      "liquido": "",
       "tapa": "esfera",
       "tapaMat": "oro",
       "etiqueta": "oro"
@@ -841,7 +862,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cuadrado",
-      "vidrio": "#f0b3a8",
+      "acabado": "lacado",
+      "vidrio": "#f2b4a6",
       "opaco": true,
       "liquido": "",
       "tapa": "domo",
@@ -871,9 +893,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "oso",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#f2e6b8",
+      "liquido": "#f6ecd0",
       "tapa": "ninguna",
       "tapaMat": "oro",
       "etiqueta": "ninguna"
@@ -901,9 +924,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "redondo",
-      "vidrio": "#ffffff",
+      "acabado": "tintado",
+      "vidrio": "#6a2fa6",
       "opaco": false,
-      "liquido": "#5b2a86",
+      "liquido": "",
       "tapa": "esfera",
       "tapaMat": "plata",
       "etiqueta": "texto"
@@ -931,9 +955,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "redondo",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#e0a43a",
+      "liquido": "#eaa53a",
       "tapa": "flor",
       "tapaMat": "verde",
       "etiqueta": "texto-oscuro"
@@ -961,7 +986,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "rectangular",
-      "vidrio": "#121212",
+      "acabado": "lacado",
+      "vidrio": "#141416",
       "opaco": true,
       "liquido": "",
       "tapa": "cubo",
@@ -991,7 +1017,8 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "cilindro",
-      "vidrio": "#d9601a",
+      "acabado": "lacado",
+      "vidrio": "#e2621b",
       "opaco": true,
       "liquido": "",
       "tapa": "cilindro",
@@ -1021,9 +1048,10 @@ window.AUVIN_PRODUCTOS = [
     "ilustrativa": false,
     "m3d": {
       "forma": "plano",
+      "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#c9a3e6",
+      "liquido": "#d3a8f2",
       "tapa": "cilindro",
       "tapaMat": "plata",
       "etiqueta": "texto-oscuro"

@@ -318,8 +318,13 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
           </select></label>
           <label class="field"><span class="lbl">Color del líquido</span><input class="input" type="color" id="e3-liquido" value="#c8742a"></label>
           <label class="field"><span class="lbl">Color del vidrio</span><input class="input" type="color" id="e3-vidrio" value="#ffffff"></label>
+          <label class="field"><span class="lbl">Acabado del vidrio</span><select class="input" id="e3-acabado">
+            <option value="transparente">Transparente (se ve el líquido)</option>
+            <option value="tintado">Vidrio de color</option>
+            <option value="esmerilado">Esmerilado</option>
+            <option value="lacado">Lacado / opaco</option>
+          </select></label>
         </div>
-        <label class="check"><input type="checkbox" id="e3-opaco"> Frasco opaco (no se ve el líquido; usa el color del vidrio)</label>
         <p class="hint">Es un modelo ilustrativo: elegí la forma y los colores que más se parezcan al frasco real. Se ve en la ficha con el botón “3D”.</p>
       </fieldset>
       <label class="field"><span class="lbl">Descripción <i>(una o dos frases)</i></span><textarea class="input" id="e-desc" rows="3" placeholder="Ej.: Dátil, pera y azafrán sobre maderas secas y vainilla."></textarea></label>
@@ -617,7 +622,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     $('e3-etiqueta').value = m.etiqueta || 'oro';
     $('e3-liquido').value = /^#[0-9a-f]{6}$/i.test(m.liquido || '') ? m.liquido : '#c8742a';
     $('e3-vidrio').value = /^#[0-9a-f]{6}$/i.test(m.vidrio || '') ? m.vidrio : '#ffffff';
-    $('e3-opaco').checked = !!m.opaco;
+    $('e3-acabado').value = m.acabado || (m.opaco ? 'lacado' : 'transparente');
     $('m3d-campos').hidden = !d.m3d;
     $('e-brand').value = d.brand || '';
     $('e-name').value = d.name || '';
@@ -746,7 +751,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       vitrina: $('e-vitrina').checked,
       ilustrativa: $('e-ilustrativa').checked,
       m3d: $('e-3d').checked ? {
-        forma: $('e3-forma').value, vidrio: $('e3-vidrio').value, opaco: $('e3-opaco').checked,
+        forma: $('e3-forma').value, vidrio: $('e3-vidrio').value, acabado: $('e3-acabado').value, opaco: $('e3-acabado').value === 'lacado',
         liquido: $('e3-liquido').value, tapa: $('e3-tapa').value, tapaMat: $('e3-tapaMat').value, etiqueta: $('e3-etiqueta').value
       } : null,
       cat: document.querySelector('input[name="cat"]:checked')?.value || 'perfume',
