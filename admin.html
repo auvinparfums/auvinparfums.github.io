@@ -183,7 +183,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   <div>
     <h1>Panel del catálogo</h1>
   </div>
-  <p class="lead">Desde acá cargás perfumes nuevos, cambiás los que ya están y publicás. Para guardar en GitHub, el panel necesita una clave de acceso al repositorio del catálogo.</p>
+  <p class="lead">Desde acá cargás productos nuevos, cambiás los que ya están y publicás. Para guardar en GitHub, el panel necesita una clave de acceso al repositorio del catálogo.</p>
   <p class="msg info" id="demo-note" hidden>Modo prueba: podés usar el panel, pero los cambios no se guardan en GitHub.</p>
   <form id="login-form" class="login" style="padding:0;gap:16px" novalidate>
     <div class="grid2">
@@ -211,10 +211,10 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
 <main class="wrap" id="v-list" hidden>
   <div class="head">
     <div>
-      <h1>Perfumes</h1>
+      <h1>Productos</h1>
       <p id="sum"></p>
     </div>
-    <button class="btn primary" type="button" id="add"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>Agregar perfume</button>
+    <button class="btn primary" type="button" id="add"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>Agregar producto</button>
   </div>
   <div class="notice" id="notice" hidden></div>
   <div class="tools">
@@ -258,6 +258,14 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
         </div>
         <input type="file" id="file" accept="image/*" hidden>
       </div>
+      <div class="field">
+        <span class="lbl" id="cat-lbl">Categoría</span>
+        <div class="seg" role="radiogroup" aria-labelledby="cat-lbl">
+          <label><input type="radio" name="cat" value="perfume"><span>Perfume</span></label>
+          <label><input type="radio" name="cat" value="indumentaria"><span>Indumentaria</span></label>
+          <label><input type="radio" name="cat" value="cuerpo"><span>Cuerpo y cuidado</span></label>
+        </div>
+      </div>
       <div class="grid2">
         <label class="field"><span class="lbl">Marca</span><input class="input" id="e-brand" list="dl-brand" autocomplete="off" placeholder="Ej.: Lattafa"></label>
         <label class="field"><span class="lbl">Nombre</span><input class="input" id="e-name" autocomplete="off" placeholder="Ej.: Khamrah"></label>
@@ -279,6 +287,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
         <label class="field"><span class="lbl">Precio <i>(opcional)</i></span><input class="input" id="e-precio" autocomplete="off" inputmode="text" placeholder="Ej.: $ 85.000"></label>
       </div>
       <label class="check"><input type="checkbox" id="e-agotado"> Sin stock (se muestra igual, con la etiqueta “Sin stock”)</label>
+      <label class="check"><input type="checkbox" id="e-vitrina"> Mostrar en la vitrina 3D (conviene dejar unos 10 a 12)</label>
+      <label class="check"><input type="checkbox" id="e-ilustrativa"> Foto ilustrativa (no es la foto real del producto)</label>
       <label class="field"><span class="lbl">Descripción <i>(una o dos frases)</i></span><textarea class="input" id="e-desc" rows="3" placeholder="Ej.: Dátil, pera y azafrán sobre maderas secas y vainilla."></textarea></label>
       <div class="field">
         <span class="lbl">Notas</span>
@@ -315,7 +325,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const $ = id => document.getElementById(id);
   const DEMO = new URLSearchParams(location.search).has('demo');
   const DATA_FILE = 'productos.js';
-  const FIELDS = ['brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado'];
+  const FIELDS = ['cat', 'brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado', 'vitrina', 'ilustrativa'];
+  const CATS = { perfume: 'Perfume', indumentaria: 'Indumentaria', cuerpo: 'Cuerpo y cuidado' };
   const HEADER = '/* Catálogo AUVIN. Este archivo lo escribe el panel (admin.html): conviene editarlo desde ahí. */\n';
 
   /* ── Guardado local seguro ── */
@@ -359,7 +370,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const clean = p => Object.fromEntries(FIELDS.map(f => {
     const v = p[f];
     if (f === 'top' || f === 'heart' || f === 'base') return [f, Array.isArray(v) ? v : []];
-    if (f === 'agotado') return [f, !!v];
+    if (f === 'agotado' || f === 'vitrina' || f === 'ilustrativa') return [f, !!v];
+    if (f === 'cat') return [f, CATS[v] ? v : 'perfume'];
     if (f === 'w' || f === 'h') return [f, +v || 0];
     return [f, v == null ? '' : String(v)];
   }));
@@ -486,7 +498,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     const q = norm($('q').value.trim());
     const all = S.items;
     const shown = q ? all.filter(p => norm(`${p.brand} ${p.name}`).includes(q)) : all;
-    $('sum').textContent = plural(all.length, 'perfume', 'perfumes') + (q ? ` · ${shown.length} con “${$('q').value.trim()}”` : '');
+    $('sum').textContent = plural(all.length, 'producto', 'productos') + (q ? ` · ${shown.length} con “${$('q').value.trim()}”` : '');
     $('items').innerHTML = shown.length ? shown.map(p => {
       const i = all.indexOf(p);
       const isNew = !S.original.some(o => o.img === p.img && o.name === p.name) && p._new;
@@ -496,7 +508,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
         <button class="info" type="button" data-act="edit">
           <span class="b">${esc(p.brand)}</span>
           <span class="n">${esc(p.name)}${isNew ? '<span class="tag">Nuevo</span>' : p._dirty ? '<span class="tag">Editado</span>' : ''}${p.agotado ? '<span class="tag off">Sin stock</span>' : ''}</span>
-          <span class="m">${esc([concOf(p), p.g, p.precio].filter(Boolean).join(' · '))}</span>
+          <span class="m">${esc([CATS[p.cat] || 'Perfume', concOf(p), p.g, p.precio, p.vitrina && 'En vitrina'].filter(Boolean).join(' · '))}</span>
         </button>
         <span class="acts">${asking
           ? `<span class="ask">¿Eliminar? <button class="btn danger" type="button" data-act="del-yes">Sí</button><button class="btn ghost" type="button" data-act="del-no">No</button></span>`
@@ -506,7 +518,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
              <button class="ic del" type="button" data-act="del" aria-label="Eliminar ${esc(p.name)}">${ICON.del}</button>`}
         </span>
       </li>`;
-    }).join('') : `<li class="empty">${q ? 'No hay perfumes con esa búsqueda.' : 'Todavía no hay perfumes. Tocá “Agregar perfume” para cargar el primero.'}</li>`;
+    }).join('') : `<li class="empty">${q ? 'No hay productos con esa búsqueda.' : 'Todavía no hay productos. Tocá “Agregar producto” para cargar el primero.'}</li>`;
     const n = S.log.length;
     $('pub').classList.toggle('on', n > 0);
     $('pub-txt').innerHTML = n ? `${plural(n, 'cambio sin publicar', 'cambios sin publicar')}<small>${esc(S.log.join(' · '))}</small>` : '';
@@ -557,9 +569,12 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const ed = $('ed');
   const readG = () => document.querySelector('input[name="g"]:checked')?.value || '';
   const openEditor = p => {
-    S.edit = { k: p?._k || null, draft: p ? { ...p } : { pos: '50% 50%', top: [], heart: [], base: [], agotado: false }, photo: null };
+    S.edit = { k: p?._k || null, draft: p ? { ...p } : { cat: 'perfume', pos: '50% 50%', top: [], heart: [], base: [], agotado: false, vitrina: false, ilustrativa: false }, photo: null };
     const d = S.edit.draft;
-    $('ed-title').textContent = p ? `Editar ${p.name}` : 'Nuevo perfume';
+    $('ed-title').textContent = p ? `Editar ${p.name}` : 'Nuevo producto';
+    document.querySelectorAll('input[name="cat"]').forEach(r => { r.checked = r.value === (d.cat || 'perfume'); });
+    $('e-vitrina').checked = !!d.vitrina;
+    $('e-ilustrativa').checked = !!d.ilustrativa;
     $('e-brand').value = d.brand || '';
     $('e-name').value = d.name || '';
     $('e-conc').value = d.conc || '';
@@ -684,6 +699,9 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       fam: $('e-fam').value.trim(),
       precio: $('e-precio').value.trim(),
       agotado: $('e-agotado').checked,
+      vitrina: $('e-vitrina').checked,
+      ilustrativa: $('e-ilustrativa').checked,
+      cat: document.querySelector('input[name="cat"]:checked')?.value || 'perfume',
       desc: $('e-desc').value.trim(),
       top: splitNotes($('e-top').value),
       heart: splitNotes($('e-heart').value),
