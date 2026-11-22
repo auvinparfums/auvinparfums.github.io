@@ -72,6 +72,10 @@ textarea.input{min-height:92px;resize:vertical;line-height:1.45}
 @media (max-width:560px){.grid2{grid-template-columns:minmax(0,1fr)}}
 .check{display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--muted)}
 .check input{width:18px;height:18px;margin:0;accent-color:var(--gold)}
+.m3d{display:grid;gap:14px;margin:0;padding:16px;border:1px solid var(--line-soft);border-radius:12px}
+.m3d legend{padding:0 6px}
+select.input{appearance:none;background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23c8a76b' stroke-width='1.3'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E") right 14px center/12px no-repeat;padding-right:36px}
+input[type="color"].input{padding:6px;cursor:pointer}
 .seg{display:flex;flex-wrap:wrap;gap:8px}
 .seg label{position:relative;cursor:pointer}
 .seg input{position:absolute;opacity:0;pointer-events:none}
@@ -289,6 +293,35 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       <label class="check"><input type="checkbox" id="e-agotado"> Sin stock (se muestra igual, con la etiqueta “Sin stock”)</label>
       <label class="check"><input type="checkbox" id="e-vitrina"> Mostrar en la vitrina 3D (conviene dejar unos 10 a 12)</label>
       <label class="check"><input type="checkbox" id="e-ilustrativa"> Foto ilustrativa (no es la foto real del producto)</label>
+      <fieldset class="m3d">
+        <legend class="lbl">Modelo 3D de la ficha</legend>
+        <label class="check"><input type="checkbox" id="e-3d"> Mostrar un frasco 3D en la ficha (además de la foto)</label>
+        <div class="grid2" id="m3d-campos">
+          <label class="field"><span class="lbl">Forma del frasco</span><select class="input" id="e3-forma">
+            <option value="cuadrado">Cuadrado</option><option value="rectangular">Rectangular alto</option><option value="plano">Plano (tipo body splash)</option>
+            <option value="cilindro">Cilindro</option><option value="columna">Columna con anillos</option><option value="redondo">Redondo</option>
+            <option value="anfora">Ánfora</option><option value="domo">Domo</option><option value="conico">Cónico</option><option value="oso">Osito</option>
+          </select></label>
+          <label class="field"><span class="lbl">Tapa</span><select class="input" id="e3-tapa">
+            <option value="cubo">Cubo</option><option value="cilindro">Cilindro</option><option value="esfera">Esfera</option><option value="cono">Punta</option>
+            <option value="domo">Domo</option><option value="disco">Disco</option><option value="corona">Corona</option><option value="flor">Flor</option>
+            <option value="facetas">Facetada</option><option value="ninguna">Sin tapa</option>
+          </select></label>
+          <label class="field"><span class="lbl">Material de la tapa</span><select class="input" id="e3-tapaMat">
+            <option value="oro">Dorado</option><option value="plata">Plateado</option><option value="rosa">Oro rosa</option><option value="cobre">Cobre</option>
+            <option value="negro">Negro</option><option value="rojo">Bordó</option><option value="verde">Verde</option><option value="blanco">Blanco</option>
+            <option value="madera">Madera</option><option value="cristal">Cristal</option>
+          </select></label>
+          <label class="field"><span class="lbl">Etiqueta</span><select class="input" id="e3-etiqueta">
+            <option value="oro">Placa dorada</option><option value="negro">Placa negra</option><option value="blanco">Placa blanca</option>
+            <option value="texto">Texto claro</option><option value="texto-oscuro">Texto oscuro</option><option value="ninguna">Sin etiqueta</option>
+          </select></label>
+          <label class="field"><span class="lbl">Color del líquido</span><input class="input" type="color" id="e3-liquido" value="#c8742a"></label>
+          <label class="field"><span class="lbl">Color del vidrio</span><input class="input" type="color" id="e3-vidrio" value="#ffffff"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="e3-opaco"> Frasco opaco (no se ve el líquido; usa el color del vidrio)</label>
+        <p class="hint">Es un modelo ilustrativo: elegí la forma y los colores que más se parezcan al frasco real. Se ve en la ficha con el botón “3D”.</p>
+      </fieldset>
       <label class="field"><span class="lbl">Descripción <i>(una o dos frases)</i></span><textarea class="input" id="e-desc" rows="3" placeholder="Ej.: Dátil, pera y azafrán sobre maderas secas y vainilla."></textarea></label>
       <div class="field">
         <span class="lbl">Notas</span>
@@ -325,7 +358,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const $ = id => document.getElementById(id);
   const DEMO = new URLSearchParams(location.search).has('demo');
   const DATA_FILE = 'productos.js';
-  const FIELDS = ['cat', 'brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado', 'vitrina', 'ilustrativa'];
+  const FIELDS = ['cat', 'brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado', 'vitrina', 'ilustrativa', 'm3d'];
   const CATS = { perfume: 'Perfume', indumentaria: 'Indumentaria', cuerpo: 'Cuerpo y cuidado' };
   const HEADER = '/* Catálogo AUVIN. Este archivo lo escribe el panel (admin.html): conviene editarlo desde ahí. */\n';
 
@@ -372,6 +405,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     if (f === 'top' || f === 'heart' || f === 'base') return [f, Array.isArray(v) ? v : []];
     if (f === 'agotado' || f === 'vitrina' || f === 'ilustrativa') return [f, !!v];
     if (f === 'cat') return [f, CATS[v] ? v : 'perfume'];
+    if (f === 'm3d') return [f, v && typeof v === 'object' ? v : null];
     if (f === 'w' || f === 'h') return [f, +v || 0];
     return [f, v == null ? '' : String(v)];
   }));
@@ -575,6 +609,16 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     document.querySelectorAll('input[name="cat"]').forEach(r => { r.checked = r.value === (d.cat || 'perfume'); });
     $('e-vitrina').checked = !!d.vitrina;
     $('e-ilustrativa').checked = !!d.ilustrativa;
+    const m = d.m3d || {};
+    $('e-3d').checked = !!d.m3d;
+    $('e3-forma').value = m.forma || 'cuadrado';
+    $('e3-tapa').value = m.tapa || 'cubo';
+    $('e3-tapaMat').value = m.tapaMat || 'oro';
+    $('e3-etiqueta').value = m.etiqueta || 'oro';
+    $('e3-liquido').value = /^#[0-9a-f]{6}$/i.test(m.liquido || '') ? m.liquido : '#c8742a';
+    $('e3-vidrio').value = /^#[0-9a-f]{6}$/i.test(m.vidrio || '') ? m.vidrio : '#ffffff';
+    $('e3-opaco').checked = !!m.opaco;
+    $('m3d-campos').hidden = !d.m3d;
     $('e-brand').value = d.brand || '';
     $('e-name').value = d.name || '';
     $('e-conc').value = d.conc || '';
@@ -701,6 +745,10 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       agotado: $('e-agotado').checked,
       vitrina: $('e-vitrina').checked,
       ilustrativa: $('e-ilustrativa').checked,
+      m3d: $('e-3d').checked ? {
+        forma: $('e3-forma').value, vidrio: $('e3-vidrio').value, opaco: $('e3-opaco').checked,
+        liquido: $('e3-liquido').value, tapa: $('e3-tapa').value, tapaMat: $('e3-tapaMat').value, etiqueta: $('e3-etiqueta').value
+      } : null,
       cat: document.querySelector('input[name="cat"]:checked')?.value || 'perfume',
       desc: $('e-desc').value.trim(),
       top: splitNotes($('e-top').value),
@@ -734,6 +782,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     toast(`${name} guardado. Tocá “Publicar” para que aparezca en la página.`);
   });
   $('add').addEventListener('click', () => openEditor(null));
+  $('e-3d').addEventListener('change', () => { $('m3d-campos').hidden = !$('e-3d').checked; });
 
   /* ── Publicar ── */
   const commitMessage = () => {

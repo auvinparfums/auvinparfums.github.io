@@ -36,6 +36,7 @@ La clave queda guardada solo en el navegador donde la pegaste. Si perdés el cel
 1. Abrí `admin.html` en tu página y entrá con la clave.
 2. **Agregar producto**: elegí la categoría (perfume, indumentaria o cuerpo y cuidado), la foto (se achica sola), marca, nombre, género y lo demás. Tocá la foto para elegir qué parte se ve en la tarjeta.
 3. Marcá **Mostrar en la vitrina 3D** en los que quieras destacar (conviene dejar unos 10 a 12).
+   En **Modelo 3D de la ficha** elegí forma, tapa, colores y etiqueta del frasco: en la ficha aparece un frasco 3D ilustrativo que se gira con el dedo, con un botón para ver la foto real.
 4. Tocá **Publicar**. La página se actualiza en unos minutos.
 
 Para practicar sin tocar nada, abrí `admin.html?demo`.
