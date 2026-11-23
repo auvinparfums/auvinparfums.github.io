@@ -1,51 +1,6 @@
 /* Catálogo AUVIN. Este archivo lo escribe el panel (admin.html): conviene editarlo desde ahí. */
 window.AUVIN_PRODUCTOS = [
   {
-    "cat": "perfume",
-    "brand": "Lattafa",
-    "name": "Khamrah",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Unisex",
-    "fam": "Oriental especiado",
-    "desc": "Dátiles, canela y praliné sobre un fondo cálido de vainilla y maderas.",
-    "top": [
-      "Canela",
-      "Nuez moscada",
-      "Bergamota"
-    ],
-    "heart": [
-      "Dátiles",
-      "Praliné",
-      "Tuberosa"
-    ],
-    "base": [
-      "Vainilla",
-      "Haba tonka",
-      "Benjuí",
-      "Mirra"
-    ],
-    "img": "img/khamrah.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "cuadrado",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#c4640f",
-      "tapa": "cubo",
-      "tapaMat": "cristal",
-      "etiqueta": "negro"
-    }
-  },
-  {
-    "cat": "perfume",
     "brand": "Maison Francis Kurkdjian",
     "name": "Baccarat Rouge 540",
     "conc": "Extrait de Parfum",
@@ -73,64 +28,107 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": true,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/baccarat-rouge-540.webp",
+      "volumen": "caja",
+      "prof": 0.55,
       "forma": "cuadrado",
-      "acabado": "transparente",
-      "vidrio": "#fff1ec",
+      "acabado": "tintado",
+      "vidrio": "#b3141c",
       "opaco": false,
-      "liquido": "#a10d16",
+      "liquido": "",
       "tapa": "cubo",
       "tapaMat": "oro",
       "etiqueta": "oro"
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Yves Saint Laurent",
-    "name": "Libre",
+    "brand": "Lattafa",
+    "name": "Mayar",
     "conc": "Eau de Parfum",
-    "ml": "90 ml",
+    "ml": "100 ml",
     "g": "Femenino",
-    "fam": "Floral ambarado",
-    "desc": "Lavanda francesa y azahar marroquí, con un fondo cálido de vainilla.",
+    "fam": "Floral frutal",
+    "desc": "Frutos rojos y lichi que se abren en peonía y rosa blanca, con un fondo suave de vainilla.",
     "top": [
-      "Mandarina",
-      "Lavanda",
-      "Grosella negra"
+      "Frambuesa",
+      "Lichi",
+      "Hoja de violeta"
     ],
     "heart": [
-      "Lavanda",
-      "Azahar",
+      "Peonía",
+      "Rosa blanca",
       "Jazmín"
     ],
     "base": [
       "Vainilla",
-      "Almizcle",
-      "Cedro",
-      "Ámbar gris"
+      "Almizcle"
     ],
-    "img": "img/libre.webp",
+    "img": "img/mayar.webp",
     "w": 864,
     "h": 1080,
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
+    "vitrina": false,
     "m3d": {
-      "forma": "rectangular",
+      "foto": "img/3d/mayar.webp",
+      "volumen": "redondo",
+      "prof": 0.75,
+      "forma": "cilindro",
       "acabado": "transparente",
-      "vidrio": "#ffffff",
+      "vidrio": "#fff4f2",
       "opaco": false,
-      "liquido": "#e3b250",
-      "tapa": "cubo",
-      "tapaMat": "negro",
+      "liquido": "#f3c4c4",
+      "tapa": "domo",
+      "tapaMat": "rosa",
       "etiqueta": "texto-oscuro"
     }
   },
   {
-    "cat": "perfume",
+    "brand": "Lattafa",
+    "name": "Eclaire",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Gourmand",
+    "desc": "Un gourmand cremoso inspirado en la pastelería francesa: caramelo, leche y vainilla.",
+    "top": [
+      "Caramelo",
+      "Leche",
+      "Azúcar"
+    ],
+    "heart": [
+      "Miel",
+      "Flores blancas"
+    ],
+    "base": [
+      "Vainilla",
+      "Praliné",
+      "Almizcle"
+    ],
+    "img": "img/eclaire.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/eclaire.webp",
+      "volumen": "caja",
+      "prof": 0.5,
+      "forma": "rectangular",
+      "acabado": "lacado",
+      "vidrio": "#ead7c4",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cubo",
+      "tapaMat": "oro",
+      "etiqueta": "texto-oscuro"
+    }
+  },
+  {
     "brand": "Dior",
     "name": "Sauvage Parfum",
     "conc": "Parfum",
@@ -157,8 +155,10 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": true,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/sauvage-parfum.webp",
+      "volumen": "caja",
+      "prof": 0.45,
       "forma": "rectangular",
       "acabado": "tintado",
       "vidrio": "#1b2f78",
@@ -170,221 +170,49 @@ window.AUVIN_PRODUCTOS = [
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Dior",
-    "name": "J'adore",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Floral",
-    "desc": "Un ramo floral luminoso de jazmín y rosa, sedoso y femenino.",
-    "top": [
-      "Pera",
-      "Melón",
-      "Bergamota"
-    ],
-    "heart": [
-      "Jazmín",
-      "Rosa",
-      "Tuberosa"
-    ],
-    "base": [
-      "Almizcle",
-      "Vainilla",
-      "Cedro"
-    ],
-    "img": "img/jadore.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "anfora",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#ecbf45",
-      "tapa": "cilindro",
-      "tapaMat": "oro",
-      "etiqueta": "texto-oscuro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Xerjoff",
-    "name": "Erba Pura",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Unisex",
-    "fam": "Ámbar frutal",
-    "desc": "Un estallido de frutas mediterráneas sobre almizcle blanco, vainilla y ámbar.",
-    "top": [
-      "Naranja siciliana",
-      "Limón",
-      "Bergamota"
-    ],
-    "heart": [
-      "Frutas mediterráneas"
-    ],
-    "base": [
-      "Almizcle blanco",
-      "Vainilla",
-      "Ámbar"
-    ],
-    "img": "img/erba-pura.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "domo",
-      "acabado": "lacado",
-      "vidrio": "#11695b",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "cono",
-      "tapaMat": "oro",
-      "etiqueta": "oro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Armaf",
-    "name": "Club de Nuit Women",
-    "conc": "Eau de Parfum",
-    "ml": "200 ml",
-    "g": "Femenino",
-    "fam": "Chipre floral",
-    "desc": "Floral y elegante: rosa y lichi sobre pachulí y vainilla.",
-    "top": [
-      "Bergamota",
-      "Naranja",
-      "Pomelo",
-      "Durazno"
-    ],
-    "heart": [
-      "Rosa",
-      "Jazmín",
-      "Geranio",
-      "Lichi"
-    ],
-    "base": [
-      "Pachulí",
-      "Almizcle",
-      "Vainilla",
-      "Vetiver"
-    ],
-    "img": "img/club-de-nuit-women.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "cuadrado",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#f1d48c",
-      "tapa": "cubo",
-      "tapaMat": "oro",
-      "etiqueta": "oro"
-    }
-  },
-  {
-    "cat": "perfume",
     "brand": "Afnan",
-    "name": "9 PM",
+    "name": "9am Pour Femme",
     "conc": "Eau de Parfum",
     "ml": "100 ml",
-    "g": "Masculino",
-    "fam": "Ámbar especiado",
-    "desc": "Manzana, canela y lavanda sobre un fondo dulce de vainilla y haba tonka. Ideal para la noche.",
+    "g": "Femenino",
+    "fam": "Cítrico frutal",
+    "desc": "Cítrico y jugoso para el día: mandarina y pomelo con un corazón de frutos rojos.",
     "top": [
-      "Manzana",
-      "Canela",
-      "Lavanda",
-      "Bergamota"
+      "Mandarina",
+      "Bergamota",
+      "Pomelo"
     ],
     "heart": [
-      "Azahar",
-      "Lirio del valle"
+      "Frambuesa",
+      "Grosella negra"
     ],
     "base": [
-      "Vainilla",
-      "Haba tonka",
+      "Almizcle",
       "Ámbar",
-      "Pachulí"
+      "Naranja"
     ],
-    "img": "img/9pm-afnan.webp",
+    "img": "img/9am-pour-femme.webp",
     "w": 864,
     "h": 1080,
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
+    "vitrina": false,
     "m3d": {
+      "foto": "img/3d/9am-pour-femme.webp",
+      "volumen": "caja",
+      "prof": 0.45,
       "forma": "rectangular",
       "acabado": "lacado",
-      "vidrio": "#1a1b22",
+      "vidrio": "#f07f95",
       "opaco": true,
       "liquido": "",
       "tapa": "esfera",
-      "tapaMat": "plata",
-      "etiqueta": "texto"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Jean Paul Gaultier",
-    "name": "La Belle Le Parfum",
-    "conc": "Eau de Parfum Intense",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Ámbar floral",
-    "desc": "Pera e ylang-ylang sobre una vainilla intensa y envolvente.",
-    "top": [
-      "Pera",
-      "Ylang-ylang"
-    ],
-    "heart": [
-      "Azahar"
-    ],
-    "base": [
-      "Vainilla",
-      "Haba tonka",
-      "Sándalo"
-    ],
-    "img": "img/la-belle-le-parfum.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "redondo",
-      "acabado": "tintado",
-      "vidrio": "#c0122a",
-      "opaco": false,
-      "liquido": "",
-      "tapa": "disco",
       "tapaMat": "oro",
       "etiqueta": "oro"
     }
   },
   {
-    "cat": "perfume",
     "brand": "Lattafa",
     "name": "Khamrah Waha",
     "conc": "Eau de Parfum",
@@ -415,62 +243,22 @@ window.AUVIN_PRODUCTOS = [
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
+    "vitrina": false,
     "m3d": {
+      "foto": "img/3d/khamrah-waha.webp",
+      "volumen": "caja",
+      "prof": 0.55,
       "forma": "cuadrado",
       "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#0f8f8a",
+      "liquido": "#9ad4d6",
       "tapa": "cubo",
       "tapaMat": "cristal",
-      "etiqueta": "negro"
+      "etiqueta": "blanco"
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Elizabeth Arden",
-    "name": "Red Door",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Floral",
-    "desc": "Un clásico de la perfumería femenina: rosa roja y jazmín sobre miel y sándalo.",
-    "top": [
-      "Rosa roja",
-      "Fresia"
-    ],
-    "heart": [
-      "Jazmín",
-      "Azahar",
-      "Orquídea"
-    ],
-    "base": [
-      "Miel",
-      "Sándalo"
-    ],
-    "img": "img/red-door.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": true,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "rectangular",
-      "acabado": "tintado",
-      "vidrio": "#c3101c",
-      "opaco": false,
-      "liquido": "",
-      "tapa": "cilindro",
-      "tapaMat": "oro",
-      "etiqueta": "texto"
-    }
-  },
-  {
-    "cat": "perfume",
     "brand": "French Avenue",
     "name": "Thunder",
     "conc": "Eau de Parfum",
@@ -501,8 +289,10 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": true,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/thunder.webp",
+      "volumen": "redondo",
+      "prof": 0.9,
       "forma": "conico",
       "acabado": "esmerilado",
       "vidrio": "#3f5e48",
@@ -514,215 +304,6 @@ window.AUVIN_PRODUCTOS = [
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Lattafa",
-    "name": "Asad Zanzibar",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Masculino",
-    "fam": "Fresco aromático",
-    "desc": "Fresco, exótico y seductor, inspirado en la isla de Zanzíbar.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/asad-zanzibar.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "cilindro",
-      "acabado": "lacado",
-      "vidrio": "#1f3c8f",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "cilindro",
-      "tapaMat": "plata",
-      "etiqueta": "texto"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Lattafa",
-    "name": "Mayar",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Floral frutal",
-    "desc": "Frutos rojos y lichi que se abren en peonía y rosa blanca, con un fondo suave de vainilla.",
-    "top": [
-      "Frambuesa",
-      "Lichi",
-      "Hoja de violeta"
-    ],
-    "heart": [
-      "Peonía",
-      "Rosa blanca",
-      "Jazmín"
-    ],
-    "base": [
-      "Vainilla",
-      "Almizcle"
-    ],
-    "img": "img/mayar.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "cilindro",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#f6c9c0",
-      "tapa": "domo",
-      "tapaMat": "rosa",
-      "etiqueta": "texto-oscuro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Lattafa",
-    "name": "Eclaire",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Gourmand",
-    "desc": "Un gourmand cremoso inspirado en la pastelería francesa: caramelo, leche y vainilla.",
-    "top": [
-      "Caramelo",
-      "Leche",
-      "Azúcar"
-    ],
-    "heart": [
-      "Miel",
-      "Flores blancas"
-    ],
-    "base": [
-      "Vainilla",
-      "Praliné",
-      "Almizcle"
-    ],
-    "img": "img/eclaire.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "rectangular",
-      "acabado": "lacado",
-      "vidrio": "#ead7b4",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "corona",
-      "tapaMat": "oro",
-      "etiqueta": "texto-oscuro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "French Avenue",
-    "name": "Veneno",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Unisex",
-    "fam": "",
-    "desc": "Misterio y poder, pensado para quienes se animan a dejar huella.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/veneno.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "rectangular",
-      "acabado": "lacado",
-      "vidrio": "#101012",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "cubo",
-      "tapaMat": "negro",
-      "etiqueta": "oro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "French Avenue",
-    "name": "Liquid Brun",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Unisex",
-    "fam": "Amaderado gourmand",
-    "desc": "Un abrazo olfativo dulce y amaderado que combina calidez y elegancia.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/liquid-brun.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "rectangular",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#93460f",
-      "tapa": "cubo",
-      "tapaMat": "cobre",
-      "etiqueta": "oro"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "French Avenue",
-    "name": "Grecia Rosa",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Femenino",
-    "fam": "Floral",
-    "desc": "Inspirado en la elegancia y el poder de las diosas griegas.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/grecia.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "columna",
-      "acabado": "transparente",
-      "vidrio": "#ffffff",
-      "opaco": false,
-      "liquido": "#c4124f",
-      "tapa": "corona",
-      "tapaMat": "oro",
-      "etiqueta": "oro"
-    }
-  },
-  {
-    "cat": "perfume",
     "brand": "French Avenue",
     "name": "Grow",
     "conc": "Extrait de Parfum",
@@ -755,30 +336,343 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/grow.webp",
+      "volumen": "caja",
+      "prof": 0.55,
       "forma": "cuadrado",
       "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#86400f",
+      "liquido": "#8a3f10",
       "tapa": "cubo",
       "tapaMat": "oro",
       "etiqueta": "oro"
     }
   },
   {
-    "cat": "perfume",
+    "brand": "Armaf",
+    "name": "Odyssey Mandarin Sky Elixir",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Masculino",
+    "fam": "Ámbar especiado",
+    "desc": "La versión Elixir, más intensa, del Odyssey Mandarin Sky: mandarina y cardamomo sobre caramelo, haba tonka y vainilla.",
+    "top": [
+      "Mandarina",
+      "Naranja",
+      "Lavanda",
+      "Pimienta negra",
+      "Cardamomo"
+    ],
+    "heart": [
+      "Caramelo",
+      "Haba tonka",
+      "Pachulí",
+      "Incienso"
+    ],
+    "base": [
+      "Vainilla",
+      "Vetiver"
+    ],
+    "img": "img/odyssey-mandarin-sky-elixir.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/odyssey-mandarin-sky-elixir.webp",
+      "volumen": "caja",
+      "prof": 0.6,
+      "forma": "cuadrado",
+      "acabado": "lacado",
+      "vidrio": "#f28a1e",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cubo",
+      "tapaMat": "azul",
+      "etiqueta": "texto"
+    }
+  },
+  {
+    "brand": "Dior",
+    "name": "J'adore",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Floral",
+    "desc": "Un ramo floral luminoso de jazmín y rosa, sedoso y femenino.",
+    "top": [
+      "Pera",
+      "Melón",
+      "Bergamota"
+    ],
+    "heart": [
+      "Jazmín",
+      "Rosa",
+      "Tuberosa"
+    ],
+    "base": [
+      "Almizcle",
+      "Vainilla",
+      "Cedro"
+    ],
+    "img": "img/jadore.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/jadore.webp",
+      "volumen": "redondo",
+      "prof": 0.85,
+      "forma": "anfora",
+      "acabado": "transparente",
+      "vidrio": "#ffffff",
+      "opaco": false,
+      "liquido": "#ecbf45",
+      "tapa": "esfera",
+      "tapaMat": "cristal",
+      "etiqueta": "texto-oscuro"
+    }
+  },
+  {
+    "brand": "French Avenue",
+    "name": "Veneno",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Unisex",
+    "fam": "Ámbar especiado",
+    "desc": "Manzana, canela y tabaco sobre una vainilla ahumada: misterio y poder, para quienes se animan a dejar huella.",
+    "top": [
+      "Manzana",
+      "Humo",
+      "Canela"
+    ],
+    "heart": [
+      "Tabaco",
+      "Musgo"
+    ],
+    "base": [
+      "Vainilla Bourbon",
+      "Ámbar"
+    ],
+    "img": "img/veneno.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/veneno.webp",
+      "volumen": "caja",
+      "prof": 0.55,
+      "forma": "rectangular",
+      "acabado": "lacado",
+      "vidrio": "#101012",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "facetas",
+      "tapaMat": "negro",
+      "etiqueta": "oro"
+    }
+  },
+  {
+    "brand": "Afnan",
+    "name": "9 PM",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Masculino",
+    "fam": "Ámbar especiado",
+    "desc": "Manzana, canela y lavanda sobre un fondo dulce de vainilla y haba tonka. Ideal para la noche.",
+    "top": [
+      "Manzana",
+      "Canela",
+      "Lavanda",
+      "Bergamota"
+    ],
+    "heart": [
+      "Azahar",
+      "Lirio del valle"
+    ],
+    "base": [
+      "Vainilla",
+      "Haba tonka",
+      "Ámbar",
+      "Pachulí"
+    ],
+    "img": "img/9pm-afnan.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/9pm-afnan.webp",
+      "volumen": "caja",
+      "prof": 0.45,
+      "forma": "rectangular",
+      "acabado": "lacado",
+      "vidrio": "#1a1b22",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "esfera",
+      "tapaMat": "plata",
+      "etiqueta": "texto"
+    }
+  },
+  {
+    "brand": "Lattafa",
+    "name": "Nasmaat",
+    "conc": "Eau de Parfum",
+    "ml": "",
+    "g": "Femenino",
+    "fam": "Floral frutal",
+    "desc": "Damasco, ananá y grosella sobre magnolia y jazmín, con un fondo cálido de vainilla y caramelo. Frasco negro con brillos.",
+    "top": [
+      "Grosella negra",
+      "Damasco",
+      "Ananá"
+    ],
+    "heart": [
+      "Magnolia",
+      "Jazmín",
+      "Ciclamen",
+      "Azahar",
+      "Rosa"
+    ],
+    "base": [
+      "Vainilla",
+      "Cashmeran",
+      "Sándalo",
+      "Caramelo"
+    ],
+    "img": "img/nasmaat.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/nasmaat.webp",
+      "volumen": "caja",
+      "prof": 0.55,
+      "forma": "plano",
+      "acabado": "lacado",
+      "vidrio": "#15151a",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "facetas",
+      "tapaMat": "cristal",
+      "etiqueta": "texto"
+    }
+  },
+  {
+    "brand": "French Avenue",
+    "name": "Liquid Brun",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Unisex",
+    "fam": "Amaderado gourmand",
+    "desc": "Canela, cardamomo y praliné: un abrazo dulce y amaderado que combina calidez y elegancia.",
+    "top": [
+      "Canela",
+      "Azahar",
+      "Cardamomo",
+      "Bergamota"
+    ],
+    "heart": [
+      "Vainilla Bourbon",
+      "Elemí"
+    ],
+    "base": [
+      "Praliné",
+      "Ambroxan",
+      "Almizcle",
+      "Guayaco"
+    ],
+    "img": "img/liquid-brun.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/liquid-brun.webp",
+      "volumen": "caja",
+      "prof": 0.55,
+      "forma": "rectangular",
+      "acabado": "lacado",
+      "vidrio": "#7a3b1e",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cubo",
+      "tapaMat": "cobre",
+      "etiqueta": "oro"
+    }
+  },
+  {
+    "brand": "French Avenue",
+    "name": "Grecia Rosa",
+    "conc": "Extrait de Parfum",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Floral",
+    "desc": "Inspirado en la elegancia y el poder de las diosas griegas.",
+    "top": [],
+    "heart": [],
+    "base": [],
+    "img": "img/grecia.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/grecia.webp",
+      "volumen": "redondo",
+      "prof": 1,
+      "forma": "columna",
+      "acabado": "tintado",
+      "vidrio": "#7a1430",
+      "opaco": false,
+      "liquido": "",
+      "tapa": "corona",
+      "tapaMat": "oro",
+      "etiqueta": "oro"
+    }
+  },
+  {
     "brand": "Lattafa",
     "name": "Ana Abiyedh Rouge",
     "conc": "Eau de Parfum",
     "ml": "",
     "g": "Unisex",
     "fam": "Ámbar floral",
-    "desc": "Intensa, misteriosa y envolvente.",
-    "top": [],
-    "heart": [],
-    "base": [],
+    "desc": "Pera y kumquat que se endulzan con caramelo sobre ámbar y almizcle: intensa, misteriosa y envolvente.",
+    "top": [
+      "Pera nashi",
+      "Kumquat",
+      "Bergamota"
+    ],
+    "heart": [
+      "Caramelo",
+      "Geranio"
+    ],
+    "base": [
+      "Ámbar gris",
+      "Almizcle",
+      "Musgo de roble"
+    ],
     "img": "img/ana-abiyedh-rouge.webp",
     "w": 864,
     "h": 1080,
@@ -786,8 +680,10 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/ana-abiyedh-rouge.webp",
+      "volumen": "caja",
+      "prof": 0.5,
       "forma": "rectangular",
       "acabado": "transparente",
       "vidrio": "#ffffff",
@@ -799,59 +695,250 @@ window.AUVIN_PRODUCTOS = [
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Afnan",
-    "name": "9am Pour Femme",
+    "brand": "Lattafa",
+    "name": "Khamrah",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Unisex",
+    "fam": "Oriental especiado",
+    "desc": "Dátiles, canela y praliné sobre un fondo cálido de vainilla y maderas.",
+    "top": [
+      "Canela",
+      "Nuez moscada",
+      "Bergamota"
+    ],
+    "heart": [
+      "Dátiles",
+      "Praliné",
+      "Tuberosa"
+    ],
+    "base": [
+      "Vainilla",
+      "Haba tonka",
+      "Benjuí",
+      "Mirra"
+    ],
+    "img": "img/khamrah.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/khamrah.webp",
+      "volumen": "caja",
+      "prof": 0.55,
+      "forma": "cuadrado",
+      "acabado": "transparente",
+      "vidrio": "#ffffff",
+      "opaco": false,
+      "liquido": "#c4640f",
+      "tapa": "cubo",
+      "tapaMat": "cristal",
+      "etiqueta": "oro"
+    }
+  },
+  {
+    "brand": "Yves Saint Laurent",
+    "name": "Libre",
+    "conc": "Eau de Parfum",
+    "ml": "90 ml",
+    "g": "Femenino",
+    "fam": "Floral ambarado",
+    "desc": "Lavanda francesa y azahar marroquí, con un fondo cálido de vainilla.",
+    "top": [
+      "Mandarina",
+      "Lavanda",
+      "Grosella negra"
+    ],
+    "heart": [
+      "Lavanda",
+      "Azahar",
+      "Jazmín"
+    ],
+    "base": [
+      "Vainilla",
+      "Almizcle",
+      "Cedro",
+      "Ámbar gris"
+    ],
+    "img": "img/libre.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/libre.webp",
+      "volumen": "caja",
+      "prof": 0.5,
+      "forma": "rectangular",
+      "acabado": "transparente",
+      "vidrio": "#ffffff",
+      "opaco": false,
+      "liquido": "#e3b250",
+      "tapa": "cubo",
+      "tapaMat": "negro",
+      "etiqueta": "texto-oscuro"
+    }
+  },
+  {
+    "brand": "Armaf",
+    "name": "Club de Nuit Women",
+    "conc": "Eau de Parfum",
+    "ml": "200 ml",
+    "g": "Femenino",
+    "fam": "Chipre floral",
+    "desc": "Floral y elegante: rosa y lichi sobre pachulí y vainilla.",
+    "top": [
+      "Bergamota",
+      "Naranja",
+      "Pomelo",
+      "Durazno"
+    ],
+    "heart": [
+      "Rosa",
+      "Jazmín",
+      "Geranio",
+      "Lichi"
+    ],
+    "base": [
+      "Pachulí",
+      "Almizcle",
+      "Vainilla",
+      "Vetiver"
+    ],
+    "img": "img/club-de-nuit-women.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/club-de-nuit-women.webp",
+      "volumen": "caja",
+      "prof": 0.55,
+      "forma": "cuadrado",
+      "acabado": "transparente",
+      "vidrio": "#ffffff",
+      "opaco": false,
+      "liquido": "#f3d6c8",
+      "tapa": "cubo",
+      "tapaMat": "oro",
+      "etiqueta": "oro"
+    }
+  },
+  {
+    "brand": "Jean Paul Gaultier",
+    "name": "La Belle Le Parfum",
+    "conc": "Eau de Parfum Intense",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Ámbar floral",
+    "desc": "Pera e ylang-ylang sobre una vainilla intensa y envolvente.",
+    "top": [
+      "Pera",
+      "Ylang-ylang"
+    ],
+    "heart": [
+      "Azahar"
+    ],
+    "base": [
+      "Vainilla",
+      "Haba tonka",
+      "Sándalo"
+    ],
+    "img": "img/la-belle-le-parfum.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/la-belle-le-parfum.webp",
+      "volumen": "redondo",
+      "prof": 0.65,
+      "forma": "torso",
+      "acabado": "tintado",
+      "vidrio": "#b0102a",
+      "opaco": false,
+      "liquido": "",
+      "tapa": "flor",
+      "tapaMat": "oro",
+      "etiqueta": "ninguna"
+    }
+  },
+  {
+    "brand": "Elizabeth Arden",
+    "name": "Red Door",
     "conc": "Eau de Parfum",
     "ml": "100 ml",
     "g": "Femenino",
-    "fam": "Cítrico frutal",
-    "desc": "Cítrico y jugoso para el día: mandarina y pomelo con un corazón de frutos rojos.",
+    "fam": "Floral",
+    "desc": "Un clásico de la perfumería femenina: rosa roja y jazmín sobre miel y sándalo.",
     "top": [
-      "Mandarina",
-      "Bergamota",
-      "Pomelo"
+      "Rosa roja",
+      "Fresia"
     ],
     "heart": [
-      "Frambuesa",
-      "Grosella negra"
+      "Jazmín",
+      "Azahar",
+      "Orquídea"
     ],
     "base": [
-      "Almizcle",
-      "Ámbar",
-      "Naranja"
+      "Miel",
+      "Sándalo"
     ],
-    "img": "img/9am-pour-femme.webp",
+    "img": "img/red-door.webp",
     "w": 864,
     "h": 1080,
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/red-door.webp",
+      "volumen": "caja",
+      "prof": 0.4,
       "forma": "rectangular",
       "acabado": "tintado",
-      "vidrio": "#e3407a",
+      "vidrio": "#c3101c",
       "opaco": false,
       "liquido": "",
-      "tapa": "esfera",
+      "tapa": "cilindro",
       "tapaMat": "oro",
-      "etiqueta": "oro"
+      "etiqueta": "texto"
     }
   },
   {
-    "cat": "perfume",
     "brand": "Maison Alhambra",
     "name": "Decadent Dream",
     "conc": "Eau de Parfum",
     "ml": "100 ml",
     "g": "Femenino",
-    "fam": "",
-    "desc": "Despierta los sentidos y envuelve en una atmósfera de elegancia.",
-    "top": [],
-    "heart": [],
-    "base": [],
+    "fam": "Ámbar floral",
+    "desc": "Avellana y pera sobre un corazón de osmanthus y jazmín, con un fondo de sándalo, ámbar y vainilla.",
+    "top": [
+      "Avellana",
+      "Olíbano",
+      "Pera"
+    ],
+    "heart": [
+      "Osmanthus",
+      "Jazmín sambac",
+      "Rosa",
+      "Azafrán"
+    ],
+    "base": [
+      "Sándalo",
+      "Ámbar gris",
+      "Labdanum",
+      "Vainilla"
+    ],
     "img": "img/decadent-dream.webp",
     "w": 864,
     "h": 1080,
@@ -859,51 +946,289 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
-      "forma": "cuadrado",
+      "foto": "img/3d/decadent-dream.webp",
+      "volumen": "caja",
+      "prof": 0.45,
+      "forma": "rectangular",
       "acabado": "lacado",
-      "vidrio": "#f2b4a6",
+      "vidrio": "#f4b8a4",
       "opaco": true,
       "liquido": "",
-      "tapa": "domo",
+      "tapa": "corona",
       "tapaMat": "oro",
       "etiqueta": "texto-oscuro"
     }
   },
   {
-    "cat": "perfume",
-    "brand": "Moschino",
-    "name": "Toy 2 · Set de regalo",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml + 10 ml",
-    "g": "Unisex",
-    "fam": "Floral frutal",
-    "desc": "Set con Toy 2 Eau de Parfum 100 ml, miniatura de 10 ml, gel de ducha y loción corporal.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/toy-2-set.webp",
+    "brand": "Giorgio Armani",
+    "name": "Acqua di Giò",
+    "conc": "Eau de Toilette",
+    "ml": "100 ml",
+    "g": "Masculino",
+    "fam": "Aromático acuático",
+    "desc": "El clásico acuático de Armani: cítricos y brisa marina sobre maderas y almizcle blanco.",
+    "top": [
+      "Lima",
+      "Limón",
+      "Bergamota",
+      "Neroli",
+      "Mandarina"
+    ],
+    "heart": [
+      "Notas marinas",
+      "Jazmín",
+      "Romero"
+    ],
+    "base": [
+      "Almizcle blanco",
+      "Cedro",
+      "Musgo de roble",
+      "Pachulí",
+      "Ámbar"
+    ],
+    "img": "img/acqua-di-gio.webp",
     "w": 864,
     "h": 1080,
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/acqua-di-gio.webp",
+      "volumen": "caja",
+      "prof": 0.45,
+      "forma": "rectangular",
+      "acabado": "esmerilado",
+      "vidrio": "#e6eee6",
+      "opaco": false,
+      "liquido": "",
+      "tapa": "cilindro",
+      "tapaMat": "plata",
+      "etiqueta": "texto-oscuro"
+    }
+  },
+  {
+    "brand": "Moschino",
+    "name": "Toy 2",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Floral amaderado",
+    "desc": "Fresca y alegre: manzana y mandarina sobre peonía y jazmín, con un fondo suave de almizcle. En su frasco de osito.",
+    "top": [
+      "Manzana",
+      "Mandarina",
+      "Magnolia"
+    ],
+    "heart": [
+      "Grosella blanca",
+      "Peonía",
+      "Jazmín"
+    ],
+    "base": [
+      "Almizcle",
+      "Sándalo",
+      "Maderas ambaradas"
+    ],
+    "img": "img/toy-2.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/toy-2.webp",
+      "volumen": "caja",
+      "prof": 0.6,
       "forma": "oso",
       "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#f6ecd0",
+      "liquido": "#f3e3a0",
       "tapa": "ninguna",
       "tapaMat": "oro",
       "etiqueta": "ninguna"
     }
   },
   {
-    "cat": "perfume",
+    "brand": "Lattafa",
+    "name": "Yara",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Femenino",
+    "fam": "Oriental vainilla",
+    "desc": "Cremosa y atalcada, con un toque frutal y mucha vainilla. Un mimo rosado.",
+    "top": [
+      "Orquídea",
+      "Heliotropo",
+      "Mandarina"
+    ],
+    "heart": [
+      "Acorde gourmand",
+      "Frutas tropicales"
+    ],
+    "base": [
+      "Vainilla",
+      "Almizcle",
+      "Sándalo"
+    ],
+    "img": "img/yara.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/yara.webp",
+      "volumen": "redondo",
+      "prof": 1,
+      "forma": "columna",
+      "acabado": "lacado",
+      "vidrio": "#f5c6d4",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cilindro",
+      "tapaMat": "plata",
+      "etiqueta": "texto-oscuro"
+    }
+  },
+  {
+    "brand": "Xerjoff",
+    "name": "Erba Pura",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Unisex",
+    "fam": "Ámbar frutal",
+    "desc": "Un estallido de frutas mediterráneas sobre almizcle blanco, vainilla y ámbar.",
+    "top": [
+      "Naranja siciliana",
+      "Limón",
+      "Bergamota"
+    ],
+    "heart": [
+      "Frutas mediterráneas"
+    ],
+    "base": [
+      "Almizcle blanco",
+      "Vainilla",
+      "Ámbar"
+    ],
+    "img": "img/erba-pura.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/erba-pura.webp",
+      "volumen": "redondo",
+      "prof": 0.7,
+      "forma": "domo",
+      "acabado": "lacado",
+      "vidrio": "#2aa0b0",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cono",
+      "tapaMat": "oro",
+      "etiqueta": "oro"
+    }
+  },
+  {
+    "brand": "Carolina Herrera",
+    "name": "Good Girl",
+    "conc": "Eau de Parfum",
+    "ml": "80 ml",
+    "g": "Femenino",
+    "fam": "Oriental floral",
+    "desc": "Lo luminoso y lo oscuro en equilibrio: jazmín y tuberosa sobre cacao y haba tonka, en su famoso stiletto.",
+    "top": [
+      "Almendra",
+      "Café",
+      "Bergamota",
+      "Limón"
+    ],
+    "heart": [
+      "Tuberosa",
+      "Jazmín sambac",
+      "Azahar",
+      "Rosa búlgara",
+      "Lirio"
+    ],
+    "base": [
+      "Haba tonka",
+      "Cacao",
+      "Vainilla",
+      "Praliné",
+      "Maderas"
+    ],
+    "img": "img/good-girl.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": true,
+    "m3d": {
+      "foto": "img/3d/good-girl.webp",
+      "volumen": "caja",
+      "prof": 0.3,
+      "forma": "zapato",
+      "acabado": "tintado",
+      "vidrio": "#1d2c7a",
+      "opaco": false,
+      "liquido": "",
+      "tapa": "ninguna",
+      "tapaMat": "oro",
+      "etiqueta": "ninguna"
+    }
+  },
+  {
+    "brand": "Lattafa",
+    "name": "Asad Zanzibar",
+    "conc": "Eau de Parfum",
+    "ml": "100 ml",
+    "g": "Masculino",
+    "fam": "Fresco aromático",
+    "desc": "Lavanda y pimienta negra que se vuelven cremosas con agua de coco e iris, sobre vainilla e incienso.",
+    "top": [
+      "Lavanda",
+      "Pimienta negra"
+    ],
+    "heart": [
+      "Agua de coco",
+      "Iris",
+      "Sal"
+    ],
+    "base": [
+      "Vainilla",
+      "Incienso"
+    ],
+    "img": "img/asad-zanzibar.webp",
+    "w": 864,
+    "h": 1080,
+    "pos": "50% 50%",
+    "precio": "",
+    "agotado": false,
+    "vitrina": false,
+    "m3d": {
+      "foto": "img/3d/asad-zanzibar.webp",
+      "volumen": "redondo",
+      "prof": 1,
+      "forma": "cilindro",
+      "acabado": "lacado",
+      "vidrio": "#1f4bb0",
+      "opaco": true,
+      "liquido": "",
+      "tapa": "cilindro",
+      "tapaMat": "azul",
+      "etiqueta": "blanco"
+    }
+  },
+  {
     "brand": "Jesús del Pozo",
     "name": "Halloween",
     "conc": "Eau de Toilette",
@@ -911,9 +1236,19 @@ window.AUVIN_PRODUCTOS = [
     "g": "Femenino",
     "fam": "Floral",
     "desc": "Una fragancia audaz, misteriosa y llena de carácter.",
-    "top": [],
-    "heart": [],
-    "base": [],
+    "top": [
+      "Notas marinas",
+      "Hojas de banano",
+      "Petitgrain"
+    ],
+    "heart": [
+      "Violeta",
+      "Magnolia"
+    ],
+    "base": [
+      "Mirra",
+      "Sándalo"
+    ],
     "img": "img/halloween.webp",
     "w": 864,
     "h": 1080,
@@ -921,11 +1256,13 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/halloween.webp",
+      "volumen": "redondo",
+      "prof": 0.8,
       "forma": "redondo",
       "acabado": "tintado",
-      "vidrio": "#6a2fa6",
+      "vidrio": "#9a8ae0",
       "opaco": false,
       "liquido": "",
       "tapa": "esfera",
@@ -934,16 +1271,23 @@ window.AUVIN_PRODUCTOS = [
     }
   },
   {
-    "cat": "perfume",
     "brand": "Grès",
-    "name": "Cabotine Verde",
+    "name": "Cabotine",
     "conc": "Eau de Toilette",
     "ml": "100 ml",
     "g": "Femenino",
     "fam": "Floral verde",
     "desc": "Fresca, luminosa y con alma romántica.",
-    "top": [],
-    "heart": [],
+    "top": [
+      "Aldehídos",
+      "Jengibre",
+      "Ciruela"
+    ],
+    "heart": [
+      "Tuberosa",
+      "Jacinto",
+      "Ylang-ylang"
+    ],
     "base": [],
     "img": "img/cabotine.webp",
     "w": 864,
@@ -952,30 +1296,41 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/cabotine.webp",
+      "volumen": "redondo",
+      "prof": 0.75,
       "forma": "redondo",
       "acabado": "transparente",
-      "vidrio": "#ffffff",
+      "vidrio": "#f4ffe0",
       "opaco": false,
-      "liquido": "#eaa53a",
+      "liquido": "#c4dc48",
       "tapa": "flor",
       "tapaMat": "verde",
       "etiqueta": "texto-oscuro"
     }
   },
   {
-    "cat": "perfume",
     "brand": "Bharara",
-    "name": "Bharara King",
+    "name": "King",
     "conc": "Eau de Parfum",
     "ml": "100 ml",
     "g": "Masculino",
-    "fam": "",
-    "desc": "Intensa, sofisticada y con presencia real.",
-    "top": [],
-    "heart": [],
-    "base": [],
+    "fam": "Aromático",
+    "desc": "Cítricos luminosos y un corazón frutal sobre vainilla, almizcle blanco y ámbar. Intensa y con presencia real.",
+    "top": [
+      "Naranja",
+      "Bergamota",
+      "Limón"
+    ],
+    "heart": [
+      "Notas frutales"
+    ],
+    "base": [
+      "Vainilla",
+      "Almizcle blanco",
+      "Ámbar"
+    ],
     "img": "img/bharara-king.webp",
     "w": 864,
     "h": 1080,
@@ -983,61 +1338,39 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/bharara-king.webp",
+      "volumen": "caja",
+      "prof": 0.5,
       "forma": "rectangular",
       "acabado": "lacado",
-      "vidrio": "#141416",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "cubo",
-      "tapaMat": "plata",
-      "etiqueta": "texto"
-    }
-  },
-  {
-    "cat": "perfume",
-    "brand": "Armaf",
-    "name": "Odyssey Mandarin Sky Elixir",
-    "conc": "Eau de Parfum",
-    "ml": "100 ml",
-    "g": "Masculino",
-    "fam": "",
-    "desc": "La versión Elixir, más intensa, del Odyssey Mandarin Sky.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/odyssey-mandarin-sky-elixir.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": {
-      "forma": "cilindro",
-      "acabado": "lacado",
-      "vidrio": "#e2621b",
+      "vidrio": "#1a1614",
       "opaco": true,
       "liquido": "",
       "tapa": "cilindro",
-      "tapaMat": "negro",
+      "tapaMat": "cobre",
       "etiqueta": "texto"
     }
   },
   {
-    "cat": "cuerpo",
     "brand": "Victoria's Secret",
-    "name": "Body Splash",
-    "conc": "Colecciones Clásica y Shimmer",
+    "name": "Bare Vanilla",
+    "conc": "Fragrance Mist",
     "ml": "250 ml",
     "g": "Femenino",
-    "fam": "Body mist",
-    "desc": "Fragancias icónicas, frescas y ligeras. Consultá los aromas disponibles.",
-    "top": [],
-    "heart": [],
-    "base": [],
+    "fam": "Vainilla",
+    "desc": "Body splash de vainilla suave y atalcada, cálida y fácil de llevar. Consultá por otras fragancias de la línea.",
+    "top": [
+      "Vainilla"
+    ],
+    "heart": [
+      "Notas atalcadas"
+    ],
+    "base": [
+      "Almizcle",
+      "Ámbar",
+      "Maderas"
+    ],
     "img": "img/vs-body-splash.webp",
     "w": 864,
     "h": 1080,
@@ -1045,126 +1378,18 @@ window.AUVIN_PRODUCTOS = [
     "precio": "",
     "agotado": false,
     "vitrina": false,
-    "ilustrativa": false,
     "m3d": {
+      "foto": "img/3d/vs-body-splash.webp",
+      "volumen": "caja",
+      "prof": 0.45,
       "forma": "plano",
       "acabado": "transparente",
       "vidrio": "#ffffff",
       "opaco": false,
-      "liquido": "#d3a8f2",
+      "liquido": "#f2c29c",
       "tapa": "cilindro",
-      "tapaMat": "plata",
+      "tapaMat": "oro",
       "etiqueta": "texto-oscuro"
     }
-  },
-  {
-    "cat": "cuerpo",
-    "brand": "Cuidado facial",
-    "name": "Línea Centella",
-    "conc": "Skincare",
-    "ml": "",
-    "g": "Unisex",
-    "fam": "",
-    "desc": "Productos de cuidado facial con centella asiática. Consultá disponibilidad.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/centella.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": false,
-    "m3d": null
-  },
-  {
-    "cat": "indumentaria",
-    "brand": "Jotaele",
-    "name": "Remera Fabricio",
-    "conc": "Remera",
-    "ml": "",
-    "g": "Masculino",
-    "fam": "",
-    "desc": "Confeccionada en tela liviana y respirable. Consultá talles y colores.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/ropa-remera-fabricio.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "$ 28.000",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": true,
-    "m3d": null
-  },
-  {
-    "cat": "indumentaria",
-    "brand": "AUVIN",
-    "name": "Conjunto deportivo de algodón",
-    "conc": "3 piezas",
-    "ml": "",
-    "g": "Femenino",
-    "fam": "",
-    "desc": "Comodidad, estilo y versatilidad en uno: conjunto de algodón de tres piezas con campera y remera. Consultá talles y colores.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/ropa-conjunto-deportivo.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "$ 35.799,99",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": true,
-    "m3d": null
-  },
-  {
-    "cat": "indumentaria",
-    "brand": "Jotaele",
-    "name": "Short deportivo",
-    "conc": "Hombre",
-    "ml": "",
-    "g": "Masculino",
-    "fam": "",
-    "desc": "Comodidad, estilo y rendimiento en una sola prenda. Consultá talles.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/ropa-short-jotaele.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "$ 25.299,99",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": true,
-    "m3d": null
-  },
-  {
-    "cat": "indumentaria",
-    "brand": "AUVIN",
-    "name": "Short deportivo de poliamida",
-    "conc": "Mujer · con bolsillo",
-    "ml": "",
-    "g": "Femenino",
-    "fam": "",
-    "desc": "Comodidad, estilo y frescura. Varios colores. Consultá talles.",
-    "top": [],
-    "heart": [],
-    "base": [],
-    "img": "img/ropa-short-poliamida.webp",
-    "w": 864,
-    "h": 1080,
-    "pos": "50% 50%",
-    "precio": "$ 18.300",
-    "agotado": false,
-    "vitrina": false,
-    "ilustrativa": true,
-    "m3d": null
   }
 ];

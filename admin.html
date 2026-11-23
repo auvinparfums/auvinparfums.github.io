@@ -9,9 +9,9 @@
 <title>Panel AUVIN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Cinzel:wght@400;500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap">
 <style>
-/* Layout: herramienta de una columna. Barra fija arriba, lista de perfumes, editor en hoja/modal y barra de publicar abajo */
+/* Layout: herramienta de una columna. Barra fija arriba, lista de perfumes, editor en hoja/modal y barra de guardar abajo */
 :root{
   --ink:#070605;
   --panel:#100e0b;
@@ -27,11 +27,10 @@
   --ok:#9cc795;
   --err:#e8907f;
   --scrim:rgba(7,6,5,.62);
-  --f-mark:"Jost","Futura","Century Gothic","Helvetica Neue",Arial,sans-serif;
-  --f-logo:"Cinzel","Trajan Pro",Georgia,serif;
-  --f-script:"Pinyon Script","Snell Roundhand","Segoe Script",cursive;
-  --f-disp:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
-  --f-body:"Jost","Futura","Century Gothic","Helvetica Neue",Arial,sans-serif;
+  --f-mark:"Montserrat","Gotham","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --f-logo:"Montserrat","Gotham","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --f-disp:"Montserrat","Gotham","Avenir Next","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Montserrat","Gotham","Avenir Next","Helvetica Neue",Arial,sans-serif;
   --ease:cubic-bezier(.2,.7,.1,1);
   color-scheme:dark;
 }
@@ -89,10 +88,17 @@ input[type="color"].input{padding:6px;cursor:pointer}
 .msg.ok{background:rgba(156,199,149,.09);border:1px solid rgba(156,199,149,.35);color:var(--ok)}
 .msg.info{background:rgba(200,167,107,.07);border:1px solid var(--line);color:var(--gold-hi)}
 
-/* Ingreso */
-.login{max-width:540px;display:grid;gap:24px;padding-block:52px 80px}
+/* Ingreso: dos formas de guardar */
+.login{display:grid;gap:24px;padding-block:52px 80px}
 h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw,3.1rem);line-height:1}
-.lead{margin:0;max-width:54ch;color:var(--muted)}
+.lead{margin:0;max-width:60ch;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+@media (max-width:760px){.modes{grid-template-columns:minmax(0,1fr)}}
+.mode{display:grid;gap:16px;padding:22px;border:1px solid var(--line-soft);border-radius:16px;background:var(--panel)}
+.mode h2{margin:0;font-family:var(--f-disp);font-weight:400;font-size:1.6rem;line-height:1.1}
+.mode > p{margin:0;color:var(--muted)}
+.mode .eyebrow{margin:0 0 -8px;font-family:var(--f-mark);font-weight:400;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.mode-acts{display:flex;flex-wrap:wrap;gap:10px}
 .help{border:1px solid var(--line-soft);border-radius:12px;padding:14px 16px;color:var(--muted)}
 .help summary{cursor:pointer;color:var(--gold-hi)}
 .help ol{margin:14px 0 4px;padding-left:20px;display:grid;gap:9px}
@@ -101,6 +107,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
 /* Lista */
 .head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;padding-block:34px 18px}
 .head p{margin:8px 0 0;color:var(--muted)}
+.where{display:inline-block;margin-top:10px;padding:5px 11px 4px;border-radius:999px;border:1px solid var(--line);font-family:var(--f-mark);font-weight:400;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-hi)}
 .notice{margin-bottom:14px}
 .tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .tools .input{flex:1 1 240px}
@@ -129,7 +136,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   .acts{grid-column:1/-1;justify-content:flex-end;padding-top:6px;border-top:1px solid var(--line-soft)}
 }
 
-/* Barra de publicar */
+/* Barra de guardar */
 .pub{position:fixed;left:0;right:0;bottom:0;z-index:30;padding-bottom:env(safe-area-inset-bottom,0px);background:rgba(16,14,11,.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s var(--ease)}
 .pub.on{transform:none}
 .pub-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-block:12px}
@@ -154,21 +161,30 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   .ed-body{padding:18px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
 }
 
-/* Foto y recorte */
+/* Foto, fondo de estudio y recorte */
 .photo{display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:16px;align-items:start}
 @media (max-width:520px){.photo{grid-template-columns:minmax(0,1fr) 92px}}
 .stage{--ar:.8;position:relative;width:min(100%,calc(44vh * var(--ar)));aspect-ratio:var(--ar);max-width:100%;overflow:hidden;border-radius:10px;background:var(--raise);touch-action:none;cursor:crosshair;user-select:none;-webkit-user-select:none}
+.stage.fijo{cursor:default}
 .stage img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
 .crop{position:absolute;border:1.5px solid var(--gold-hi);box-shadow:0 0 0 9999px var(--scrim);border-radius:3px;pointer-events:none;transition:left .12s,top .12s}
 .side{display:grid;gap:10px;align-content:start}
 .prev{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:6px;background:var(--raise);box-shadow:inset 0 0 0 1px var(--line)}
 .prev img{width:100%;height:100%;object-fit:cover;display:block}
 .drop{display:grid;place-items:center;gap:12px;min-height:220px;padding:24px;border:1px dashed var(--line);border-radius:12px;text-align:center;color:var(--muted)}
+.drop.over{border-color:var(--gold-hi);background:rgba(200,167,107,.05)}
 .busy{color:var(--gold-hi)}
+.fondo{display:grid;gap:8px}
 
 /* Aviso flotante */
 .toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:40;max-width:calc(100vw - 32px);padding:12px 18px;border-radius:14px;background:var(--gold-hi);color:var(--ink);font-size:.88rem;box-shadow:0 10px 30px rgba(0,0,0,.4);transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:all .35s var(--ease)}
 .toast.on{transform:translate(-50%,0);opacity:1}
+/* Tipografía del logo AUVIN en todo el panel */
+h1{font-weight:300;font-size:clamp(1.9rem,5.5vw,2.6rem);letter-spacing:.01em}
+.mark{font-weight:400;letter-spacing:.32em}
+.mode h2,.ed-head h2{font-weight:400;font-size:1.3rem;letter-spacing:.02em}
+.info .n{font-weight:400;font-size:1.02rem;letter-spacing:.02em}
+.empty{font-weight:300;font-size:1.05rem}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -187,50 +203,83 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
 <!-- Ingreso -->
 <main class="wrap login" id="v-login">
   <div>
-    <h1>Panel del catálogo</h1>
+    <h1>Panel de perfumes</h1>
   </div>
-  <p class="lead">Desde acá cargás productos nuevos, cambiás los que ya están y publicás. Para guardar en GitHub, el panel necesita una clave de acceso al repositorio del catálogo.</p>
-  <p class="msg info" id="demo-note" hidden>Modo prueba: podés usar el panel, pero los cambios no se guardan en GitHub.</p>
-  <form id="login-form" class="login" style="padding:0;gap:16px" novalidate>
-    <div class="grid2">
-      <label class="field"><span class="lbl">Usuario de GitHub</span><input class="input" id="l-owner" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="tu-usuario" required></label>
-      <label class="field"><span class="lbl">Repositorio</span><input class="input" id="l-repo" autocapitalize="off" spellcheck="false" placeholder="auvin-catalogo" required></label>
-    </div>
-    <label class="field"><span class="lbl">Clave de acceso</span><input class="input" id="l-token" type="password" autocomplete="current-password" spellcheck="false" placeholder="github_pat_…" required></label>
-    <label class="check"><input type="checkbox" id="l-remember" checked> Recordar en este dispositivo</label>
-    <p class="msg err" id="l-err" role="alert" hidden></p>
-    <div><button class="btn primary" type="submit" id="l-go">Entrar</button></div>
-  </form>
-  <details class="help">
-    <summary>¿Cómo creo la clave?</summary>
-    <ol>
-      <li>En GitHub, entrá a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens → Generate new token</a>.</li>
-      <li>Ponele un nombre, por ejemplo <b>Panel AUVIN</b>, y elegí cuánto dura.</li>
-      <li>En <b>Repository access</b> elegí <b>Only select repositories</b> y marcá el repositorio del catálogo.</li>
-      <li>En <b>Permissions → Repository permissions</b>, buscá <b>Contents</b> y elegí <b>Read and write</b>.</li>
-      <li>Tocá <b>Generate token</b>, copiá la clave y pegala acá arriba. GitHub la muestra una sola vez.</li>
-    </ol>
-  </details>
+  <p class="lead">Desde acá cargás perfumes nuevos, cambiás los que ya están y guardás. A las fotos nuevas se les pone solo el mismo fondo de estudio que al resto. Elegí dónde guardar:</p>
+  <p class="msg info" id="demo-note" hidden>Modo prueba: podés usar el panel, pero los cambios no se guardan en ningún lado.</p>
+  <div class="modes">
+    <section class="mode" id="m-local" aria-labelledby="m-local-t">
+      <p class="eyebrow">En la compu</p>
+      <h2 id="m-local-t">En la carpeta del catálogo</h2>
+      <p>Guarda directo en la carpeta <b>auvin-catalogo</b> de esta compu. No hace falta clave. Funciona con Chrome o Edge.</p>
+      <div class="mode-acts">
+        <button class="btn primary" type="button" id="go-local">Elegir carpeta</button>
+        <button class="btn" type="button" id="go-local-again" hidden></button>
+      </div>
+      <p class="msg err" id="local-err" role="alert" hidden></p>
+    </section>
+    <section class="mode" aria-labelledby="m-gh-t">
+      <p class="eyebrow">Online, también desde el celu</p>
+      <h2 id="m-gh-t">En GitHub</h2>
+      <p>Guarda en el repositorio del catálogo y la página se actualiza sola. Necesita una clave de acceso.</p>
+      <form id="login-form" style="display:grid;gap:16px" novalidate>
+        <div class="grid2">
+          <label class="field"><span class="lbl">Usuario de GitHub</span><input class="input" id="l-owner" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="tu-usuario" required></label>
+          <label class="field"><span class="lbl">Repositorio</span><input class="input" id="l-repo" autocapitalize="off" spellcheck="false" placeholder="auvin-catalogo" required></label>
+        </div>
+        <label class="field"><span class="lbl">Clave de acceso</span><input class="input" id="l-token" type="password" autocomplete="current-password" spellcheck="false" placeholder="github_pat_…" required></label>
+        <label class="check"><input type="checkbox" id="l-remember" checked> Recordar en este dispositivo</label>
+        <p class="msg err" id="l-err" role="alert" hidden></p>
+        <div><button class="btn primary" type="submit" id="l-go">Entrar</button></div>
+      </form>
+      <details class="help">
+        <summary>¿Cómo creo la clave?</summary>
+        <ol>
+          <li>En GitHub, entrá a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens → Generate new token</a>.</li>
+          <li>Ponele un nombre, por ejemplo <b>Panel AUVIN</b>, y elegí cuánto dura.</li>
+          <li>En <b>Repository access</b> elegí <b>Only select repositories</b> y marcá el repositorio del catálogo.</li>
+          <li>En <b>Permissions → Repository permissions</b>, buscá <b>Contents</b> y elegí <b>Read and write</b>.</li>
+          <li>Tocá <b>Generate token</b>, copiá la clave y pegala acá arriba. GitHub la muestra una sola vez.</li>
+        </ol>
+      </details>
+    </section>
+  </div>
 </main>
 
 <!-- Lista -->
 <main class="wrap" id="v-list" hidden>
   <div class="head">
     <div>
-      <h1>Productos</h1>
+      <h1>Perfumes</h1>
       <p id="sum"></p>
+      <span class="where" id="where"></span>
     </div>
-    <button class="btn primary" type="button" id="add"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>Agregar producto</button>
+    <button class="btn primary" type="button" id="add"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 1v12M1 7h12"/></svg>Agregar perfume</button>
   </div>
   <div class="notice" id="notice" hidden></div>
+  <div class="seg" role="radiogroup" aria-label="Qué ver" style="margin-bottom:16px">
+    <label><input type="radio" name="vista" value="dest" checked><span>Perfumes destacados</span></label>
+    <label><input type="radio" name="vista" value="pend"><span id="pend-lbl">Fotos pendientes</span></label>
+  </div>
+  <p class="hint" id="pend-help" hidden style="margin:-4px 0 14px">Productos del catálogo completo que todavía no tienen foto (en la página no se muestran). Tocá <b>Cargar foto</b>: se le pone el fondo de estudio y el 3D. Si no tenés foto con fondo blanco, usá el pedido para ChatGPT (está en el editor de “Agregar perfume”).</p>
+  <input type="file" id="file-cat" accept="image/*" hidden>
+  <details class="help" id="help-dest" style="margin-bottom:14px">
+    <summary>Cómo cargar un perfume nuevo</summary>
+    <ol>
+      <li>Tocá <b>Agregar perfume</b> y elegí la foto. Lo ideal: el frasco sobre fondo blanco, como las fotos de las marcas en internet. Si no tenés una, adentro del editor está el pedido para que ChatGPT te la haga.</li>
+      <li>Completá <b>marca</b>, <b>nombre</b> y <b>género</b>. Lo demás (tamaño, precio, notas) es opcional.</li>
+      <li>El 3D se arma solo a partir de la foto. Si no te convence, destildá “Mostrar el frasco en 3D”.</li>
+      <li>Tocá <b>Guardar</b> en el editor y después <b>Guardar</b> o <b>Publicar</b> abajo.</li>
+    </ol>
+  </details>
   <div class="tools">
     <input class="input" id="q" type="search" placeholder="Buscar por nombre o marca" aria-label="Buscar perfume">
   </div>
   <ul class="items" id="items"></ul>
 </main>
 
-<!-- Barra de publicar -->
-<div class="pub" id="pub" role="region" aria-label="Cambios sin publicar">
+<!-- Barra de guardar -->
+<div class="pub" id="pub" role="region" aria-label="Cambios sin guardar">
   <div class="wrap pub-in">
     <p class="pub-txt" id="pub-txt"></p>
     <div class="pub-btns">
@@ -251,26 +300,55 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       <div class="field">
         <span class="lbl">Foto</span>
         <div class="drop" id="drop">
-          <p class="hint" id="drop-txt">Elegí una foto del perfume. Se achica y se optimiza sola.</p>
+          <p class="hint" id="drop-txt">Elegí o arrastrá una foto del perfume. Si tiene fondo liso (blanco o claro), se recorta y se pone sobre el fondo de estudio.</p>
           <button class="btn" type="button" id="pick">Elegir foto</button>
         </div>
         <div class="photo" id="photo" hidden>
           <div class="stage" id="stage"><img id="stage-img" alt=""><span class="crop" id="crop"></span></div>
           <div class="side">
             <div class="prev"><img id="prev-img" alt="Así se ve en la tarjeta"></div>
-            <p class="hint" id="crop-hint">Tocá o arrastrá sobre la foto: lo que queda dentro del recuadro es lo que se ve en la tarjeta.</p>
+            <p class="hint" id="crop-hint"></p>
             <button class="btn ghost" type="button" id="repick">Cambiar foto</button>
           </div>
         </div>
-        <input type="file" id="file" accept="image/*" hidden>
-      </div>
-      <div class="field">
-        <span class="lbl" id="cat-lbl">Categoría</span>
-        <div class="seg" role="radiogroup" aria-labelledby="cat-lbl">
-          <label><input type="radio" name="cat" value="perfume"><span>Perfume</span></label>
-          <label><input type="radio" name="cat" value="indumentaria"><span>Indumentaria</span></label>
-          <label><input type="radio" name="cat" value="cuerpo"><span>Cuerpo y cuidado</span></label>
+        <div class="fondo" id="fondo-box" hidden>
+          <span class="lbl" id="fondo-lbl">Fondo</span>
+          <div class="seg" role="radiogroup" aria-labelledby="fondo-lbl">
+            <label><input type="radio" name="fondo" value="auto" checked><span>Automático</span></label>
+            <label><input type="radio" name="fondo" value="recorte"><span>Recortar fondo</span></label>
+            <label><input type="radio" name="fondo" value="foco"><span>Foco suave</span></label>
+            <label><input type="radio" name="fondo" value="original"><span>Foto tal cual</span></label>
+          </div>
+          <p class="hint" id="fondo-hint"></p>
         </div>
+        <input type="file" id="file" accept="image/*" hidden>
+        <details class="help">
+          <summary>¿Tu foto no tiene fondo blanco? Pedile a ChatGPT que la limpie</summary>
+          <ol>
+            <li>En ChatGPT adjuntá <b>la foto del perfume</b> (da igual el fondo que tenga).</li>
+            <li>Copiá este pedido, pegalo y mandalo.</li>
+            <li>Descargá la imagen que te da y elegila acá con el fondo en <b>Automático</b>: el panel le pone el mismo fondo de estudio que al resto y arma el frasco 3D.</li>
+          </ol>
+          <textarea class="input" id="prompt-gpt" rows="7" readonly>Te adjunto la foto de un perfume. Necesito una foto de producto de catálogo de ESE MISMO frasco, sobre fondo blanco puro.
+
+EL FRASCO
+- Tiene que ser idéntico al de mi foto: misma forma, tapa, colores, vidrio, líquido, etiqueta, logo y textos (respetá las letras tal cual). No inventes, no corrijas y no cambies nada del diseño.
+- Solo el frasco: sin la caja, sin manos, sin flores ni otros objetos.
+- De frente, derecho y centrado, entero (que no se corte ninguna parte), ocupando cerca del 80% del alto de la imagen.
+
+EL FONDO
+- Blanco puro (#FFFFFF), liso y parejo de borde a borde.
+- Sin sombra en el piso, sin reflejo, sin degradé, sin piso ni horizonte.
+
+LUZ Y ACABADO
+- Luz de estudio suave y pareja, con reflejos naturales en el vidrio. Sin luces de colores.
+- Foto realista y nítida, sin texto agregado, sin marca de agua, sin bordes ni marcos.
+
+FORMATO
+- Vertical 4:5 (por ejemplo, 1024 × 1280 px).</textarea>
+          <p class="hint" style="margin-top:10px">Si ChatGPT cambia algo del frasco, respondele: “El frasco tiene que ser idéntico al de mi foto. Corregí solo eso y dejá el fondo blanco”.</p>
+          <p style="margin:10px 0 0"><button class="btn" type="button" id="copy-prompt">Copiar pedido</button></p>
+        </details>
       </div>
       <div class="grid2">
         <label class="field"><span class="lbl">Marca</span><input class="input" id="e-brand" list="dl-brand" autocomplete="off" placeholder="Ej.: Lattafa"></label>
@@ -293,16 +371,31 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
         <label class="field"><span class="lbl">Precio <i>(opcional)</i></span><input class="input" id="e-precio" autocomplete="off" inputmode="text" placeholder="Ej.: $ 85.000"></label>
       </div>
       <label class="check"><input type="checkbox" id="e-agotado"> Sin stock (se muestra igual, con la etiqueta “Sin stock”)</label>
-      <label class="check"><input type="checkbox" id="e-vitrina"> Mostrar en la vitrina 3D (conviene dejar unos 10 a 12)</label>
-      <label class="check"><input type="checkbox" id="e-ilustrativa"> Foto ilustrativa (no es la foto real del producto)</label>
       <fieldset class="m3d">
-        <legend class="lbl">Modelo 3D de la ficha</legend>
-        <label class="check"><input type="checkbox" id="e-3d"> Mostrar un frasco 3D en la ficha (además de la foto)</label>
-        <div class="grid2" id="m3d-campos">
+        <legend class="lbl">Modelo 3D <i>(opcional)</i></legend>
+        <label class="check"><input type="checkbox" id="e-3d"> Mostrar el frasco en 3D en la ficha</label>
+        <div id="m3d-todo">
+        <div class="field">
+          <span class="lbl" id="modo-lbl">Cómo se arma</span>
+          <div class="seg" role="radiogroup" aria-labelledby="modo-lbl">
+            <label><input type="radio" name="modo3d" value="foto"><span>Copiado de la foto</span></label>
+            <label><input type="radio" name="modo3d" value="receta"><span>Armado a mano</span></label>
+          </div>
+          <p class="hint" id="modo-hint"></p>
+        </div>
+        <div class="grid2" id="m3d-foto" style="margin-top:14px">
+          <label class="field"><span class="lbl">Forma del frasco</span><select class="input" id="e3-volumen">
+            <option value="caja">Plano o cuadrado</option><option value="redondo">Redondo (cilindro, ánfora)</option>
+          </select></label>
+          <label class="field"><span class="lbl">Profundidad <i id="prof-v"></i></span><input class="input" type="range" id="e3-prof" min=".2" max="1" step=".05" value=".5" style="padding:0 6px"></label>
+        </div>
+        <label class="check" style="margin-top:14px"><input type="checkbox" id="e-vitrina"> Mostrarlo también en la vitrina 3D de la portada (es una selección de ejemplos: conviene no pasar de 12)</label>
+        <div class="grid2" id="m3d-campos" style="margin-top:14px">
           <label class="field"><span class="lbl">Forma del frasco</span><select class="input" id="e3-forma">
             <option value="cuadrado">Cuadrado</option><option value="rectangular">Rectangular alto</option><option value="plano">Plano (tipo body splash)</option>
             <option value="cilindro">Cilindro</option><option value="columna">Columna con anillos</option><option value="redondo">Redondo</option>
-            <option value="anfora">Ánfora</option><option value="domo">Domo</option><option value="conico">Cónico</option><option value="oso">Osito</option>
+            <option value="anfora">Ánfora</option><option value="domo">Domo</option><option value="conico">Cónico</option>
+            <option value="torso">Torso (silueta)</option><option value="zapato">Zapato de taco</option><option value="oso">Osito</option>
           </select></label>
           <label class="field"><span class="lbl">Tapa</span><select class="input" id="e3-tapa">
             <option value="cubo">Cubo</option><option value="cilindro">Cilindro</option><option value="esfera">Esfera</option><option value="cono">Punta</option>
@@ -311,8 +404,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
           </select></label>
           <label class="field"><span class="lbl">Material de la tapa</span><select class="input" id="e3-tapaMat">
             <option value="oro">Dorado</option><option value="plata">Plateado</option><option value="rosa">Oro rosa</option><option value="cobre">Cobre</option>
-            <option value="negro">Negro</option><option value="rojo">Bordó</option><option value="verde">Verde</option><option value="blanco">Blanco</option>
-            <option value="madera">Madera</option><option value="cristal">Cristal</option>
+            <option value="negro">Negro</option><option value="rojo">Bordó</option><option value="verde">Verde</option><option value="azul">Azul</option>
+            <option value="blanco">Blanco</option><option value="madera">Madera</option><option value="cristal">Cristal</option>
           </select></label>
           <label class="field"><span class="lbl">Etiqueta</span><select class="input" id="e3-etiqueta">
             <option value="oro">Placa dorada</option><option value="negro">Placa negra</option><option value="blanco">Placa blanca</option>
@@ -327,7 +420,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
             <option value="lacado">Lacado / opaco</option>
           </select></label>
         </div>
-        <p class="hint">Es un modelo ilustrativo: elegí la forma y los colores que más se parezcan al frasco real. Se ve en la ficha con el botón “3D”.</p>
+        <p class="hint" id="receta-hint">Elegí la forma y los colores que más se parezcan al frasco real. En “Vidrio de color” y “Lacado”, el color del frasco es el del vidrio.</p>
+        </div>
       </fieldset>
       <label class="field"><span class="lbl">Descripción <i>(una o dos frases)</i></span><textarea class="input" id="e-desc" rows="3" placeholder="Ej.: Dátil, pera y azafrán sobre maderas secas y vainilla."></textarea></label>
       <div class="field">
@@ -356,6 +450,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   <option value="Extrait de Parfum"></option>
   <option value="Parfum"></option>
   <option value="Elixir"></option>
+  <option value="Fragrance Mist"></option>
 </datalist>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -365,8 +460,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const $ = id => document.getElementById(id);
   const DEMO = new URLSearchParams(location.search).has('demo');
   const DATA_FILE = 'productos.js';
-  const FIELDS = ['cat', 'brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado', 'vitrina', 'ilustrativa', 'm3d'];
-  const CATS = { perfume: 'Perfume', indumentaria: 'Indumentaria', cuerpo: 'Cuerpo y cuidado' };
+  const FIELDS = ['brand', 'name', 'conc', 'ml', 'g', 'fam', 'desc', 'top', 'heart', 'base', 'img', 'w', 'h', 'pos', 'precio', 'agotado', 'vitrina', 'm3d'];
   const HEADER = '/* Catálogo AUVIN. Este archivo lo escribe el panel (admin.html): conviene editarlo desde ahí. */\n';
 
   /* ── Guardado local seguro ── */
@@ -376,16 +470,34 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     del: k => { try { window[kind].removeItem(k); } catch {} }
   });
   const LS = store('localStorage'), SS = store('sessionStorage');
+  // La carpeta elegida se recuerda en IndexedDB (localStorage no puede guardar el acceso a una carpeta)
+  const idb = (modo, fn) => new Promise((res, rej) => {
+    const r = indexedDB.open('auvin-panel', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('kv');
+    r.onerror = () => rej(r.error);
+    r.onsuccess = () => {
+      const tx = r.result.transaction('kv', modo), q = fn(tx.objectStore('kv'));
+      tx.oncomplete = () => res(q?.result); tx.onerror = () => rej(tx.error);
+    };
+  });
+  const idbGet = k => idb('readonly', s => s.get(k)).catch(() => null);
+  const idbSet = (k, v) => idb('readwrite', s => s.put(v, k)).catch(() => null);
+  const idbDel = k => idb('readwrite', s => s.delete(k)).catch(() => null);
 
   /* ── Estado ── */
+  const CAT_FILE = 'catalogo.js';
+  const CATN = { perfumes: 'Perfume', nicho: 'Nicho', corporal: 'Spray corporal', kbeauty: 'K-Beauty', cuidado: 'Cuidado personal', accesorios: 'Accesorio' };
   const S = {
+    cat: [], catCambios: {}, catBase: null, vista: 'dest', fotoPara: null,
+    mode: DEMO ? 'demo' : null,   // 'local' (carpeta de la compu), 'github' o 'demo'
+    dir: null,                    // carpeta elegida (modo local)
     owner: '', repo: '', branch: 'main', token: '',
-    baseSha: null,        // sha de productos.js en GitHub cuando lo cargamos
-    original: [],         // productos tal como están publicados
-    items: [],            // productos con los cambios
-    pending: {},          // fotos nuevas sin publicar: ruta -> { b64, type, url }
-    recent: {},           // fotos recién publicadas (GitHub Pages tarda en mostrarlas)
-    log: [],              // resumen de cambios para el mensaje de GitHub
+    baseSha: null,                // versión de productos.js cuando lo cargamos (para no pisar cambios de otro lado)
+    original: [],                 // perfumes tal como están guardados
+    items: [],                    // perfumes con los cambios
+    pending: {},                  // fotos nuevas sin guardar: ruta -> { b64, type, url }
+    recent: {},                   // fotos recién guardadas (GitHub Pages tarda en mostrarlas)
+    log: [],                      // resumen de cambios
     confirmK: null,
     edit: null
   };
@@ -410,8 +522,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const clean = p => Object.fromEntries(FIELDS.map(f => {
     const v = p[f];
     if (f === 'top' || f === 'heart' || f === 'base') return [f, Array.isArray(v) ? v : []];
-    if (f === 'agotado' || f === 'vitrina' || f === 'ilustrativa') return [f, !!v];
-    if (f === 'cat') return [f, CATS[v] ? v : 'perfume'];
+    if (f === 'agotado' || f === 'vitrina') return [f, !!v];
     if (f === 'm3d') return [f, v && typeof v === 'object' ? v : null];
     if (f === 'w' || f === 'h') return [f, +v || 0];
     return [f, v == null ? '' : String(v)];
@@ -419,7 +530,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const serialize = items => HEADER + 'window.AUVIN_PRODUCTOS = ' + JSON.stringify(items.map(clean), null, 2) + ';\n';
   const parse = text => {
     const a = text.indexOf('['), b = text.lastIndexOf(']');
-    if (a < 0 || b < a) throw new Error('productos.js no tiene una lista de productos');
+    if (a < 0 || b < a) throw new Error('productos.js no tiene una lista de perfumes');
     return JSON.parse(text.slice(a, b + 1));
   };
   const rawUrl = path => `https://raw.githubusercontent.com/${S.owner}/${S.repo}/${S.branch}/${path}`;
@@ -459,13 +570,16 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     return res.status === 204 ? null : res.json();
   };
   const explain = e => {
+    if (e.name === 'NotAllowedError' || e.name === 'SecurityError') return 'No tengo permiso para usar esa carpeta. Volvé a elegirla y aceptá el permiso para editar.';
+    if (e.name === 'NotFoundError') return 'En esa carpeta no está productos.js. Elegí la carpeta auvin-catalogo (la que tiene index.html y productos.js).';
+    if (S.mode === 'local' && e.status === 409) return 'productos.js cambió en la carpeta mientras editabas. Recargá el panel para traer la versión nueva.';
     if (e.status === 401) return 'La clave no es válida o se venció. Creá una nueva y volvé a entrar.';
     if (e.status === 403) return 'La clave no tiene permiso para guardar en este repositorio. Revisá que tenga “Contents: Read and write”.';
     if (e.status === 404) return `No encuentro el repositorio ${S.owner}/${S.repo}. Revisá el usuario y el nombre, y que la clave tenga acceso a ese repositorio.`;
     if (e.status === 409) return 'El catálogo cambió en GitHub mientras editabas (quizás desde otro dispositivo). Recargá la página para traer la versión nueva.';
     if (e.status === 422) return 'GitHub rechazó el cambio. Recargá la página e intentá de nuevo.';
     if (e.name === 'TypeError') return 'No hay conexión con GitHub. Revisá internet e intentá de nuevo.';
-    return `GitHub respondió con un error${e.status ? ` (${e.status})` : ''}: ${e.message}`;
+    return `Hubo un error${e.status ? ` (${e.status})` : ''}: ${e.message}`;
   };
 
   /* ── Datos ── */
@@ -475,11 +589,21 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     S.pending = {};
     S.log = [];
   };
-  const load = async () => {
-    if (DEMO) {
+  const leerLocal = async () => {
+    const f = await (await S.dir.getFileHandle(DATA_FILE)).getFile();
+    return { text: await f.text(), stamp: `${f.lastModified}:${f.size}` };
+  };
+  const loadProductos = async () => {
+    if (S.mode === 'demo') {
       const t = await (await fetch(DATA_FILE, { cache: 'no-store' })).text();
       S.baseSha = 'demo';
       setData(parse(t));
+      return;
+    }
+    if (S.mode === 'local') {
+      const { text, stamp } = await leerLocal();
+      S.baseSha = stamp;
+      setData(parse(text));
       return;
     }
     try {
@@ -494,13 +618,37 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     }
   };
 
+  // El catálogo completo (catalogo.js): el panel solo le suma fotos a los productos que no tienen
+  const parseCat = text => JSON.parse(text.slice(text.indexOf('['), text.lastIndexOf(']') + 1));
+  const loadCat = async () => {
+    try {
+      if (S.mode === 'demo') { S.cat = parseCat(await (await fetch(CAT_FILE, { cache: 'no-store' })).text()); S.catBase = 'demo'; }
+      else if (S.mode === 'local') {
+        const f = await (await S.dir.getFileHandle(CAT_FILE)).getFile();
+        S.cat = parseCat(await f.text()); S.catBase = `${f.lastModified}:${f.size}`;
+      } else {
+        const f = await gh(`/contents/${CAT_FILE}?ref=${S.branch}`);
+        const b64 = f.content || (await gh(`/git/blobs/${f.sha}`)).content;     // archivos grandes vienen por blob
+        S.cat = parseCat(textFromB64(b64)); S.catBase = f.sha;
+      }
+    } catch { S.cat = []; S.catBase = null; }
+    S.catCambios = {};
+  };
+  const load = async () => { await loadProductos(); await loadCat(); };
+  const serializeCat = () => '/* Catálogo completo de AUVIN (catálogos de BoysNet y K-Beauty). Lo arma _fuentes/armar_catalogo.py y el panel le suma fotos. Sin precios: se consulta por WhatsApp. */\n' +
+    'window.AUVIN_CATALOGO = ' + JSON.stringify(S.cat.map(p => S.catCambios[p.id] ? { ...p, ...S.catCambios[p.id] } : p)) + ';\n';
+  const archivosCat = () => Object.values(S.catCambios).flatMap(c => [c.img, c.m3d?.foto].filter(Boolean));
+
   /* ── Borrador (para no perder cambios si se cierra la pestaña) ── */
-  const draftKey = () => `auvin.borrador.${S.owner}/${S.repo}`;
+  const draftKey = () => S.mode === 'github' ? `auvin.borrador.${S.owner}/${S.repo}` : `auvin.borrador.${S.mode}`;
   const saveDraft = () => {
     if (!S.log.length) { LS.del(draftKey()); return; }
     const pending = {};
     for (const [p, v] of Object.entries(S.pending)) pending[p] = { b64: v.b64, type: v.type };
-    LS.set(draftKey(), JSON.stringify({ base: S.baseSha, items: S.items, pending, log: S.log }));
+    if (!LS.set(draftKey(), JSON.stringify({ base: S.baseSha, items: S.items, pending, log: S.log, catBase: S.catBase, catCambios: S.catCambios }))) {
+      // si no entran las fotos, al menos se guardan los textos
+      LS.set(draftKey(), JSON.stringify({ base: S.baseSha, items: S.items.filter(p => !S.pending[p.img]), pending: {}, log: S.log }));
+    }
   };
   const restoreDraft = () => {
     const raw = LS.get(draftKey());
@@ -509,19 +657,21 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     try { d = JSON.parse(raw); } catch { LS.del(draftKey()); return; }
     if (d.base !== S.baseSha) {
       LS.del(draftKey());
-      notice('Había cambios sin publicar de antes, pero el catálogo cambió desde entonces y no se pudieron recuperar.');
+      notice('Había cambios sin guardar de antes, pero el catálogo cambió desde entonces y no se pudieron recuperar.');
       return;
     }
     S.items = d.items || S.items;
     S.log = d.log || [];
+    if (d.catBase === S.catBase) S.catCambios = d.catCambios || {};
     for (const [p, v] of Object.entries(d.pending || {})) {
       S.pending[p] = { ...v, url: URL.createObjectURL(blobFromB64(v.b64, v.type)) };
     }
-    if (S.log.length) notice('Recuperé tus cambios sin publicar.');
+    if (S.log.length) notice('Recuperé tus cambios sin guardar.');
   };
   const addLog = s => { if (!S.log.includes(s)) S.log.push(s); };
+  const archivos = p => [p.img, p.m3d?.foto].filter(Boolean);
   const dropUnusedPending = () => {
-    const used = new Set(S.items.map(p => p.img));
+    const used = new Set([...S.items.flatMap(archivos), ...archivosCat()]);
     for (const [p, v] of Object.entries(S.pending)) {
       if (!used.has(p)) { URL.revokeObjectURL(v.url); delete S.pending[p]; }
     }
@@ -535,21 +685,46 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     edit: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10.5 2.5l3 3L6 13H3v-3z"/></svg>',
     del: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 9h5.6l.7-9"/></svg>'
   };
+  const pubbar = () => {
+    const n = S.log.length;
+    $('pub').classList.toggle('on', n > 0);
+    $('pub-txt').innerHTML = n ? `${plural(n, 'cambio sin guardar', 'cambios sin guardar')}<small>${esc(S.log.join(' · '))}</small>` : '';
+    $('pend-lbl').textContent = `Fotos pendientes (${S.cat.filter(p => !p.img && !S.catCambios[p.id]).length})`;
+  };
+  const renderPend = () => {
+    const q = norm($('q').value.trim());
+    const sin = S.cat.filter(p => !p.img);
+    const hechas = sin.filter(p => S.catCambios[p.id]).length;
+    const filtro = q ? sin.filter(p => norm(`${p.brand} ${p.name} ${p.conc || ''} ${p.ml || ''} ${CATN[p.cat] || ''}`).includes(q)) : sin;
+    const shown = filtro.slice(0, 150);
+    $('sum').textContent = `${sin.length - hechas} productos sin foto` + (hechas ? ` · ${hechas} con foto nueva` : '') + (filtro.length > shown.length ? ` · se ven los primeros ${shown.length}, buscá para encontrar más` : '');
+    $('items').innerHTML = shown.length ? shown.map(p => {
+      const c = S.catCambios[p.id];
+      return `<li class="item" data-id="${esc(p.id)}">
+        <span class="thumb">${c ? `<img src="${esc(srcOf(c.img))}" alt="">` : ''}</span>
+        <div class="info"><span class="b">${esc(p.brand)}</span><span class="n">${esc(p.name)}${c ? '<span class="tag">Foto nueva</span>' : ''}</span>
+          <span class="m">${esc([p.conc, p.ml, ...(p.tags || []), CATN[p.cat]].filter(Boolean).join(' · '))}</span></div>
+        <span class="acts"><button class="btn${c ? ' ghost' : ' primary'}" type="button" data-foto="${esc(p.id)}" style="min-height:38px;padding:0 14px">${c ? 'Cambiar foto' : 'Cargar foto'}</button>
+          ${c ? `<button class="ic del" type="button" data-quitar="${esc(p.id)}" aria-label="Quitar la foto nueva de ${esc(p.name)}">${ICON.del}</button>` : ''}</span>
+      </li>`;
+    }).join('') : `<li class="empty">${sin.length ? 'No hay productos sin foto con esa búsqueda.' : 'Todos los productos del catálogo tienen foto.'}</li>`;
+    pubbar();
+  };
   const render = () => {
+    if (S.vista === 'pend') return renderPend();
     const q = norm($('q').value.trim());
     const all = S.items;
     const shown = q ? all.filter(p => norm(`${p.brand} ${p.name}`).includes(q)) : all;
-    $('sum').textContent = plural(all.length, 'producto', 'productos') + (q ? ` · ${shown.length} con “${$('q').value.trim()}”` : '');
+    $('sum').textContent = plural(all.length, 'perfume', 'perfumes') + (q ? ` · ${shown.length} con “${$('q').value.trim()}”` : '');
     $('items').innerHTML = shown.length ? shown.map(p => {
       const i = all.indexOf(p);
-      const isNew = !S.original.some(o => o.img === p.img && o.name === p.name) && p._new;
       const asking = S.confirmK === p._k;
       return `<li class="item" data-k="${p._k}">
         <span class="thumb"><img src="${esc(srcOf(p.img))}" data-path="${esc(p.img)}" alt="" loading="lazy" style="object-position:${esc(p.pos || '50% 50%')}"></span>
         <button class="info" type="button" data-act="edit">
           <span class="b">${esc(p.brand)}</span>
-          <span class="n">${esc(p.name)}${isNew ? '<span class="tag">Nuevo</span>' : p._dirty ? '<span class="tag">Editado</span>' : ''}${p.agotado ? '<span class="tag off">Sin stock</span>' : ''}</span>
-          <span class="m">${esc([CATS[p.cat] || 'Perfume', concOf(p), p.g, p.precio, p.vitrina && 'En vitrina'].filter(Boolean).join(' · '))}</span>
+          <span class="n">${esc(p.name)}${p._new ? '<span class="tag">Nuevo</span>' : p._dirty ? '<span class="tag">Editado</span>' : ''}${p.agotado ? '<span class="tag off">Sin stock</span>' : ''}</span>
+          <span class="m">${esc([concOf(p), p.g, p.precio, p.m3d && '3D', p.vitrina && 'En vitrina'].filter(Boolean).join(' · '))}</span>
         </button>
         <span class="acts">${asking
           ? `<span class="ask">¿Eliminar? <button class="btn danger" type="button" data-act="del-yes">Sí</button><button class="btn ghost" type="button" data-act="del-no">No</button></span>`
@@ -559,10 +734,8 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
              <button class="ic del" type="button" data-act="del" aria-label="Eliminar ${esc(p.name)}">${ICON.del}</button>`}
         </span>
       </li>`;
-    }).join('') : `<li class="empty">${q ? 'No hay productos con esa búsqueda.' : 'Todavía no hay productos. Tocá “Agregar producto” para cargar el primero.'}</li>`;
-    const n = S.log.length;
-    $('pub').classList.toggle('on', n > 0);
-    $('pub-txt').innerHTML = n ? `${plural(n, 'cambio sin publicar', 'cambios sin publicar')}<small>${esc(S.log.join(' · '))}</small>` : '';
+    }).join('') : `<li class="empty">${q ? 'No hay perfumes con esa búsqueda.' : 'Todavía no hay perfumes. Tocá “Agregar perfume” para cargar el primero.'}</li>`;
+    pubbar();
     const fill = (id, vals) => { $(id).innerHTML = [...new Set(vals.filter(Boolean))].sort().map(v => `<option value="${esc(v)}"></option>`).join(''); };
     fill('dl-brand', all.map(p => p.brand));
     fill('dl-fam', all.map(p => p.fam));
@@ -570,7 +743,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   // Si una foto recién publicada todavía no está en GitHub Pages, la traemos directo del repositorio.
   $('items').addEventListener('error', e => {
     const img = e.target;
-    if (img.tagName !== 'IMG' || img.dataset.retry || DEMO) return;
+    if (img.tagName !== 'IMG' || img.dataset.retry || S.mode !== 'github') return;
     img.dataset.retry = '1';
     img.src = rawUrl(img.dataset.path);
   }, true);
@@ -600,22 +773,194 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
         S.confirmK = null;
         addLog(`Elimina ${p.name}`);
         changed();
-        toast(`Eliminaste ${p.name}. Falta publicar.`);
+        toast(`Eliminaste ${p.name}. Falta guardar.`);
         return;
     }
   });
   $('q').addEventListener('input', render);
 
+  /* ── Fondo de estudio para las fotos nuevas (igual al del resto del catálogo) ── */
+  const W = 864, H = 1080, PISO = 790;
+  const lienzo = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+  const conFiltro = 'filter' in CanvasRenderingContext2D.prototype;
+  // Plan B si no se puede leer img/estudio.webp: el mismo estudio, dibujado acá
+  const estudioDibujado = () => {
+    const c = lienzo(W, H), ctx = c.getContext('2d'), d = ctx.createImageData(W, H);
+    let semilla = 7; const azar = () => (semilla = semilla * 16807 % 2147483647) / 2147483647;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const dx = (x - W * .5) / (W * .62), dy = (y - H * .44) / (H * .55);
+      let luz = Math.pow(Math.max(0, 1 - (dx * dx + dy * dy)), 1.6);
+      if (y > PISO - 60) {
+        const t = Math.min(1, (y - (PISO - 60)) / 120);
+        const piso = y > PISO ? 1 - (y - PISO) / (H - PISO) * .55 : 1;
+        luz = luz * (1 - t) + Math.max(0, .42 * piso - Math.abs(dx) * .18) * t;
+      }
+      const v = 15 + 34 * luz, g = (azar() - .5) * 3.2, i = (y * W + x) * 4;
+      d.data[i] = v * 1.06 + g; d.data[i + 1] = v + g; d.data[i + 2] = v * .93 + g; d.data[i + 3] = 255;
+    }
+    ctx.putImageData(d, 0, 0);
+    return c;
+  };
+  let estudioP = null;
+  const estudio = () => estudioP ||= (async () => {
+    try {
+      let blob;
+      if (S.mode === 'local') blob = await (await (await S.dir.getDirectoryHandle('img')).getFileHandle('estudio.webp')).getFile();
+      else blob = await (await fetch('img/estudio.webp', { cache: 'force-cache' })).blob();
+      const bmp = await createImageBitmap(blob);
+      const c = lienzo(W, H); c.getContext('2d').drawImage(bmp, 0, 0, W, H); return c;
+    } catch { return estudioDibujado(); }
+  })();
+
+  // Recorta el fondo liso (blanco, gris claro) desde los bordes de la foto hacia adentro.
+  // Devuelve null si el fondo no es liso (por ejemplo, una foto en un local).
+  const recortarFondo = (src, forzar) => {
+    const w = src.width, h = src.height;
+    const d = src.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+    const borde = [];
+    const tomar = (x, y) => { const i = (y * w + x) * 4; borde.push([d[i], d[i + 1], d[i + 2], d[i + 3]]); };
+    for (let x = 0; x < w; x += 3) { tomar(x, 1); tomar(x, h - 2); }
+    for (let y = 0; y < h; y += 3) { tomar(1, y); tomar(w - 2, y); }
+    // Foto que ya viene recortada (PNG con fondo transparente): se usa tal cual, ajustada al contenido
+    if (borde.filter(p => p[3] < 16).length / borde.length > .8) {
+      let x0 = w, y0 = h, x1 = -1, y1 = -1;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (d[(y * w + x) * 4 + 3] > 24) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0) return null;
+      const out = lienzo(x1 - x0 + 1, y1 - y0 + 1);
+      out.getContext('2d').drawImage(src, -x0, -y0);
+      return out;
+    }
+    // Si hay algo de transparencia suelta, se apoya sobre blanco para poder medir el fondo
+    if (borde.some(p => p[3] < 250)) {
+      const ctx = src.getContext('2d'); ctx.globalCompositeOperation = 'destination-over'; ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h); ctx.globalCompositeOperation = 'source-over';
+      return recortarFondo(src, forzar);
+    }
+    const med = [0, 1, 2].map(k => borde.map(p => p[k]).sort((a, b) => a - b)[borde.length >> 1]);
+    const dist2 = (r, g, b, c) => (r - c[0]) ** 2 + (g - c[1]) ** 2 + (b - c[2]) ** 2;
+    const parecidos = borde.filter(p => dist2(p[0], p[1], p[2], med) < 30 * 30).length / borde.length;
+    const luz = .299 * med[0] + .587 * med[1] + .114 * med[2];
+    if (!forzar && (parecidos < .8 || luz < 140)) return null;
+    // relleno desde el borde: avanza mientras el color siga pareciéndose al fondo y cambie de a poco
+    const fondo = new Uint8Array(w * h), cola = new Int32Array(w * h);
+    let ini = 0, fin = 0;
+    const lejos = 64 * 64, paso = 20 * 20;
+    const sembrar = (x, y) => { const j = y * w + x, i = j * 4; if (!fondo[j] && dist2(d[i], d[i + 1], d[i + 2], med) < lejos) { fondo[j] = 1; cola[fin++] = j; } };
+    for (let x = 0; x < w; x++) { sembrar(x, 0); sembrar(x, h - 1); }
+    for (let y = 0; y < h; y++) { sembrar(0, y); sembrar(w - 1, y); }
+    while (ini < fin) {
+      const j = cola[ini++], x = j % w, y = (j - x) / w, i = j * 4;
+      for (const [nx, ny] of [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]) {
+        if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+        const k = ny * w + nx, q = k * 4;
+        if (fondo[k]) continue;
+        if (dist2(d[q], d[q + 1], d[q + 2], med) < lejos && (d[q] - d[i]) ** 2 + (d[q + 1] - d[i + 1]) ** 2 + (d[q + 2] - d[i + 2]) ** 2 < paso) { fondo[k] = 1; cola[fin++] = k; }
+      }
+    }
+    // máscara: se come 1 px del borde (donde queda el halo del fondo) y se suaviza
+    const m = lienzo(w, h), mctx = m.getContext('2d'), md = mctx.createImageData(w, h);
+    let x0 = w, y0 = h, x1 = 0, y1 = 0, cuenta = 0;
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const j = y * w + x;
+      if (fondo[j] || fondo[j - 1] || fondo[j + 1] || fondo[j - w] || fondo[j + w]) continue;
+      md.data[j * 4 + 3] = 255; cuenta++;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+    if (cuenta < w * h * .02) return null;
+    mctx.putImageData(md, 0, 0);
+    const out = lienzo(x1 - x0 + 1, y1 - y0 + 1), octx = out.getContext('2d');
+    octx.drawImage(src, -x0, -y0);
+    octx.globalCompositeOperation = 'destination-in';
+    if (conFiltro) octx.filter = 'blur(.8px)';
+    octx.drawImage(m, -x0, -y0);
+    return out;
+  };
+
+  const sombra = (ctx, cx, cy, rx, ry, opac) => {
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(1, ry / rx);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
+    g.addColorStop(0, `rgba(6,5,5,${opac})`); g.addColorStop(.6, `rgba(6,5,5,${opac * .5})`); g.addColorStop(1, 'rgba(6,5,5,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, rx, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  };
+  // El perfume recortado, parado sobre el piso del estudio, con sombra y un reflejo leve
+  const componerEstudio = async cut => {
+    const c = lienzo(W, H), ctx = c.getContext('2d');
+    ctx.drawImage(await estudio(), 0, 0);
+    const ancho = cut.width / cut.height > .85;
+    const [mw, mh] = ancho ? [600, 560] : [520, 620];
+    const k = Math.min(mw / cut.width, mh / cut.height);
+    const pw = Math.round(cut.width * k), ph = Math.round(cut.height * k);
+    const x = Math.round((W - pw) / 2), y = PISO - ph;
+    sombra(ctx, W / 2, PISO, pw * .62, 24, .6);
+    sombra(ctx, W / 2, PISO - 1, pw * .44, 7, .75);
+    // reflejo
+    const rh = Math.round(ph * .28), r = lienzo(pw, rh), rctx = r.getContext('2d');
+    rctx.translate(0, ph); rctx.scale(1, -1); rctx.drawImage(cut, 0, 0, pw, ph);
+    rctx.setTransform(1, 0, 0, 1, 0, 0);
+    rctx.globalCompositeOperation = 'destination-in';
+    const gr = rctx.createLinearGradient(0, 0, 0, rh); gr.addColorStop(0, 'rgba(0,0,0,.14)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    rctx.fillStyle = gr; rctx.fillRect(0, 0, pw, rh);
+    ctx.save(); if (conFiltro) ctx.filter = 'blur(1.5px)'; ctx.drawImage(r, x, PISO + 2); ctx.restore();
+    // frascos oscuros: una luz suave detrás para que no se pierdan en el fondo
+    const muestra = lienzo(24, 24), mctx = muestra.getContext('2d', { willReadFrequently: true });
+    mctx.drawImage(cut, 0, 0, 24, 24);
+    const md = mctx.getImageData(0, 0, 24, 24).data;
+    let suma = 0, n = 0;
+    for (let i = 0; i < md.length; i += 4) if (md[i + 3] > 200) { suma += .299 * md[i] + .587 * md[i + 1] + .114 * md[i + 2]; n++; }
+    if (conFiltro && n && suma / n < 70) {
+      const l = lienzo(W, H), lctx = l.getContext('2d');
+      lctx.drawImage(cut, x, y, pw, ph);
+      lctx.globalCompositeOperation = 'source-in'; lctx.fillStyle = 'rgb(122,114,104)'; lctx.fillRect(0, 0, W, H);
+      ctx.save(); ctx.globalAlpha = .34; ctx.filter = 'blur(26px)'; ctx.drawImage(l, 0, 0); ctx.restore();
+    }
+    ctx.drawImage(cut, x, y, pw, ph);
+    return c;
+  };
+  // Cuando la foto no tiene fondo liso: se funde con el estudio en un óvalo suave, como bajo un foco
+  const componerFoco = async src => {
+    const c = lienzo(W, H), ctx = c.getContext('2d');
+    ctx.drawImage(await estudio(), 0, 0);
+    const k = Math.min(W * .96 / src.width, H * .84 / src.height);
+    const iw = Math.round(src.width * k), ih = Math.round(src.height * k);
+    const t = lienzo(iw, ih), tctx = t.getContext('2d');
+    tctx.drawImage(src, 0, 0, iw, ih);
+    tctx.globalCompositeOperation = 'destination-in';
+    tctx.translate(iw / 2, ih / 2); tctx.scale(1, ih / iw);
+    const g = tctx.createRadialGradient(0, 0, 0, 0, 0, iw / 2);
+    g.addColorStop(0, '#000'); g.addColorStop(.55, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    tctx.fillStyle = g; tctx.fillRect(-iw, -iw, iw * 2, iw * 2);
+    ctx.drawImage(t, Math.round((W - iw) / 2), Math.round(H * .45 - ih / 2));
+    return c;
+  };
+
   /* ── Editor ── */
   const ed = $('ed');
   const readG = () => document.querySelector('input[name="g"]:checked')?.value || '';
+  const readFondo = () => document.querySelector('input[name="fondo"]:checked')?.value || 'auto';
+  const readModo3d = () => document.querySelector('input[name="modo3d"]:checked')?.value || 'foto';
+  // ¿Hay un recorte del frasco para copiarlo en 3D? (de la foto nueva, o el que ya tenía guardado)
+  const fotoDisponible = () => S.edit?.photo ? !!S.edit.photo.tex3d : !!S.edit?.draft.m3d?.foto && !S.edit.raw;
+  const sync3d = () => {
+    if (!S.edit) return;
+    const on = $('e-3d').checked, hay = fotoDisponible(), modo = readModo3d();
+    $('m3d-todo').hidden = !on;
+    $('m3d-foto').hidden = modo !== 'foto' || !hay;
+    $('m3d-campos').hidden = $('receta-hint').hidden = modo !== 'receta';
+    $('prof-v').textContent = `(${Math.round($('e3-prof').value * 100)}% del ancho)`;
+    const tiene = S.edit.photo || S.edit.draft.img;
+    $('modo-hint').textContent = modo === 'receta' ? 'Elegís la forma, la tapa y los colores a mano.'
+      : hay ? 'El frasco 3D sale de la foto: queda igual al real. Elegí si es plano/cuadrado o redondo y cuánta profundidad tiene.'
+      : tiene ? 'Para copiar el frasco en 3D hace falta la foto sobre fondo blanco (o liso y claro). Con esta foto se guarda sin 3D, salvo que lo armes a mano.'
+      : 'Cuando elijas la foto, el frasco 3D se arma solo a partir de ella.';
+  };
   const openEditor = p => {
-    S.edit = { k: p?._k || null, draft: p ? { ...p } : { cat: 'perfume', pos: '50% 50%', top: [], heart: [], base: [], agotado: false, vitrina: false, ilustrativa: false }, photo: null };
+    S.edit = {
+      k: p?._k || null,
+      draft: p ? { ...p } : { pos: '50% 50%', top: [], heart: [], base: [], agotado: false, vitrina: false, m3d: { forma: 'rectangular', acabado: 'transparente', vidrio: '#ffffff', opaco: false, liquido: '#c8742a', tapa: 'cubo', tapaMat: 'oro', etiqueta: 'oro' } },
+      photo: null, raw: null, modo: null
+    };
     const d = S.edit.draft;
-    $('ed-title').textContent = p ? `Editar ${p.name}` : 'Nuevo producto';
-    document.querySelectorAll('input[name="cat"]').forEach(r => { r.checked = r.value === (d.cat || 'perfume'); });
+    $('ed-title').textContent = p ? `Editar ${p.name}` : 'Nuevo perfume';
     $('e-vitrina').checked = !!d.vitrina;
-    $('e-ilustrativa').checked = !!d.ilustrativa;
     const m = d.m3d || {};
     $('e-3d').checked = !!d.m3d;
     $('e3-forma').value = m.forma || 'cuadrado';
@@ -625,7 +970,9 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     $('e3-liquido').value = /^#[0-9a-f]{6}$/i.test(m.liquido || '') ? m.liquido : '#c8742a';
     $('e3-vidrio').value = /^#[0-9a-f]{6}$/i.test(m.vidrio || '') ? m.vidrio : '#ffffff';
     $('e3-acabado').value = m.acabado || (m.opaco ? 'lacado' : 'transparente');
-    $('m3d-campos').hidden = !d.m3d;
+    $('e3-volumen').value = m.volumen || 'caja';
+    $('e3-prof').value = m.prof || .5;
+    document.querySelectorAll('input[name="modo3d"]').forEach(r => { r.checked = r.value === (p && m.forma && !m.foto ? 'receta' : 'foto'); });
     $('e-brand').value = d.brand || '';
     $('e-name').value = d.name || '';
     $('e-conc').value = d.conc || '';
@@ -638,8 +985,10 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     $('e-heart').value = (d.heart || []).join(', ');
     $('e-base').value = (d.base || []).join(', ');
     document.querySelectorAll('input[name="g"]').forEach(r => { r.checked = r.value === d.g; });
+    document.querySelectorAll('input[name="fondo"]').forEach(r => { r.checked = r.value === 'auto'; });
     $('ed-err').hidden = true;
     renderPhoto();
+    sync3d();
     ed.showModal();
     ed.querySelector('.ed-body').scrollTop = 0;
   };
@@ -648,7 +997,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   $('ed-cancel').addEventListener('click', closeEditor);
   ed.addEventListener('cancel', e => { e.preventDefault(); closeEditor(); });
 
-  // Recorte: el recuadro 4:5 muestra qué parte de la foto se ve en la tarjeta.
+  // Recorte: el recuadro 4:5 muestra qué parte de la foto se ve en la tarjeta (solo hace falta con “Foto tal cual”).
   const FRAME = 4 / 5;
   const ratio = () => { const d = S.edit.draft; return d.w && d.h ? d.w / d.h : FRAME; };
   const parsePos = pos => { const m = String(pos || '').match(/(-?[\d.]+)%\s+(-?[\d.]+)%/); return m ? [+m[1], +m[2]] : [50, 50]; };
@@ -664,16 +1013,27 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     c.style.width = `${g.cw * 100}%`; c.style.height = `${g.ch * 100}%`;
     $('prev-img').style.objectPosition = S.edit.draft.pos;
     const fits = g.cw > .985 && g.ch > .985;
+    $('stage').classList.toggle('fijo', fits);
+    $('crop').hidden = fits;
     $('crop-hint').textContent = fits
-      ? 'La foto entra entera en la tarjeta.'
+      ? 'Así se ve en la página.'
       : 'Tocá o arrastrá sobre la foto: lo que queda dentro del recuadro es lo que se ve en la tarjeta.';
+  };
+  const TXT_FONDO = {
+    estudio: 'La foto ya tiene el fondo de estudio, así que se usa tal cual. Para que además se arme el frasco 3D, usá la versión con fondo blanco.',
+    recorte: 'Se recortó el fondo y el perfume quedó parado sobre el estudio, como los demás.',
+    foco: 'La foto se fundió con el estudio en un foco suave. Si el fondo es liso, probá “Recortar fondo”.',
+    original: 'La foto queda como está, sin fondo de estudio.',
+    'auto-foco': 'La foto no tiene un fondo liso para recortar, así que se fundió con el estudio en un foco suave. Para un recorte limpio, usá una foto del perfume sobre fondo blanco.'
   };
   const renderPhoto = () => {
     const d = S.edit.draft, ph = S.edit.photo;
     const src = ph ? ph.url : d.img ? srcOf(d.img) : '';
     $('drop').hidden = !!src;
     $('photo').hidden = !src;
-    $('drop-txt').textContent = 'Elegí una foto del perfume. Se achica y se optimiza sola.';
+    $('fondo-box').hidden = !S.edit.raw;
+    $('fondo-hint').textContent = S.edit.modo ? TXT_FONDO[S.edit.modo] : '';
+    $('drop-txt').textContent = 'Elegí o arrastrá una foto del perfume. Si tiene fondo liso (blanco o claro), se recorta y se pone sobre el fondo de estudio.';
     $('drop-txt').classList.remove('busy');
     if (!src) return;
     $('stage').style.setProperty('--ar', ratio());
@@ -685,6 +1045,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   const aim = e => {
     const r = $('stage').getBoundingClientRect();
     const g = geom();
+    if (g.cw > .985 && g.ch > .985) return;
     const cx = (e.clientX - r.left) / r.width, cy = (e.clientY - r.top) / r.height;
     const left = clamp(cx - g.cw / 2, 0, 1 - g.cw), top = clamp(cy - g.ch / 2, 0, 1 - g.ch);
     const px = g.cw < 1 ? left / (1 - g.cw) * 100 : 50, py = g.ch < 1 ? top / (1 - g.ch) * 100 : 50;
@@ -695,48 +1056,100 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
   $('stage').addEventListener('pointermove', e => { if (dragging) aim(e); });
   ['pointerup', 'pointercancel'].forEach(t => $('stage').addEventListener(t, () => { dragging = false; }));
 
-  // Foto: se achica a 1000 px de ancho como máximo y se guarda en WebP (o JPG si el navegador no puede).
+  // ¿La foto ya viene con el fondo de estudio oscuro? (por ejemplo, hecha con el pedido para ChatGPT)
+  const esEstudio = src => {
+    const w = src.width, h = src.height, d = src.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, w, h).data;
+    const borde = [];
+    for (let x = 0; x < w; x += 4) for (const y of [2, Math.round(h * .3)]) { const i = (y * w + x) * 4; borde.push(.299 * d[i] + .587 * d[i + 1] + .114 * d[i + 2]); }
+    for (let y = 0; y < h * .7; y += 4) for (const x of [2, w - 3]) { const i = (Math.round(y) * w + x) * 4; borde.push(.299 * d[i] + .587 * d[i + 1] + .114 * d[i + 2]); }
+    const oscuros = borde.filter(v => v < 62).length / borde.length;
+    return oscuros > .85 && Math.abs(w / h - .8) < .08;
+  };
+  // Textura del modelo 3D: el frasco recortado, con transparencia (la página arma el volumen con su silueta)
+  const textura3d = async cut => {
+    const k = Math.min(1, 640 / cut.height, 640 / cut.width), m = 6;
+    const w = Math.round(cut.width * k), h = Math.round(cut.height * k);
+    const c = lienzo(w + m * 2, h + m * 2), ctx = c.getContext('2d');
+    // un borde del mismo color por detrás, para que la silueta no quede con un filo oscuro
+    if (conFiltro) { ctx.filter = 'blur(3px)'; ctx.drawImage(cut, m, m, w, h); ctx.filter = 'none'; ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(cut, m, m, w, h); ctx.globalCompositeOperation = 'source-over'; }
+    ctx.imageSmoothingQuality = 'high'; ctx.drawImage(cut, m, m, w, h);
+    const blob = await toBlob(c, 'image/webp', .88);
+    if (!blob || blob.type !== 'image/webp') return null;   // sin WebP con transparencia no hay modelo copiado
+    return { b64: await b64FromBlob(blob), type: blob.type, url: URL.createObjectURL(blob) };
+  };
+
+  // Foto: con fondo de estudio sale en 864×1080 como el resto; “tal cual” se achica a 1000 px y listo.
   const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
   const toBlob = (c, type, q) => new Promise(res => c.toBlob(res, type, q));
-  const processImage = async file => {
+  const processImage = async (file, modo) => {
     const url = URL.createObjectURL(file);
     try {
       const img = await loadImg(url);
-      const s = Math.min(1, 1000 / img.naturalWidth, 1250 / img.naturalHeight);
-      const w = Math.round(img.naturalWidth * s), h = Math.round(img.naturalHeight * s);
-      const c = document.createElement('canvas');
-      c.width = w; c.height = h;
-      const ctx = c.getContext('2d');
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, 0, 0, w, h);
-      let blob = await toBlob(c, 'image/webp', .84), ext = 'webp';
-      if (!blob || blob.type !== 'image/webp') { blob = await toBlob(c, 'image/jpeg', .86); ext = 'jpg'; }
-      return { b64: await b64FromBlob(blob), type: blob.type, ext, w, h, url: URL.createObjectURL(blob) };
+      let out, usado = modo, cut3d = null;
+      const s = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
+      const base = lienzo(Math.round(img.naturalWidth * s), Math.round(img.naturalHeight * s));
+      const bctx = base.getContext('2d', { willReadFrequently: true }); bctx.imageSmoothingQuality = 'high'; bctx.drawImage(img, 0, 0, base.width, base.height);
+      if (modo === 'auto' && esEstudio(base)) {
+        // ya tiene el fondo de estudio: se usa tal cual (encuadrada en 864×1080). No se copia en 3D: sobre fondo
+        // oscuro el recorte se come las partes negras del frasco (tapas, etiquetas), y quedaría un modelo roto.
+        usado = 'estudio';
+        out = lienzo(W, H);
+        const k = Math.max(W / base.width, H / base.height), ctx = out.getContext('2d');
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(base, (W - base.width * k) / 2, (H - base.height * k) / 2, base.width * k, base.height * k);
+      } else if (modo === 'original') {
+        const k = Math.min(1, 1000 / img.naturalWidth, 1250 / img.naturalHeight);
+        out = lienzo(Math.round(img.naturalWidth * k), Math.round(img.naturalHeight * k));
+        const ctx = out.getContext('2d'); ctx.imageSmoothingQuality = 'high'; ctx.drawImage(img, 0, 0, out.width, out.height);
+      } else {
+        const cut = modo === 'foco' ? null : recortarFondo(base, modo === 'recorte');
+        if (cut) { out = await componerEstudio(cut); usado = 'recorte'; cut3d = cut; }
+        else { out = await componerFoco(base); usado = modo === 'auto' ? 'auto-foco' : 'foco'; }
+      }
+      let blob = await toBlob(out, 'image/webp', .88), ext = 'webp';
+      if (!blob || blob.type !== 'image/webp') { blob = await toBlob(out, 'image/jpeg', .88); ext = 'jpg'; }
+      const tex3d = cut3d ? await textura3d(cut3d) : null;
+      return { b64: await b64FromBlob(blob), type: blob.type, ext, w: out.width, h: out.height, url: URL.createObjectURL(blob), modo: usado, tex3d };
     } finally {
       URL.revokeObjectURL(url);
     }
   };
-  const pick = () => $('file').click();
-  $('pick').addEventListener('click', pick);
-  $('repick').addEventListener('click', pick);
-  $('file').addEventListener('change', async () => {
-    const f = $('file').files[0];
-    $('file').value = '';
-    if (!f || !S.edit) return;
+  const procesar = async () => {
+    if (!S.edit?.raw) return;
+    const edit = S.edit;
     $('drop').hidden = false; $('photo').hidden = true;
     $('drop-txt').textContent = 'Preparando la foto…';
     $('drop-txt').classList.add('busy');
     try {
-      const ph = await processImage(f);
-      if (S.edit.photo) URL.revokeObjectURL(S.edit.photo.url);
-      S.edit.photo = ph;
-      Object.assign(S.edit.draft, { w: ph.w, h: ph.h, pos: '50% 50%' });
+      const ph = await processImage(edit.raw, readFondo());
+      if (S.edit !== edit) { URL.revokeObjectURL(ph.url); return; }
+      if (edit.photo) URL.revokeObjectURL(edit.photo.url);
+      edit.photo = ph; edit.modo = ph.modo;
+      if (ph.tex3d) document.querySelectorAll('input[name="modo3d"]').forEach(r => { r.checked = r.value === 'foto'; });
+      Object.assign(edit.draft, { w: ph.w, h: ph.h, pos: '50% 50%' });
+      $('ed-err').hidden = true;
     } catch {
       $('ed-err').textContent = 'No pude abrir esa imagen. Probá con una foto JPG o PNG.';
       $('ed-err').hidden = false;
+      edit.raw = null;
     }
     renderPhoto();
-  });
+    sync3d();
+  };
+  const usarArchivo = f => {
+    if (!f || !S.edit) return;
+    if (!/^image\//.test(f.type) && !/\.(jpe?g|png|webp|gif|avif|bmp)$/i.test(f.name)) { $('ed-err').textContent = 'Ese archivo no es una foto.'; $('ed-err').hidden = false; return; }
+    S.edit.raw = f;
+    procesar();
+  };
+  const pick = () => $('file').click();
+  $('pick').addEventListener('click', pick);
+  $('repick').addEventListener('click', pick);
+  $('file').addEventListener('change', () => { const f = $('file').files[0]; $('file').value = ''; usarArchivo(f); });
+  document.querySelectorAll('input[name="fondo"]').forEach(r => r.addEventListener('change', procesar));
+  ['dragenter', 'dragover'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(t => $('drop').addEventListener(t, () => $('drop').classList.remove('over')));
+  $('drop').addEventListener('drop', e => { e.preventDefault(); usarArchivo(e.dataTransfer.files[0]); });
 
   $('ed-form').addEventListener('submit', e => {
     e.preventDefault();
@@ -750,13 +1163,6 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       fam: $('e-fam').value.trim(),
       precio: $('e-precio').value.trim(),
       agotado: $('e-agotado').checked,
-      vitrina: $('e-vitrina').checked,
-      ilustrativa: $('e-ilustrativa').checked,
-      m3d: $('e-3d').checked ? {
-        forma: $('e3-forma').value, vidrio: $('e3-vidrio').value, acabado: $('e3-acabado').value, opaco: $('e3-acabado').value === 'lacado',
-        liquido: $('e3-liquido').value, tapa: $('e3-tapa').value, tapaMat: $('e3-tapaMat').value, etiqueta: $('e3-etiqueta').value
-      } : null,
-      cat: document.querySelector('input[name="cat"]:checked')?.value || 'perfume',
       desc: $('e-desc').value.trim(),
       top: splitNotes($('e-top').value),
       heart: splitNotes($('e-heart').value),
@@ -768,13 +1174,25 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       $('ed-err').hidden = false;
       return;
     }
+    let foto3d = fotoDisponible() && !S.edit.photo ? d.m3d?.foto : null;
     if (S.edit.photo) {
-      const ph = S.edit.photo;
-      const path = `img/${slug(`${d.brand}-${d.name}`)}-${Date.now().toString(36)}.${ph.ext}`;
+      const ph = S.edit.photo, base = `${slug(`${d.brand}-${d.name}`)}-${Date.now().toString(36)}`;
+      const path = `img/${base}.${ph.ext}`;
       S.pending[path] = { b64: ph.b64, type: ph.type, url: ph.url };
       d.img = path;
+      if (ph.tex3d) { foto3d = `img/3d/${base}.webp`; S.pending[foto3d] = { b64: ph.tex3d.b64, type: ph.tex3d.type, url: ph.tex3d.url }; }
       S.edit.photo = null;
     }
+    // Modelo 3D: copiado de la foto (si se puede) y, siempre, la receta a mano como respaldo
+    const receta = {
+      forma: $('e3-forma').value, acabado: $('e3-acabado').value, vidrio: $('e3-vidrio').value, opaco: $('e3-acabado').value === 'lacado',
+      liquido: $('e3-acabado').value === 'transparente' ? $('e3-liquido').value : '', tapa: $('e3-tapa').value, tapaMat: $('e3-tapaMat').value, etiqueta: $('e3-etiqueta').value
+    };
+    // "copiado de la foto" sin recorte posible: se guarda sin 3D (mejor nada que un frasco genérico que no se parece)
+    d.m3d = !$('e-3d').checked ? null
+      : readModo3d() === 'receta' ? receta
+      : foto3d ? { foto: foto3d, volumen: $('e3-volumen').value, prof: +$('e3-prof').value, ...receta } : null;
+    d.vitrina = !!d.m3d && $('e-vitrina').checked;
     if (S.edit.k) {
       const i = S.items.findIndex(p => p._k === S.edit.k);
       S.items[i] = { ...d, _dirty: !d._new };
@@ -786,12 +1204,65 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     const name = d.name;
     closeEditor();
     changed();
-    toast(`${name} guardado. Tocá “Publicar” para que aparezca en la página.`);
+    toast(`${name} listo. Tocá “${$('publish').textContent}” para que aparezca en la página.`);
   });
   $('add').addEventListener('click', () => openEditor(null));
-  $('e-3d').addEventListener('change', () => { $('m3d-campos').hidden = !$('e-3d').checked; });
+  $('copy-prompt').addEventListener('click', async () => {
+    const t = $('prompt-gpt');
+    try { await navigator.clipboard.writeText(t.value); } catch { t.select(); document.execCommand('copy'); }
+    toast('Pedido copiado. Pegalo en ChatGPT junto con la foto del perfume.');
+  });
+  ['e-3d', 'e3-prof'].forEach(id => $(id).addEventListener('input', sync3d));
+  document.querySelectorAll('input[name="modo3d"]').forEach(r => r.addEventListener('change', sync3d));
 
-  /* ── Publicar ── */
+  /* ── Fotos pendientes del catálogo ── */
+  document.querySelectorAll('input[name="vista"]').forEach(r => r.addEventListener('change', () => {
+    S.vista = r.value;
+    $('add').hidden = S.vista === 'pend';
+    $('pend-help').hidden = S.vista !== 'pend';
+    $('help-dest').hidden = S.vista === 'pend';
+    $('q').value = '';
+    render();
+  }));
+  $('items').addEventListener('click', e => {
+    const f = e.target.closest('[data-foto]');
+    if (f) { S.fotoPara = f.dataset.foto; $('file-cat').click(); return; }
+    const qb = e.target.closest('[data-quitar]');
+    if (qb) {
+      const p = S.cat.find(x => x.id === qb.dataset.quitar);
+      delete S.catCambios[qb.dataset.quitar];
+      S.log = S.log.filter(l => l !== `Foto de ${p.name}`);
+      changed();
+    }
+  });
+  $('file-cat').addEventListener('change', async () => {
+    const f = $('file-cat').files[0], id = S.fotoPara;
+    $('file-cat').value = '';
+    if (!f || !id) return;
+    const p = S.cat.find(x => x.id === id);
+    toast(`Preparando la foto de ${p.name}…`);
+    try {
+      const ph = await processImage(f, 'auto');
+      const base = `c-${slug(id).slice(0, 60)}-${Date.now().toString(36)}`;
+      const img = `img/p/${base}.${ph.ext}`;
+      S.pending[img] = { b64: ph.b64, type: ph.type, url: ph.url };
+      const cambio = { img };
+      if (ph.tex3d) {
+        const t = `img/3d/${base}.webp`;
+        S.pending[t] = { b64: ph.tex3d.b64, type: ph.tex3d.type, url: ph.tex3d.url };
+        cambio.m3d = { foto: t, volumen: 'caja', prof: .5 };
+      }
+      S.catCambios[id] = cambio;
+      addLog(`Foto de ${p.name}`);
+      changed();
+      toast(ph.tex3d ? `${p.name}: listo, con fondo de estudio y 3D. Falta guardar.`
+        : `${p.name}: listo. La foto no tenía fondo liso, así que queda sin 3D. Falta guardar.`);
+    } catch {
+      toast('No pude abrir esa imagen. Probá con una foto JPG o PNG.');
+    }
+  });
+
+  /* ── Guardar ── */
   const commitMessage = () => {
     const l = S.log;
     return 'Catálogo: ' + (l.length <= 3 ? l.join(', ') : `${l.slice(0, 3).join(', ')} y ${l.length - 3} cambios más`);
@@ -805,18 +1276,24 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     if ((remoteData?.sha || null) !== S.baseSha) throw Object.assign(new Error('conflicto'), { status: 409 });
     const existing = new Set(base.tree.map(t => t.path));
     const final = S.items.map(clean);
-    const used = new Set(final.map(p => p.img));
+    const used = new Set([...final.flatMap(archivos), ...archivosCat()]);
     const entries = [];
+    if (Object.keys(S.catCambios).length) {
+      const remoteCat = base.tree.find(t => t.path === CAT_FILE);
+      if ((remoteCat?.sha || null) !== S.catBase) throw Object.assign(new Error('conflicto'), { status: 409 });
+      const blobCat = await gh('/git/blobs', { method: 'POST', body: { content: serializeCat(), encoding: 'utf-8' } });
+      entries.push({ path: CAT_FILE, mode: '100644', type: 'blob', sha: blobCat.sha });
+    }
     for (const [path, v] of Object.entries(S.pending)) {
       if (!used.has(path)) continue;
       const blob = await gh('/git/blobs', { method: 'POST', body: { content: v.b64, encoding: 'base64' } });
       entries.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
     }
     entries.push({ path: DATA_FILE, mode: '100644', type: 'blob', content: serialize(final) });
-    for (const p of S.original) {
-      if (p.img && p.img.startsWith('img/') && !used.has(p.img) && existing.has(p.img)) {
-        entries.push({ path: p.img, mode: '100644', type: 'blob', sha: null });
-        used.add(p.img);
+    for (const f of S.original.flatMap(archivos)) {
+      if (f.startsWith('img/') && f !== 'img/estudio.webp' && !used.has(f) && existing.has(f)) {
+        entries.push({ path: f, mode: '100644', type: 'blob', sha: null });
+        used.add(f);
       }
     }
     const tree = await gh('/git/trees', { method: 'POST', body: { base_tree: headCommit.tree.sha, tree: entries } });
@@ -824,32 +1301,73 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     await gh(`/git/refs/heads/${S.branch}`, { method: 'PATCH', body: { sha: commit.sha } });
     const fresh = tree.tree.find(t => t.path === DATA_FILE) || (await gh(`/contents/${DATA_FILE}?ref=${S.branch}`));
     S.baseSha = fresh.sha;
+    const freshCat = tree.tree.find(t => t.path === CAT_FILE);
+    if (freshCat) S.catBase = freshCat.sha;
+  };
+  // Modo compu: escribe las fotos nuevas en img/ y después productos.js. Las fotos viejas no se borran.
+  const saveLocal = async () => {
+    if ((await S.dir.queryPermission({ mode: 'readwrite' })) !== 'granted' && (await S.dir.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+      throw Object.assign(new Error('sin permiso'), { name: 'NotAllowedError' });
+    }
+    const { stamp } = await leerLocal();
+    if (stamp !== S.baseSha) throw Object.assign(new Error('conflicto'), { status: 409 });
+    const final = S.items.map(clean);
+    const used = new Set([...final.flatMap(archivos), ...archivosCat()]);
+    let catFh = null;
+    if (Object.keys(S.catCambios).length) {
+      catFh = await S.dir.getFileHandle(CAT_FILE);
+      const cf = await catFh.getFile();
+      if (`${cf.lastModified}:${cf.size}` !== S.catBase) throw Object.assign(new Error('conflicto'), { status: 409 });
+    }
+    // escribe un archivo creando las carpetas que falten (img/, img/3d/)
+    const escribir = async (path, blob) => {
+      const partes = path.split('/');
+      let dir = S.dir;
+      for (const parte of partes.slice(0, -1)) dir = await dir.getDirectoryHandle(parte, { create: true });
+      const w = await (await dir.getFileHandle(partes[partes.length - 1], { create: true })).createWritable();
+      await w.write(blob); await w.close();
+    };
+    for (const [path, v] of Object.entries(S.pending)) {
+      if (used.has(path)) await escribir(path, blobFromB64(v.b64, v.type));
+    }
+    const fh = await S.dir.getFileHandle(DATA_FILE, { create: true });
+    const w = await fh.createWritable(); await w.write(serialize(final)); await w.close();
+    S.baseSha = (await leerLocal()).stamp;
+    if (catFh) {
+      const wc = await catFh.createWritable(); await wc.write(serializeCat()); await wc.close();
+      const cf = await catFh.getFile(); S.catBase = `${cf.lastModified}:${cf.size}`;
+    }
   };
   $('publish').addEventListener('click', async () => {
-    const btn = $('publish');
+    const btn = $('publish'), label = btn.textContent;
     btn.disabled = true; $('discard').disabled = true;
-    btn.textContent = 'Publicando…';
+    btn.textContent = S.mode === 'local' ? 'Guardando…' : 'Publicando…';
     try {
       dropUnusedPending();
-      if (DEMO) await new Promise(r => setTimeout(r, 800));
+      if (S.mode === 'demo') await new Promise(r => setTimeout(r, 800));
+      else if (S.mode === 'local') await saveLocal();
       else await pushToGitHub();
       for (const [p, v] of Object.entries(S.pending)) S.recent[p] = v.url;
       S.pending = {};
       S.log = [];
       S.original = S.items.map(clean);
       S.items = S.items.map(p => { const { _new, _dirty, ...rest } = p; return rest; });
+      S.cat = S.cat.map(p => S.catCambios[p.id] ? { ...p, ...S.catCambios[p.id] } : p);
+      S.catCambios = {};
       LS.del(draftKey());
       render();
-      notice(DEMO
-        ? 'Modo prueba: así se vería la publicación. En GitHub no cambió nada.'
-        : 'Publicado. La página se actualiza sola en uno o dos minutos. <a href="./" target="_blank" rel="noopener">Ver catálogo</a>', 'ok', true);
+      notice({
+        demo: 'Modo prueba: así se vería al guardar. No cambió nada.',
+        local: 'Guardado en la carpeta. Recargá la página del catálogo para verlo. Para que se vea en internet, subí los cambios a GitHub.',
+        github: 'Publicado. La página se actualiza sola en uno o dos minutos. <a href="./" target="_blank" rel="noopener">Ver catálogo</a>'
+      }[S.mode], 'ok', true);
       scrollTo({ top: 0, behavior: 'smooth' });
     } catch (e) {
       notice(explain(e), 'err');
       scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
       btn.disabled = false; $('discard').disabled = false;
-      btn.textContent = 'Publicar';
+      btn.textContent = label;
     }
   });
   let discardArmed = false;
@@ -866,6 +1384,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     S.items = S.original.map(p => ({ ...p, _k: uid() }));
     S.pending = {};
     S.log = [];
+    S.catCambios = {};
     LS.del(draftKey());
     render();
     toast('Descartaste los cambios.');
@@ -880,22 +1399,55 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     const seg = location.pathname.split('/').filter(Boolean);
     return { owner, repo: seg.length && !/\.html?$/.test(seg[0]) ? seg[0] : h };
   };
-  const showList = async () => {
+  const showList = () => {
     $('v-login').hidden = true;
     $('v-list').hidden = false;
-    $('logout').hidden = DEMO;
+    $('logout').hidden = S.mode === 'demo';
+    $('where').textContent = { local: `Guardando en la carpeta ${S.dir?.name || ''}`, github: `Guardando en GitHub · ${S.owner}/${S.repo}`, demo: 'Modo prueba' }[S.mode];
+    $('publish').textContent = S.mode === 'local' ? 'Guardar' : 'Publicar';
     render();
   };
   const connect = async () => {
-    if (!DEMO) {
+    if (S.mode === 'github') {
       const info = await gh('');
       if (info.permissions && !info.permissions.push) throw Object.assign(new Error('sin permiso'), { status: 403 });
       S.branch = info.default_branch || 'main';
     }
     await load();
     restoreDraft();
-    await showList();
+    showList();
   };
+
+  // Modo compu
+  const localErr = txt => { $('local-err').textContent = txt; $('local-err').hidden = !txt; };
+  const entrarLocal = async dir => {
+    try { await dir.getFileHandle(DATA_FILE); }
+    catch { throw Object.assign(new Error('falta productos.js'), { name: 'NotFoundError' }); }
+    S.mode = 'local'; S.dir = dir; estudioP = null;
+    await connect();
+    idbSet('carpeta', dir);
+  };
+  $('go-local').addEventListener('click', async () => {
+    localErr('');
+    if (!window.showDirectoryPicker) { localErr('Este navegador no puede guardar en carpetas. Abrí el panel con Chrome o Edge en la compu, o usá GitHub.'); return; }
+    try {
+      const dir = await showDirectoryPicker({ id: 'auvin', mode: 'readwrite' });
+      await entrarLocal(dir);
+    } catch (e) {
+      S.mode = null;
+      if (e.name !== 'AbortError') localErr(explain(e));
+    }
+  });
+  $('go-local-again').addEventListener('click', async () => {
+    localErr('');
+    try {
+      const dir = await idbGet('carpeta');
+      if (!dir || (await dir.requestPermission({ mode: 'readwrite' })) !== 'granted') throw Object.assign(new Error('sin permiso'), { name: 'NotAllowedError' });
+      await entrarLocal(dir);
+    } catch (e) { S.mode = null; localErr(explain(e)); }
+  });
+
+  // Modo GitHub
   $('login-form').addEventListener('submit', async e => {
     e.preventDefault();
     S.owner = $('l-owner').value.trim();
@@ -910,6 +1462,7 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     $('l-go').disabled = true; $('l-go').textContent = 'Entrando…';
     err.hidden = true;
     try {
+      S.mode = DEMO ? 'demo' : 'github';
       await connect();
       LS.set('auvin.repo', JSON.stringify({ owner: S.owner, repo: S.repo }));
       if (!DEMO) {
@@ -923,9 +1476,10 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
       $('l-go').disabled = false; $('l-go').textContent = 'Entrar';
     }
   });
-  $('logout').addEventListener('click', () => {
+  $('logout').addEventListener('click', async () => {
     if (S.log.length) saveDraft();
-    LS.del('auvin.clave'); SS.del('auvin.clave');
+    if (S.mode === 'local') await idbDel('carpeta');
+    else { LS.del('auvin.clave'); SS.del('auvin.clave'); }
     location.reload();
   });
 
@@ -938,10 +1492,19 @@ h1{margin:0;font-family:var(--f-disp);font-weight:400;font-size:clamp(2.3rem,7vw
     $('demo-note').hidden = false;
     $('l-token').placeholder = 'En modo prueba no hace falta';
   }
+  // Guardar en carpetas solo se puede en Chrome o Edge de compu: en el celu queda solo GitHub
+  if (!window.showDirectoryPicker) $('m-local').hidden = true;
+  idbGet('carpeta').then(dir => {
+    if (!dir || DEMO) return;
+    $('go-local-again').hidden = false;
+    $('go-local-again').textContent = `Seguir con “${dir.name}”`;
+    $('go-local').textContent = 'Elegir otra carpeta';
+  });
   const savedToken = LS.get('auvin.clave') || SS.get('auvin.clave');
   if (savedToken && repo.owner && repo.repo && !DEMO) {
-    Object.assign(S, { owner: repo.owner, repo: repo.repo, token: savedToken });
+    Object.assign(S, { mode: 'github', owner: repo.owner, repo: repo.repo, token: savedToken });
     connect().catch(ex => {
+      S.mode = null;
       $('l-token').value = savedToken;
       $('l-err').textContent = explain(ex);
       $('l-err').hidden = false;
