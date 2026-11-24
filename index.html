@@ -731,7 +731,7 @@ body{font-weight:300;letter-spacing:.01em}
     <li class="card${p.agotado ? ' off' : ''}" style="--d:${k % 4}">
       <button class="card-open" type="button" data-i="${i}" aria-haspopup="dialog">
         <span class="ph${p.img ? '' : ' sin'}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.brand)} ${esc(p.name)}" width="${+p.w || 864}" height="${+p.h || 1080}" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 50%')}">` : sinFoto(p)}
-          ${marcaTag ? `<span class="badge">${esc(marcaTag)}</span>` : ''}${p.m3d ? '<span class="badge v3d">Ver en 3D</span>' : ''}</span>
+          ${marcaTag ? `<span class="badge">${esc(marcaTag)}</span>` : ''}</span>
         <span class="meta">
           <span class="brand">${esc(p.brand)}</span>
           <span class="name">${esc(p.name)}</span>
@@ -835,7 +835,8 @@ body{font-weight:300;letter-spacing:.01em}
   const setVista = v => {
     vista = v;
     const p = L[cur];
-    const puede = !!(p.m3d && window.AUVIN_3D) && location.protocol !== 'file:';
+    // el 3D queda solo para la vitrina de la portada: las fichas muestran la foto
+    const puede = false;
     const en3d = v === '3d' && puede;
     $('f-3d').hidden = !en3d; $('f-img').hidden = en3d || !p.img; $('f-sin').hidden = en3d || !!p.img;
     $('f-hint').hidden = !en3d; $('f-views').hidden = !puede || !p.img;
@@ -1322,6 +1323,82 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     geo.setIndex(I); geo.computeVertexNormals();
     return geo;
   };
+  /* Volumen real: cada altura del frasco es un rectángulo de esquinas redondeadas (o una elipse, si es redondo)
+     con el ancho que tiene de frente y la profundidad que tiene de costado. El frente lleva la foto de frente, los
+     costados la foto de costado (o, si no hay, el color del frasco a esa altura) y atrás se ve el frente a través. */
+  const filasDe = ({ m, w, h }) => {
+    const filas = []; let partidas = 0;
+    for (let y = 0; y < h; y++) {
+      // una fila "partida" tiene un hueco de más del 15 % de su ancho (asas, figuras); el vidrio transparente deja huecos chicos
+      let l = -1, r = -1, llenos = 0;
+      for (let x = 0; x < w; x++) if (m[y * w + x]) { if (l < 0) l = x; r = x; llenos++; }
+      if (l >= 0) { filas.push({ y, l, r }); if (1 - llenos / (r - l + 1) > .15) partidas++; }
+    }
+    return { filas, partidas: partidas / Math.max(1, filas.length) };
+  };
+  const suavizar = (v, k = 2) => v.map((_, i) => { const s = v.slice(Math.max(0, i - k), i + k + 1).sort((a, b) => a - b); return s[s.length >> 1]; });
+  const volumen = (S, F, prof, redondo, L) => {
+    const { w, h } = S, n = redondo ? 2 : 6, K = 14, paso = 2;
+    const filas = F.filas.filter((_, i) => i % paso === 0 || i === F.filas.length - 1);
+    const top = F.filas[0].y, alto = F.filas[F.filas.length - 1].y - top + 1;
+    const medias = filas.map(f => (f.r - f.l + 1) / 2), amax = Math.max(...medias);
+    // profundidad (media) por fila: de la foto de costado, o estimada
+    let prof2;
+    if (L) {
+      const lt = L.F.filas[0].y, la = L.F.filas[L.F.filas.length - 1].y - lt + 1, esc = alto / la;
+      prof2 = filas.map(f => {
+        const ys = lt + Math.round((f.y - top) / alto * (la - 1));
+        const g = L.F.filas.find(q => q.y >= ys) || L.F.filas[L.F.filas.length - 1];
+        return (g.r - g.l + 1) / 2 * esc;
+      });
+      prof2 = suavizar(prof2);
+    } else prof2 = medias.map(a => redondo ? a * prof : Math.min(a, amax * prof));
+    const P = [], U = [], C = [], Ifr = [], Ila = [], Iat = [];
+    const se = (t, e) => Math.sign(t) * Math.abs(t) ** (2 / e);
+    // 4 tramos de anillo: frente, costado derecho, atrás, costado izquierdo (vértices propios para cada textura)
+    const tramos = [[-Math.PI / 4, Ifr, 'f'], [Math.PI / 4, Ila, 'd'], [3 * Math.PI / 4, Iat, 'a'], [5 * Math.PI / 4, Ila, 'i']];
+    for (const [ini, I, cara] of tramos) {
+      const base = P.length / 3;
+      filas.forEach((f, i) => {
+        const a = medias[i], b = prof2[i], mid = (f.l + f.r + 1) / 2, Y = 1 - (f.y + .5) / h;
+        for (let j = 0; j <= K; j++) {
+          const fi = ini + j / K * Math.PI / 2, x = a * se(Math.sin(fi), n), z = b * se(Math.cos(fi), n);
+          P.push((mid + x) / h, Y, z / h);
+          // en el canto se toma la foto un poco hacia adentro: el borde del recorte trae píxeles a medio transparentar
+          if (cara === 'f' || cara === 'a') { U.push((mid + x * Math.max(0, a - 1.6) / a) / w, Y); const k = cara === 'f' ? 1 : .45; C.push(k, k, k); }
+          else if (L) {
+            const lt = L.F.filas[0].y, la = L.F.filas[L.F.filas.length - 1].y - lt + 1;
+            const ys = lt + (f.y - top) / alto * (la - 1), g = L.F.filas.find(q => q.y >= ys) || L.F.filas[L.F.filas.length - 1];
+            const cl = (g.l + g.r + 1) / 2, k = la / alto;
+            U.push((cl + (cara === 'd' ? -z : z) * k) / L.S.w, 1 - (ys + .5) / L.S.h); C.push(.92, .92, .92);
+          } else { U.push(.5, Y); C.push(.8, .8, .8); }
+        }
+      });
+      for (let i = 0; i < filas.length - 1; i++) for (let j = 0; j < K; j++) {
+        const q = base + i * (K + 1) + j, r = q + K + 1;
+        I.push(q, r, q + 1, r, r + 1, q + 1);
+      }
+    }
+    // tapas de arriba y de abajo
+    const tapa = (i, arriba) => {
+      const f = filas[i], a = medias[i], b = prof2[i], mid = (f.l + f.r + 1) / 2, Y = 1 - (f.y + .5) / h, c0 = P.length / 3;
+      P.push(mid / h, Y, 0); U.push(.5, Y); C.push(.75, .75, .75);
+      for (let j = 0; j <= 4 * K; j++) {
+        const fi = j / (4 * K) * Math.PI * 2;
+        P.push((mid + a * se(Math.sin(fi), n)) / h, Y, b * se(Math.cos(fi), n) / h); U.push(.5, Y); C.push(.75, .75, .75);
+        if (j) arriba ? Ila.push(c0, c0 + j, c0 + j + 1 > c0 + 4 * K + 1 ? c0 + 1 : c0 + j + 1) : Ila.push(c0, c0 + j + 1 > c0 + 4 * K + 1 ? c0 + 1 : c0 + j + 1, c0 + j);
+      }
+    };
+    tapa(0, true); tapa(filas.length - 1, false);
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute(U, 2));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(C, 3));
+    geo.setIndex([...Ifr, ...Ila, ...Iat]);
+    geo.addGroup(0, Ifr.length, 0); geo.addGroup(Ifr.length, Ila.length, 1); geo.addGroup(Ifr.length + Ila.length, Iat.length, 2);
+    geo.computeVertexNormals();
+    return geo;
+  };
   // La foto se ve con sus colores reales (sin el tono de la escena) y con un barniz que refleja el estudio
   // recorte = true: respeta la transparencia de la foto (huecos del frasco); los costados van siempre sólidos
   const matFoto = (tex, recorte) => {
@@ -1351,17 +1428,23 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     return t;
   };
   const armarFoto = async (r, p, opts = {}) => {
-    const tex = await textura(r.foto);
-    const S = silueta(tex.image);
-    const geo = r.volumen === 'redondo' ? tornear(S, +r.prof || 1) : extruir(S, +r.prof || .5);
-    geo.scale(2.1, 2.1, 2.1);
+    const [tex, texL] = await Promise.all([textura(r.foto), r.lado ? textura(r.lado).catch(() => null) : null]);
+    const S = silueta(tex.image), F = filasDe(S);
+    const redondo = r.volumen === 'redondo';
+    // frascos con huecos o partes separadas a una misma altura (asas, figuras): se extruye la silueta tal cual
+    const hueco = F.partidas > .2;
+    let L = null;
+    if (texL && !hueco) { const SL = silueta(texL.image); L = { S: SL, F: filasDe(SL) }; }
+    const geo = hueco ? (redondo ? tornear(S, +r.prof || 1) : extruir(S, +r.prof || .5))
+      : volumen(S, F, +r.prof || (redondo ? 1 : .5), redondo, L);    geo.scale(2.1, 2.1, 2.1);
     geo.computeBoundingBox();
     const b = geo.boundingBox;
     geo.translate(-(b.min.x + b.max.x) / 2, -(b.min.y + b.max.y) / 2, -(b.min.z + b.max.z) / 2);
     const w = b.max.x - b.min.x, hh = b.max.y - b.min.y, d = b.max.z - b.min.z;
     const grupo = new THREE.Group(), frasco = new THREE.Group(); grupo.add(frasco);
-    const redondo = r.volumen === 'redondo';
-    const cuerpo = new THREE.Mesh(geo, redondo ? matFoto(tex, false) : [matFoto(tex, true), matFoto(texLados(tex), null)]);
+    const lados = L ? matFoto(texL, false) : matFoto(texLados(tex), null);
+    const cuerpo = new THREE.Mesh(geo, hueco ? (redondo ? matFoto(tex, false) : [matFoto(tex, true), matFoto(texLados(tex), null)])
+      : [matFoto(tex, false), lados, matFoto(tex, false)]);
     cuerpo.castShadow = true; frasco.add(cuerpo);
     const ped = pedestal(opts.ped || Math.max(w, d) * .6 + .12, Math.max(w, d) * .58);
     ped.position.y = -hh / 2; grupo.add(ped);

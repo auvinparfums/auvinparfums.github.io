@@ -31,7 +31,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/baccarat-rouge-540.webp",
       "volumen": "caja",
-      "prof": 0.55,
+      "prof": 0.85,
       "forma": "cuadrado",
       "acabado": "tintado",
       "vidrio": "#b3141c",
@@ -74,7 +74,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/mayar.webp",
       "volumen": "redondo",
-      "prof": 0.75,
+      "prof": 0.6,
       "forma": "cilindro",
       "acabado": "transparente",
       "vidrio": "#fff4f2",
@@ -116,8 +116,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": false,
     "m3d": {
       "foto": "img/3d/eclaire.webp",
-      "volumen": "caja",
-      "prof": 0.5,
+      "volumen": "redondo",
+      "prof": 0.6,
       "forma": "rectangular",
       "acabado": "lacado",
       "vidrio": "#ead7c4",
@@ -200,8 +200,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": false,
     "m3d": {
       "foto": "img/3d/9am-pour-femme.webp",
-      "volumen": "caja",
-      "prof": 0.45,
+      "volumen": "redondo",
+      "prof": 0.6,
       "forma": "rectangular",
       "acabado": "lacado",
       "vidrio": "#f07f95",
@@ -429,7 +429,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/jadore.webp",
       "volumen": "redondo",
-      "prof": 0.85,
+      "prof": 0.6,
       "forma": "anfora",
       "acabado": "transparente",
       "vidrio": "#ffffff",
@@ -759,8 +759,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": true,
     "m3d": {
       "foto": "img/3d/libre.webp",
-      "volumen": "caja",
-      "prof": 0.5,
+      "volumen": "redondo",
+      "prof": 0.6,
       "forma": "rectangular",
       "acabado": "transparente",
       "vidrio": "#ffffff",
@@ -848,7 +848,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/la-belle-le-parfum.webp",
       "volumen": "redondo",
-      "prof": 0.65,
+      "prof": 0.6,
       "forma": "torso",
       "acabado": "tintado",
       "vidrio": "#b0102a",
@@ -922,8 +922,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": false,
     "m3d": {
       "foto": "img/3d/decadent-dream.webp",
-      "volumen": "caja",
-      "prof": 0.45,
+      "volumen": "redondo",
+      "prof": 0.6,
       "forma": "rectangular",
       "acabado": "lacado",
       "vidrio": "#f4b8a4",
@@ -1014,7 +1014,7 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": true,
     "m3d": {
       "foto": "img/3d/toy-2.webp",
-      "volumen": "caja",
+      "volumen": "redondo",
       "prof": 0.6,
       "forma": "oso",
       "acabado": "transparente",
@@ -1058,7 +1058,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/yara.webp",
       "volumen": "redondo",
-      "prof": 1,
+      "prof": 0.6,
       "forma": "columna",
       "acabado": "lacado",
       "vidrio": "#f5c6d4",
@@ -1100,7 +1100,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/erba-pura.webp",
       "volumen": "redondo",
-      "prof": 0.7,
+      "prof": 0.6,
       "forma": "domo",
       "acabado": "lacado",
       "vidrio": "#2aa0b0",
@@ -1149,7 +1149,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/good-girl.webp",
       "volumen": "caja",
-      "prof": 0.3,
+      "prof": 0.35,
       "forma": "zapato",
       "acabado": "tintado",
       "vidrio": "#1d2c7a",
@@ -1233,7 +1233,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/halloween.webp",
       "volumen": "redondo",
-      "prof": 0.8,
+      "prof": 1,
       "forma": "redondo",
       "acabado": "tintado",
       "vidrio": "#9a8ae0",
@@ -1273,7 +1273,7 @@ window.AUVIN_PRODUCTOS = [
     "m3d": {
       "foto": "img/3d/cabotine.webp",
       "volumen": "redondo",
-      "prof": 0.75,
+      "prof": 0.6,
       "forma": "redondo",
       "acabado": "transparente",
       "vidrio": "#f4ffe0",
@@ -1314,8 +1314,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": false,
     "m3d": {
       "foto": "img/3d/bharara-king.webp",
-      "volumen": "caja",
-      "prof": 0.5,
+      "volumen": "redondo",
+      "prof": 1,
       "forma": "rectangular",
       "acabado": "lacado",
       "vidrio": "#1a1614",
@@ -1354,8 +1354,8 @@ window.AUVIN_PRODUCTOS = [
     "vitrina": false,
     "m3d": {
       "foto": "img/3d/vs-body-splash.webp",
-      "volumen": "caja",
-      "prof": 0.45,
+      "volumen": "redondo",
+      "prof": 1,
       "forma": "plano",
       "acabado": "transparente",
       "vidrio": "#ffffff",
