@@ -561,6 +561,13 @@ body{font-weight:300;letter-spacing:.01em}
   const waUno = p => waLink(`Hola AUVIN! Quería consultar por ${p.name} de ${p.brand}${detalle(p) ? ` (${detalle(p)})` : ''}. ¿Lo tienen disponible? ¿Qué precio tiene?`);
   window.AUVIN_waUno = waUno;
   $('wa-foot').href = waLink('Hola AUVIN! Quería hacerles una consulta.');
+  // Abierta con doble clic (como archivo) el navegador no deja armar los frascos 3D: se avisa cómo abrirla bien
+  if (location.protocol === 'file:') {
+    const av = document.createElement('div');
+    av.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:70;padding:12px 16px;background:#ecd7a8;color:#070605;font:500 14px/1.4 Montserrat,Arial,sans-serif;text-align:center';
+    av.textContent = 'Estás viendo la página como archivo: así el navegador no muestra los frascos en 3D. Abrila con “Abrir AUVIN.bat” (en esta carpeta) o desde internet.';
+    document.body.appendChild(av);
+  }
 
   /* ── Mi selección: se elige con "+" y se consulta todo junto por WhatsApp ── */
   let cart = (store.get('auvin.seleccion') || []).filter(c => c && c.k);
@@ -828,7 +835,7 @@ body{font-weight:300;letter-spacing:.01em}
   const setVista = v => {
     vista = v;
     const p = L[cur];
-    const puede = !!(p.m3d && window.AUVIN_3D);
+    const puede = !!(p.m3d && window.AUVIN_3D) && location.protocol !== 'file:';
     const en3d = v === '3d' && puede;
     $('f-3d').hidden = !en3d; $('f-img').hidden = en3d || !p.img; $('f-sin').hidden = en3d || !!p.img;
     $('f-hint').hidden = !en3d; $('f-views').hidden = !puede || !p.img;
@@ -1265,26 +1272,16 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     const xs = pts.map(v => v.x), ancho = Math.max(...xs) - Math.min(...xs);
     const depth = Math.max(.03, ancho * prof);
     const geo = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth, bevelEnabled: true, bevelThickness: Math.min(depth * .2, .02), bevelSize: .006, bevelSegments: 3, curveSegments: 1 });
-    // la foto va de frente: las coordenadas de la silueta son las mismas que las de la textura.
-    // En los costados se muestra una franja del interior del frasco (más adentro cuanto más al medio del costado),
-    // como cuando se mira un frasco real de perfil y se ve el líquido a través del vidrio.
-    const { m } = S, bordes = [];
-    for (let y = 0; y < h; y++) { let l = -1, r = -1; for (let x = 0; x < w; x++) if (m[y * w + x]) { if (l < 0) l = x; r = x; } bordes.push(l < 0 ? null : [l, r]); }
-    for (let y = 1; y < h; y++) if (!bordes[y]) bordes[y] = bordes[y - 1];
-    for (let y = h - 2; y >= 0; y--) if (!bordes[y]) bordes[y] = bordes[y + 1];
-    const bt = Math.min(depth * .2, .02), desdeLados = geo.groups[1]?.start ?? pos.count;
+    // la foto va de frente: las coordenadas de la silueta son las mismas que las de la textura
     const pos = geo.attributes.position, nor = geo.attributes.normal, uv = geo.attributes.uv, col = new Float32Array(pos.count * 3);
+    const desdeLados = geo.groups[1]?.start ?? pos.count;
     for (let i = 0; i < pos.count; i++) {
       let X = pos.getX(i);
       const Y = pos.getY(i);
-      if (i >= desdeLados && bordes[0]) {
-        const fila = bordes[Math.min(h - 1, Math.max(0, Math.round((1 - Y) * h - .5)))];
-        const cx = (fila[0] + fila[1] + 1) / 2 / h, medio = (fila[1] - fila[0] + 1) / 2 / h;
-        const zf = Math.min(1, Math.max(0, (pos.getZ(i) + bt) / (depth + 2 * bt)));
-        X += (X > cx ? -1 : 1) * Math.min(medio * .55, ancho * .22) * Math.sin(Math.PI * zf);
-      }
-      uv.setXY(i, X / asp, Y);
-      const nz = nor.getZ(i), c = nz > .6 ? 1 : nz < -.6 ? .45 : .74;
+      // costados: toman el color promedio del frasco a esa altura (textura de una columna), liso como un frasco real
+      if (i >= desdeLados) uv.setXY(i, .5, Y);
+      else uv.setXY(i, X / asp, Y);
+      const nz = nor.getZ(i), c = nz > .6 ? 1 : nz < -.6 ? .45 : .8;
       col[i * 3] = col[i * 3 + 1] = col[i * 3 + 2] = c;
     }
     geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
@@ -1338,6 +1335,21 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     m.onBeforeCompile = s => { s.fragmentShader = s.fragmentShader.replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\n\ttotalEmissiveRadiance *= pow(vColor.rgb, vec3(2.2));'); };
     return m;
   };
+  // Textura de los costados: por cada altura, el color promedio de la franja central del frasco, suavizado
+  const ladosCache = new Map();
+  const texLados = tex => {
+    if (ladosCache.has(tex)) return ladosCache.get(tex);
+    const img = tex.image, H = 256;
+    const a = document.createElement('canvas'); a.width = 32; a.height = H;
+    const ga = a.getContext('2d'); ga.imageSmoothingQuality = 'high';
+    ga.drawImage(img, img.width * .16, 0, img.width * .68, img.height, 0, 0, 32, H);
+    const c = document.createElement('canvas'); c.width = 4; c.height = H;
+    const gc = c.getContext('2d'); gc.imageSmoothingQuality = 'high';
+    gc.filter = 'blur(1.5px)'; gc.drawImage(a, 0, 0, 4, H);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.userData.compartida = true;
+    ladosCache.set(tex, t);
+    return t;
+  };
   const armarFoto = async (r, p, opts = {}) => {
     const tex = await textura(r.foto);
     const S = silueta(tex.image);
@@ -1349,7 +1361,7 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     const w = b.max.x - b.min.x, hh = b.max.y - b.min.y, d = b.max.z - b.min.z;
     const grupo = new THREE.Group(), frasco = new THREE.Group(); grupo.add(frasco);
     const redondo = r.volumen === 'redondo';
-    const cuerpo = new THREE.Mesh(geo, redondo ? matFoto(tex, false) : [matFoto(tex, true), matFoto(tex, null)]);
+    const cuerpo = new THREE.Mesh(geo, redondo ? matFoto(tex, false) : [matFoto(tex, true), matFoto(texLados(tex), null)]);
     cuerpo.castShadow = true; frasco.add(cuerpo);
     const ped = pedestal(opts.ped || Math.max(w, d) * .6 + .12, Math.max(w, d) * .58);
     ped.position.y = -hh / 2; grupo.add(ped);
@@ -1357,9 +1369,9 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     return grupo;
   };
   // Con foto 3D usa la foto; si no hay (o falla), arma el frasco con la receta
-  const armarAsync = (r, p, opts) => r?.foto
-    ? armarFoto(r, p, opts).catch(e => { console.warn('Modelo desde la foto no disponible:', e); return armar(r, p, opts); })
-    : Promise.resolve(armar(r || {}, p, opts));
+  // Con foto 3D se copia la foto; si no se puede (por ejemplo, la página abierta como archivo), NO se inventa un frasco:
+  // el error sube y la ficha muestra la foto real. Solo los perfumes cargados "a mano" en el panel usan la receta.
+  const armarAsync = (r, p, opts) => r?.foto ? armarFoto(r, p, opts) : Promise.resolve(armar(r || {}, p, opts));
 
   const descartar = obj => obj?.traverse(o => {
     o.geometry?.dispose();
@@ -1457,7 +1469,7 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
   const canvas = document.getElementById('v3d');
   const P = window.AUVIN_PRODUCTOS || [];
   const items = P.map((p, i) => ({ p, i })).filter(x => x.p.vitrina && x.p.m3d);
-  if (items.length < 3) return;
+  if (items.length < 3 || location.protocol === 'file:') return;   // abierta como archivo: vitrina con fotos
   try {
     // se arma cuando la vitrina está por aparecer (así la portada carga liviana)
     await new Promise(res => {
@@ -1486,8 +1498,13 @@ const kit = libs.then(([THREE, { RoundedBoxGeometry }, { OrbitControls }]) => {
     piso.rotation.x = -Math.PI / 2; piso.receiveShadow = true; scene.add(piso);
 
     // Cada frasco con su pedestal, todos a la misma altura
+    // los que no se pueden copiar de la foto quedan afuera de la vitrina (nunca un frasco inventado)
+    const armados = await Promise.allSettled(items.map(({ p }) => K.armarAsync(p.m3d, p)));
+    const okK = armados.map((r, k) => r.status === 'fulfilled' ? k : -1).filter(k => k >= 0);
+    if (okK.length < 3) throw new Error('no se pudieron copiar los frascos de las fotos');
+    const modelos = okK.map(k => armados[k].value);
+    items.splice(0, items.length, ...okK.map(k => items[k]));
     const N = items.length, PASO = Math.PI * 2 / N;
-    const modelos = await Promise.all(items.map(({ p }) => K.armarAsync(p.m3d, p)));
     const frascos = items.map(({ p, i }, k) => {
       const g = modelos[k];
       const caja = new THREE.Box3().setFromObject(g), alto = caja.max.y - caja.min.y;
@@ -1658,7 +1675,12 @@ const crearVisor = async canvas => {
     async show(p) {
       if (ultimo !== p) {
         ultimo = p;
-        const g = await K.armarAsync(p.m3d, p);
+        let g;
+        try { g = await K.armarAsync(p.m3d, p); }
+        catch (e) {                       // sin frasco copiado: se saca el anterior y la ficha muestra la foto
+          if (ultimo === p) { ultimo = null; if (actual) { scene.remove(actual); K.descartar(actual); actual = null; } }
+          throw e;
+        }
         if (ultimo !== p) { K.descartar(g); return; }          // mientras cargaba se pasó a otro perfume
         if (actual) { scene.remove(actual); K.descartar(actual); }
         actual = g; scene.add(actual); vaiven = 0; tocando = false;

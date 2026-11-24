@@ -467,20 +467,7 @@ window.AUVIN_PRODUCTOS = [
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
-    "vitrina": false,
-    "m3d": {
-      "foto": "img/3d/veneno.webp",
-      "volumen": "caja",
-      "prof": 0.55,
-      "forma": "rectangular",
-      "acabado": "lacado",
-      "vidrio": "#101012",
-      "opaco": true,
-      "liquido": "",
-      "tapa": "facetas",
-      "tapaMat": "negro",
-      "etiqueta": "oro"
-    }
+    "vitrina": false
   },
   {
     "brand": "Afnan",
@@ -899,20 +886,7 @@ window.AUVIN_PRODUCTOS = [
     "pos": "50% 50%",
     "precio": "",
     "agotado": false,
-    "vitrina": false,
-    "m3d": {
-      "foto": "img/3d/red-door.webp",
-      "volumen": "caja",
-      "prof": 0.4,
-      "forma": "rectangular",
-      "acabado": "tintado",
-      "vidrio": "#c3101c",
-      "opaco": false,
-      "liquido": "",
-      "tapa": "cilindro",
-      "tapaMat": "oro",
-      "etiqueta": "texto"
-    }
+    "vitrina": false
   },
   {
     "brand": "Maison Alhambra",
