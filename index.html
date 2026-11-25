@@ -976,8 +976,9 @@ body{font-weight:300;letter-spacing:.01em}
   // cambiar de presentación sin perder el lugar en la ficha
   $('f-opts-b').addEventListener('click', e => {
     const b = e.target.closest('[data-op]'); if (!b) return;
-    const body = dlg.querySelector('.f-body'), y = body.scrollTop;
-    fill(+b.dataset.op); body.scrollTop = y;
+    // en la compu se desplaza el texto (.f-body); en el celu, toda la ficha (.f-in)
+    const body = dlg.querySelector('.f-body'), cont = dlg.querySelector('.f-in'), y1 = body.scrollTop, y2 = cont.scrollTop;
+    fill(+b.dataset.op); body.scrollTop = y1; cont.scrollTop = y2;
   });
   $('f-close').addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
