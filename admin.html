@@ -261,7 +261,7 @@ h1{font-weight:300;font-size:clamp(1.9rem,5.5vw,2.6rem);letter-spacing:.01em}
     <label><input type="radio" name="vista" value="dest" checked><span>Perfumes destacados</span></label>
     <label><input type="radio" name="vista" value="pend"><span id="pend-lbl">Fotos pendientes</span></label>
   </div>
-  <p class="hint" id="pend-help" hidden style="margin:-4px 0 14px">Productos del catálogo completo que todavía no tienen foto (en la página no se muestran). Tocá <b>Cargar foto</b>: se le pone el fondo de estudio y el 3D. Si no tenés foto con fondo blanco, usá el pedido para ChatGPT (está en el editor de “Agregar perfume”).</p>
+  <p class="hint" id="pend-help" hidden style="margin:-4px 0 14px">Productos del catálogo completo que todavía no tienen foto (en la página no se muestran). Tocá <b>Cargar foto</b>: se le pone solo el fondo de estudio. Si no tenés foto con fondo blanco, usá el pedido para ChatGPT (está en el editor de “Agregar perfume”).</p>
   <input type="file" id="file-cat" accept="image/*" hidden>
   <details class="help" id="help-dest" style="margin-bottom:14px">
     <summary>Cómo cargar un perfume nuevo</summary>
@@ -1255,8 +1255,7 @@ FORMATO
       S.catCambios[id] = cambio;
       addLog(`Foto de ${p.name}`);
       changed();
-      toast(ph.tex3d ? `${p.name}: listo, con fondo de estudio y 3D. Falta guardar.`
-        : `${p.name}: listo. La foto no tenía fondo liso, así que queda sin 3D. Falta guardar.`);
+      toast(`${p.name}: listo, con el fondo de estudio. Falta tocar Publicar.`);
     } catch {
       toast('No pude abrir esa imagen. Probá con una foto JPG o PNG.');
     }
