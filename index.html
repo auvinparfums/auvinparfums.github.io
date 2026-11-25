@@ -264,6 +264,12 @@ dialog::backdrop{background:rgba(4,3,2,.78);-webkit-backdrop-filter:blur(6px);ba
 .f-brand{margin:0;font-family:var(--f-mark);font-weight:400;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
 .f-name{margin:-6px 0 0;font-family:var(--f-disp);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1;text-wrap:balance}
 .f-conc{margin:-8px 0 0;font-size:.88rem;color:var(--muted)}
+.f-opts{display:grid;gap:10px}
+.f-opts-t{font-family:var(--f-mark);font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.f-opts-b{display:flex;flex-wrap:wrap;gap:8px}
+.f-opts-b button{min-height:40px;padding:9px 15px 8px;border-radius:999px;border:1px solid var(--line);background:transparent;color:inherit;font:inherit;font-size:.8rem;cursor:pointer;transition:border-color .25s,background .25s,color .25s}
+.f-opts-b button:hover{border-color:var(--gold-hi)}
+.f-opts-b button[aria-pressed="true"]{background:var(--gold-hi);border-color:var(--gold-hi);color:#0b0906}
 .f-price{margin:-4px 0 0;font-family:var(--f-disp);font-size:1.7rem;line-height:1.1;color:var(--gold-hi)}
 .f-desc{margin:0;max-width:46ch;font-family:var(--f-disp);font-style:normal;font-size:1.06rem;line-height:1.45}
 .f-tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -490,6 +496,10 @@ body{font-weight:300;letter-spacing:.01em}
       <p class="f-brand" id="f-brand"></p>
       <h2 class="f-name" id="f-name"></h2>
       <p class="f-conc" id="f-conc"></p>
+      <div class="f-opts" id="f-opts" hidden>
+        <span class="f-opts-t">Elegí la presentación</span>
+        <div class="f-opts-b" id="f-opts-b" role="group" aria-label="Presentación"></div>
+      </div>
       <p class="f-price" id="f-price"></p>
       <p class="f-desc" id="f-desc"></p>
       <div class="f-tags" id="f-tags"></div>
@@ -722,10 +732,72 @@ body{font-weight:300;letter-spacing:.01em}
   const grid = $('grid');
   const indexar = () => {
     IDX = L.map(p => norm(`${p.brand} ${p.name} ${p.conc || ''} ${p.ml || ''} ${(p.tags || []).join(' ')} ${CAT_TXT[p.cat] || ''} ${p.fam || ''} ${p.g || ''} ${list(p.top)} ${list(p.heart)} ${list(p.base)}`));
+    agrupar();
+  };
+
+  /* ── Presentaciones: el mismo perfume en otro tamaño, kit, tester o con brillo va en una sola tarjeta ── */
+  // GR[i] = índices de todas las presentaciones del grupo de i (la primera es la que muestra la tarjeta)
+  // REPS = una entrada por tarjeta; OPC[i] = cómo se llama esa presentación en la ficha
+  let GR = [], REPS = [], OPC = [];
+  const FINALES = { tester: 'Tester', kit: 'Kit', set: 'Kit', 'gift set': 'Kit', 'luxury gift': 'Kit', gift: 'Kit', glitter: 'Con brillo',
+    shimmer: 'Con brillo', shimmering: 'Con brillo', clasico: '', classic: '', mini: 'Mini', edp: '', edt: '', edc: '' };
+  const RE_FIN = new RegExp(`\\s+(${Object.keys(FINALES).sort((a, b) => b.length - a.length).join('|')}|\\d+(?:[.,]\\d+)?\\s?ml)$`);
+  const limpio = s => norm(s).replace(/[^a-z0-9]+/g, ' ').trim();
+  const baseDe = p => {
+    let n = limpio(p.name), extra = [];
+    const by = ' by ' + limpio(p.brand);
+    if (n.endsWith(by)) n = n.slice(0, -by.length);
+    // "Sauvage Parfum" con concentración Parfum es el mismo Sauvage (Elixir y demás sí son otro perfume)
+    const conc = ' ' + limpio(p.conc);
+    if (/^ (parfum|eau de parfum|eau de toilette|extrait de parfum|eau de cologne)$/.test(conc) && n.endsWith(conc) && n.length > conc.length) n = n.slice(0, -conc.length);
+    for (let m; (m = n.match(RE_FIN)); n = n.slice(0, m.index)) if (FINALES[m[1]]) extra.unshift(FINALES[m[1]]);
+    return { n, extra };
+  };
+  const mlNum = p => parseFloat(String(p.ml || '').replace(',', '.')) || 0;
+  const agrupar = () => {
+    const grupos = new Map(), info = L.map(baseDe);
+    L.forEach((p, i) => {
+      const k = `${p.cat}|${limpio(p.brand)}|${info[i].n}`;
+      if (!grupos.has(k)) grupos.set(k, []);
+      grupos.get(k).push(i);
+    });
+    GR = []; REPS = []; OPC = [];
+    grupos.forEach(ids => {
+      const extras = i => [...new Set([...(L[i].tags || []), ...info[i].extra])];
+      // primero la presentación "normal" (sin kit ni tester), después por tamaño
+      ids.sort((a, b) => (extras(a).length - extras(b).length) || (mlNum(L[a]) - mlNum(L[b])) || (L[a].name.length - L[b].name.length) || a - b);
+      const varia = f => new Set(ids.map(f)).size > 1;
+      const vConc = varia(i => L[i].conc || ''), vMl = varia(i => L[i].ml || ''), vEx = varia(i => extras(i).join('+'));
+      const vistas = new Set(), quedan = [];
+      ids.forEach(i => {
+        const t = [vConc && L[i].conc, vMl && L[i].ml, ...(vEx ? extras(i) : [])].filter(Boolean).join(' · ') || (L[i].tags || []).join(' · ') || L[i].ml || 'Estándar';
+        if (vistas.has(t)) return;           // repetido exacto en el catálogo: va una sola vez
+        vistas.add(t); OPC[i] = t; quedan.push(i);
+      });
+      ids.forEach(i => { GR[i] = quedan; });
+      REPS.push(quedan[0]);
+    });
+    REPS.sort((a, b) => a - b);
+  };
+  const grupo = i => GR[i] || [i];
+  // nombre de la tarjeta: el más corto del grupo ("Good Girl" y no "Good Girl Clasico")
+  const nombreDe = ids => ids.map(i => L[i].name).sort((a, b) => a.length - b.length)[0];
+  // lo que dice la tarjeta debajo del nombre cuando hay varias presentaciones
+  const resumen = ids => {
+    const ps = ids.map(i => L[i]);
+    const mismo = f => new Set(ps.map(f)).size === 1;
+    if (mismo(p => (p.tags || []).join() + p.conc) && !mismo(p => p.ml)) return [ps[0].conc, ps.map(p => p.ml).filter(Boolean).join(' · ')].filter(Boolean).join(' · ');
+    return `${ids.length} presentaciones`;
+  };
+  const waGrupo = ids => {
+    const p = L[ids[0]];
+    return waLink(`Hola AUVIN! Quería consultar por ${nombreDe(ids)} de ${p.brand} (${ids.map(i => OPC[i]).join(' / ')}). ¿Qué tienen disponible y qué precio tiene?`);
   };
   const FRASCO = '<svg viewBox="0 0 40 64" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><rect x="15" y="3" width="10" height="9" rx="1.5"/><path d="M17 12v4M23 12v4"/><rect x="6" y="16" width="28" height="45" rx="6"/><path d="M12 31h16M14 35h12"/></svg>';
   const sinFoto = p => `<span class="ph-sin">${FRASCO}<b>${esc(p.brand)}</b></span>`;
   const cardHTML = (p, i, k) => {
+    const ids = grupo(i);
+    if (ids.length > 1) return cardGrupo(p, i, k, ids);
     const marcaTag = p.agotado ? 'Sin stock' : (p.tags || [])[0] || (p.cat === 'nicho' ? 'Nicho' : '');
     return `
     <li class="card${p.agotado ? ' off' : ''}" style="--d:${k % 4}">
@@ -745,6 +817,24 @@ body{font-weight:300;letter-spacing:.01em}
       </div>
     </li>`;
   };
+  // Tarjeta de un perfume con varias presentaciones: el "+" abre la ficha para elegir cuál
+  const cardGrupo = (p, i, k, ids) => `
+    <li class="card${p.agotado ? ' off' : ''}" style="--d:${k % 4}">
+      <button class="card-open" type="button" data-i="${i}" aria-haspopup="dialog">
+        <span class="ph${p.img ? '' : ' sin'}">${p.img ? `<img src="${esc(p.img)}" alt="${esc(p.brand)} ${esc(p.name)}" width="${+p.w || 864}" height="${+p.h || 1080}" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 50%')}">` : sinFoto(p)}
+          <span class="badge">${ids.length} opciones</span></span>
+        <span class="meta">
+          <span class="brand">${esc(p.brand)}</span>
+          <span class="name">${esc(nombreDe(ids))}</span>
+          <span class="conc">${esc(resumen(ids))}</span>
+          <span class="gtag">${esc(p.g || '')}</span>
+        </span>
+      </button>
+      <div class="card-add">
+        <a class="ask" href="${esc(waGrupo(ids))}" target="_blank" rel="noopener" aria-label="Consultar por ${esc(p.name)} por WhatsApp">${ICON_WA}Consultar</a>
+        <button class="sel" type="button" data-sel="${i}" data-grupo="1" aria-pressed="false" aria-label="Elegir presentación de ${esc(p.name)}" title="Elegir presentación">${ICON_PLUS}</button>
+      </div>
+    </li>`;
   let cardIO = null;
   const animar = cards => {
     cards.forEach(el => { const ph = el.querySelector('.ph'); if (ph) tilt(ph, 8); });
@@ -756,8 +846,9 @@ body{font-weight:300;letter-spacing:.01em}
   const filtrar = () => {
     const words = norm($('q').value.trim()).split(/\s+/).filter(Boolean);
     filtrados = [];
-    L.forEach((p, i) => {
-      if ((cat === 'todo' || p.cat === cat) && (!marca || p.brand === marca) && (gen === 'Todos' || p.g === gen) && words.every(w => IDX[i].includes(w))) filtrados.push(i);
+    REPS.forEach(r => {
+      const p = L[r];
+      if ((cat === 'todo' || p.cat === cat) && (!marca || p.brand === marca) && grupo(r).some(i => (gen === 'Todos' || L[i].g === gen) && words.every(w => IDX[i].includes(w)))) filtrados.push(r);
     });
   };
   const masGrid = () => {
@@ -781,9 +872,10 @@ body{font-weight:300;letter-spacing:.01em}
   $('mas').addEventListener('click', masGrid);
   // Filtros: categoría, marca y género
   const armarFiltros = () => {
-    const cuenta = k => k === 'todo' ? L.length : L.filter(p => p.cat === k).length;
+    const T = REPS.map(i => L[i]);              // se cuenta por tarjeta, no por presentación
+    const cuenta = k => k === 'todo' ? T.length : T.filter(p => p.cat === k).length;
     $('cats').innerHTML = CATS.filter(c => cuenta(c.k)).map(c => `<button class="chip" type="button" data-c="${c.k}" aria-pressed="${c.k === cat}">${c.t} <b>${cuenta(c.k)}</b></button>`).join('');
-    const pool = L.filter(p => cat === 'todo' || p.cat === cat);
+    const pool = T.filter(p => cat === 'todo' || p.cat === cat);
     const marcas = {};
     pool.forEach(p => { if (p.brand) marcas[p.brand] = (marcas[p.brand] || 0) + 1; });
     if (marca && !marcas[marca]) marca = '';
@@ -810,6 +902,7 @@ body{font-weight:300;letter-spacing:.01em}
   $('q').addEventListener('input', () => { clearTimeout(qT); qT = setTimeout(renderGrid, 160); });
   grid.addEventListener('click', e => {
     const s = e.target.closest('[data-sel]');
+    if (s?.dataset.grupo) { openFicha(+s.dataset.sel, s); return; }
     if (s) { toggleSel(L[+s.dataset.sel]); return; }
     const o = e.target.closest('.card-open');
     if (o) openFicha(+o.dataset.i, o);
@@ -855,6 +948,9 @@ body{font-weight:300;letter-spacing:.01em}
     $('f-brand').textContent = p.brand || '';
     $('f-name').textContent = p.name || '';
     $('f-conc').textContent = concOf(p);
+    const ids = grupo(i);
+    $('f-opts').hidden = ids.length < 2;
+    $('f-opts-b').innerHTML = ids.length < 2 ? '' : ids.map(j => `<button type="button" data-op="${j}" aria-pressed="${j === i}">${esc(OPC[j])}</button>`).join('');
     $('f-price').textContent = p.precio || 'Precio a consultar';
     $('f-desc').textContent = p.desc || ''; $('f-desc').hidden = !p.desc;
     $('f-tags').innerHTML = [p.agotado && 'Sin stock', CAT_TXT[p.cat], ...(p.tags || []), p.g, p.fam].filter(Boolean).map(t => `<span>${esc(t)}</span>`).join('');
@@ -877,13 +973,20 @@ body{font-weight:300;letter-spacing:.01em}
   };
   window.AUVIN_abrirFicha = i => openFicha(i);
   $('f-add').addEventListener('click', () => toggleSel(L[cur]));
+  // cambiar de presentación sin perder el lugar en la ficha
+  $('f-opts-b').addEventListener('click', e => {
+    const b = e.target.closest('[data-op]'); if (!b) return;
+    const body = dlg.querySelector('.f-body'), y = body.scrollTop;
+    fill(+b.dataset.op); body.scrollTop = y;
+  });
   $('f-close').addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   dlg.addEventListener('close', () => { if (!dlg.open) window.AUVIN_3D?.stop(); document.documentElement.classList.remove('lock'); opener?.focus({ preventScroll: true }); });
   // Anterior / siguiente: dentro de lo que se está viendo en el catálogo
   const go = d => {
-    const lista = filtrados.includes(cur) ? filtrados : L.map((_, i) => i);
-    const at = lista.indexOf(cur);
+    const rep = grupo(cur)[0];
+    const lista = filtrados.includes(rep) ? filtrados : REPS;
+    const at = lista.indexOf(rep);
     fill(lista[(at + d + lista.length) % lista.length]);
   };
   $('f-prev').addEventListener('click', () => go(-1));
@@ -892,7 +995,8 @@ body{font-weight:300;letter-spacing:.01em}
 
   function syncButtons() {
     grid.querySelectorAll('[data-sel]').forEach(b => {
-      const p = L[+b.dataset.sel], en = qtyOf(keyP(p)) > 0;
+      const p = L[+b.dataset.sel], en = grupo(+b.dataset.sel).some(j => qtyOf(keyP(L[j])) > 0);
+      if (b.dataset.grupo) { b.setAttribute('aria-pressed', String(en)); b.innerHTML = en ? ICON_OK : ICON_PLUS; return; }
       b.setAttribute('aria-pressed', String(en));
       b.innerHTML = en ? ICON_OK : ICON_PLUS;
       b.title = en ? 'En tu selección (tocá para quitarlo)' : 'Sumar a mi selección';

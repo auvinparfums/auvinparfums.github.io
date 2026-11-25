@@ -1328,24 +1328,16 @@ window.AUVIN_PRODUCTOS = [
   },
   {
     "brand": "Victoria's Secret",
-    "name": "Bare Vanilla",
+    "name": "Body Splash",
     "conc": "Fragrance Mist",
     "ml": "250 ml",
     "g": "Femenino",
-    "fam": "Vainilla",
-    "desc": "Body splash de vainilla suave y atalcada, cálida y fácil de llevar. Consultá por otras fragancias de la línea.",
-    "top": [
-      "Vainilla"
-    ],
-    "heart": [
-      "Notas atalcadas"
-    ],
-    "base": [
-      "Almizcle",
-      "Ámbar",
-      "Maderas"
-    ],
-    "img": "img/vs-body-splash.webp",
+    "fam": "",
+    "desc": "Los body splash de Victoria's Secret: perfuman el cuerpo con un aroma liviano para usar todos los días. Tenemos varias fragancias de la línea: consultanos cuáles hay disponibles.",
+    "top": [],
+    "heart": [],
+    "base": [],
+    "img": "img/vs-body-splash-gen.webp",
     "w": 864,
     "h": 1080,
     "pos": "50% 50%",
